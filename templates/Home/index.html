@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Hôpital Régional d'Édéa - En construction{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-br from-blue-50 via-white to-green-50 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-2xl w-full">
+        <!-- Card principale -->
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+            <!-- Header avec gradient -->
+            <div class="bg-gradient-to-r from-blue-600 to-green-600 p-8 text-center">
+                <div class="w-20 h-20 bg-white rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                    Hôpital Régional d'Édéa
+                </h1>
+                <p class="text-blue-100 text-lg">
+                    Votre santé, notre priorité
+                </p>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="p-8 md:p-12 text-center">
+                <!-- Message de bienvenue -->
+                <div class="mb-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+                        Bienvenue sur notre site web
+                    </h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mb-6"></div>
+                </div>
+
+                <!-- Icône de construction -->
+                <div class="mb-8">
+                    <div class="inline-block p-4 bg-yellow-100 rounded-full animate-pulse">
+                        <svg class="w-16 h-16 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Message de construction -->
+                <div class="mb-8">
+                    <p class="text-xl text-gray-700 mb-2 font-medium">
+                        Site actuellement en construction
+                    </p>
+                    <p class="text-gray-500">
+                        Nous travaillons pour vous offrir une meilleure expérience
+                    </p>
+                </div>
+
+                <!-- Section contact -->
+                <div class="bg-gradient-to-r from-blue-50 to-green-50 rounded-2xl p-6 border border-blue-100">
+                    <p class="text-gray-700 mb-4 font-medium">
+                        Pour plus d'informations, contactez-nous :
+                    </p>
+                    <a href="mailto:contact@hopital-regional-edea.com" 
+                       class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        contact@hopital-regional-edea.com
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-gray-50 px-8 py-6 text-center border-t border-gray-100">
+                <p class="text-sm text-gray-600">
+                    © 2025 Hôpital Régional d'Édéa - Tous droits réservés
+                </p>
+            </div>
+        </div>
+
+        <!-- Badge de statut -->
+        <div class="mt-6 text-center">
+            <span class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md text-sm text-gray-600">
+                <span class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
+                En développement
+            </span>
+        </div>
+    </div>
+</div>
+{% endblock %}
