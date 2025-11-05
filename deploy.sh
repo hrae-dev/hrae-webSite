@@ -22,6 +22,11 @@ pip install -r requirements.txt
 echo "🧱 Applying migrations..."
 python manage.py migrate --noinput
 
+# build tailwind css
+echo "🎨 Building Tailwind CSS..."
+python manage.py tailwind install
+python manage.py tailwind build
+
 # Collecter les fichiers statiques
 echo "🎨 Collecting static files..."
 python manage.py collectstatic --noinput
