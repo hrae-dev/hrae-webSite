@@ -1,0 +1,30 @@
+# === Python / Django ===
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+
+# === Virtual Environment ===
+venv/
+.env
+.env.local
+*.env
+
+# === Django static & media ===
+static/
+staticfiles/
+media/
+
+# === IDE / OS files ===
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# === PyInstaller / Build / Dist ===
+build/
+dist/
+*.egg-info/
+*.egg
+
