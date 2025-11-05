@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+
+echo "🚀 [HRAE] Starting deployment..."
+
+cd /var/www/hrae-webSite
+
+# Pull depuis GitHub
+echo "📦 Pulling latest code..."
+git fetch origin main
+git reset --hard origin/main
+
+# Activer l'environnement virtuel
+echo "🧰 Activating virtualenv..."
+source venv/bin/activate
+
+# Mettre à jour les dépendances
+echo "📦 Installing dependencies..."
+pip install -r requirements.txt
+
+# Migrer la base de données
+echo "🧱 Applying migrations..."
+python manage.py migrate --noinput
+
+# Collecter les fichiers statiques
+echo "🎨 Collecting static files..."
+python manage.py collectstatic --noinput
+
+# Redémarrer gunicorn et nginx
+echo "🔁 Restarting services..."
+sudo systemctl restart hrae
+sudo systemctl reload nginx
+
+echo "✅ Deployment finished successfully!"
