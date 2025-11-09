@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Rendez-vous confirmé - HRAE{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-8 text-center">
+            <div class="mb-6">
+                <div class="w-24 h-24 bg-green-100 rounded-full mx-auto flex items-center justify-center">
+                    <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">Demande envoyée avec succès !</h1>
+            
+            <p class="text-gray-600 mb-6">
+                Votre demande de rendez-vous a été bien reçue. Notre équipe va examiner votre demande 
+                et vous contacter dans les plus brefs délais pour confirmer votre rendez-vous.
+            </p>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+                <h2 class="font-bold text-lg mb-3">📧 Prochaines étapes</h2>
+                <ul class="text-left text-gray-700 space-y-2">
+                    <li>✅ Vous recevrez un email de confirmation</li>
+                    <li>✅ Notre équipe vous contactera par téléphone</li>
+                    <li>✅ Un SMS de rappel vous sera envoyé 24h avant</li>
+                </ul>
+            </div>
+
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
+                <p class="text-sm text-gray-700">
+                    <strong>Important :</strong> Pensez à vous munir de votre carte d'identité et de votre carnet de santé lors de votre visite.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'index' %}" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                    Retour à l'accueil
+                </a>
+                <a href="{% url 'contact_us' %}" class="bg-gray-100 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition">
+                    Nous contacter
+                </a>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-sm text-gray-500">
+                    Des questions ? Contactez-nous au <strong>{{ settings.phone|default:"+237 XXX XXX XXX" }}</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

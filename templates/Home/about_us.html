@@ -12,11 +12,11 @@
 
 <div class="container mx-auto px-4 py-12">
     {% if page %}
-        <div class="prose max-w-none">
+        <div class="prose max-w-none mb-12">
             {{ page.content|safe|linebreaks }}
         </div>
     {% else %}
-        <div class="grid md:grid-cols-2 gap-12">
+        <div class="grid md:grid-cols-2 gap-12 mb-12">
             <div>
                 <h2 class="text-3xl font-bold mb-6">Notre Mission</h2>
                 <p class="text-gray-600 mb-4">
@@ -36,49 +36,116 @@
                 </p>
             </div>
         </div>
+    {% endif %}
 
-        <div class="mt-12 bg-gray-50 p-8 rounded-lg">
-            <h2 class="text-3xl font-bold mb-6 text-center">Nos Valeurs</h2>
-            <div class="grid md:grid-cols-4 gap-6">
-                <div class="text-center">
-                    <div class="text-4xl mb-3">🤝</div>
-                    <h3 class="font-bold mb-2">Compassion</h3>
-                    <p class="text-sm text-gray-600">Empathie envers nos patients</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl mb-3">⭐</div>
-                    <h3 class="font-bold mb-2">Excellence</h3>
-                    <p class="text-sm text-gray-600">Qualité des soins</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl mb-3">🔬</div>
-                    <h3 class="font-bold mb-2">Innovation</h3>
-                    <p class="text-sm text-gray-600">Technologies modernes</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl mb-3">👥</div>
-                    <h3 class="font-bold mb-2">Respect</h3>
-                    <p class="text-sm text-gray-600">Dignité humaine</p>
-                </div>
+    <!-- Chiffres & Statistiques -->
+    <div class="bg-gradient-to-r from-blue-50 to-green-50 p-8 rounded-lg mb-12">
+        <h2 class="text-3xl font-bold mb-6 text-center">Chiffres & Statistiques</h2>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+            <div class="text-center">
+                <div class="text-4xl font-bold text-blue-600 mb-2">{{ settings.patients_per_year|default:"5000" }}+</div>
+                <div class="text-gray-600 text-sm">Patients traités/an</div>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl font-bold text-green-600 mb-2">{{ settings.beds_count|default:"100" }}</div>
+                <div class="text-gray-600 text-sm">Lits disponibles</div>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl font-bold text-purple-600 mb-2">{{ settings.specialties_count|default:"15" }}</div>
+                <div class="text-gray-600 text-sm">Spécialités</div>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl font-bold text-orange-600 mb-2">{{ settings.staff_count|default:"80" }}+</div>
+                <div class="text-gray-600 text-sm">Personnel médical</div>
+            </div>
+            {% if settings.success_rate %}
+            <div class="text-center">
+                <div class="text-4xl font-bold text-red-600 mb-2">{{ settings.success_rate }}%</div>
+                <div class="text-gray-600 text-sm">Taux de réussite</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Organigramme -->
+    {% if settings.organization_chart %}
+    <div class="mb-12">
+        <h2 class="text-3xl font-bold mb-6 text-center">Organisation Administrative</h2>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <img src="{{ settings.organization_chart.url }}" alt="Organigramme" class="w-full">
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Valeurs -->
+    <div class="bg-gray-50 p-8 rounded-lg mb-12">
+        <h2 class="text-3xl font-bold mb-6 text-center">Nos Valeurs</h2>
+        <div class="grid md:grid-cols-4 gap-6">
+            <div class="text-center">
+                <div class="text-4xl mb-3">🤝</div>
+                <h3 class="font-bold mb-2">Compassion</h3>
+                <p class="text-sm text-gray-600">Empathie envers nos patients</p>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl mb-3">⭐</div>
+                <h3 class="font-bold mb-2">Excellence</h3>
+                <p class="text-sm text-gray-600">Qualité des soins</p>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl mb-3">🔬</div>
+                <h3 class="font-bold mb-2">Innovation</h3>
+                <p class="text-sm text-gray-600">Technologies modernes</p>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl mb-3">👥</div>
+                <h3 class="font-bold mb-2">Respect</h3>
+                <p class="text-sm text-gray-600">Dignité humaine</p>
             </div>
         </div>
+    </div>
 
-        <div class="mt-12 grid md:grid-cols-2 gap-8">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-2xl font-bold mb-4">📜 Notre Histoire</h3>
-                <p class="text-gray-600">
-                    Fondé en [ANNÉE], l'Hôpital Régional Annexe d'Edea a évolué pour devenir un 
-                    établissement de soins complet, offrant une gamme complète de services médicaux.
-                </p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-2xl font-bold mb-4">🏆 Certifications</h3>
-                <p class="text-gray-600">
-                    Notre établissement respecte les standards nationaux et internationaux de qualité 
-                    en matière de soins de santé.
-                </p>
-            </div>
+    <!-- Histoire & Certifications -->
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-2xl font-bold mb-4">📜 Notre Histoire</h3>
+            <p class="text-gray-600">
+                Fondé en [ANNÉE], l'Hôpital Régional Annexe d'Edea a évolué pour devenir un 
+                établissement de soins complet, offrant une gamme complète de services médicaux.
+            </p>
         </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-2xl font-bold mb-4">🏆 Certifications & Accréditations</h3>
+            <p class="text-gray-600">
+                Notre établissement respecte les standards nationaux et internationaux de qualité 
+                en matière de soins de santé.
+            </p>
+        </div>
+    </div>
+
+    <!-- Équipe de direction -->
+    {% if direction_members %}
+    <div>
+        <h2 class="text-3xl font-bold mb-8 text-center">Équipe de Direction</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            {% for member in direction_members %}
+            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-center">
+                {% if member.photo %}
+                <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" 
+                     class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                {% else %}
+                <div class="w-32 h-32 rounded-full bg-gray-200 mx-auto mb-4 flex items-center justify-center text-4xl">
+                    👤
+                </div>
+                {% endif %}
+                <h3 class="font-bold text-lg">{{ member.full_name }}</h3>
+                <p class="text-blue-600 mb-3">{{ member.position }}</p>
+                {% if member.bio %}
+                <p class="text-sm text-gray-600">{{ member.bio|truncatewords:20 }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

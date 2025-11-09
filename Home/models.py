@@ -28,6 +28,12 @@ class SiteSettings(models.Model):
     beds_count = models.IntegerField("Nombre de lits", default=0)
     specialties_count = models.IntegerField("Nombre de spécialités", default=0)
     staff_count = models.IntegerField("Nombre de personnel", default=0)
+    success_rate = models.DecimalField("Taux de réussite (%)", max_digits=5, decimal_places=2, 
+                                       default=0, blank=True)
+    
+    # À propos
+    organization_chart = models.ImageField("Organigramme administratif", 
+                                          upload_to='settings/', blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -437,3 +443,34 @@ class Testimonial(models.Model):
     
     def __str__(self):
         return f"{self.patient_name} - {self.rating}/5"
+
+
+# ========================================
+# ÉQUIPE DE DIRECTION
+# ========================================
+class DirectionMember(models.Model):
+    """Membres de l'équipe de direction"""
+    first_name = models.CharField("Prénom", max_length=100)
+    last_name = models.CharField("Nom", max_length=100)
+    photo = models.ImageField("Photo", upload_to='direction/')
+    position = models.CharField("Fonction", max_length=255,
+                               help_text="Ex: Directeur Général, Directeur Médical")
+    bio = models.TextField("Biographie", blank=True)
+    email = models.EmailField("Email", blank=True)
+    phone = models.CharField("Téléphone", max_length=20, blank=True)
+    
+    display_order = models.IntegerField("Ordre d'affichage", default=0)
+    is_active = models.BooleanField("Actif", default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Membre de direction"
+        verbose_name_plural = "Équipe de direction"
+        ordering = ['display_order', 'last_name']
+    
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.position}"
+    
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"

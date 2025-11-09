@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import (
     SiteSettings, Page, Service, Staff, Category, Article,
-    Campaign, Partner, Appointment, ContactMessage, Testimonial
+    Campaign, Partner, Appointment, ContactMessage, Testimonial, DirectionMember
 )
 
 
@@ -23,7 +23,10 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
         ('Chiffres clés', {
-            'fields': ('patients_per_year', 'beds_count', 'specialties_count', 'staff_count')
+            'fields': ('patients_per_year', 'beds_count', 'specialties_count', 'staff_count', 'success_rate')
+        }),
+        ('À propos', {
+            'fields': ('organization_chart',)
         }),
     )
     
@@ -345,6 +348,40 @@ class TestimonialAdmin(admin.ModelAdmin):
             'fields': ('is_active', 'display_order')
         }),
     )
+
+
+# ========================================
+# ÉQUIPE DE DIRECTION
+# ========================================
+@admin.register(DirectionMember)
+class DirectionMemberAdmin(admin.ModelAdmin):
+    list_display = ('photo_thumbnail', 'full_name', 'position', 'is_active', 'display_order')
+    list_filter = ('is_active',)
+    search_fields = ('first_name', 'last_name', 'position')
+    list_editable = ('is_active', 'display_order')
+    
+    fieldsets = (
+        ('Identité', {
+            'fields': ('first_name', 'last_name', 'photo', 'position')
+        }),
+        ('Biographie', {
+            'fields': ('bio',)
+        }),
+        ('Contact', {
+            'fields': ('email', 'phone'),
+            'classes': ('collapse',)
+        }),
+        ('Gestion', {
+            'fields': ('display_order', 'is_active')
+        }),
+    )
+    
+    def photo_thumbnail(self, obj):
+        if obj.photo:
+            return format_html('<img src="{}" width="50" height="50" style="border-radius: 50%;" />', 
+                             obj.photo.url)
+        return '-'
+    photo_thumbnail.short_description = 'Photo'
 
 
 # Personnalisation de l'admin

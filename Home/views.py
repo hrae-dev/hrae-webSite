@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import (
     SiteSettings, Page, Service, Staff, Article, Category,
-    Campaign, Partner, Appointment, ContactMessage, Testimonial
+    Campaign, Partner, Appointment, ContactMessage, Testimonial, DirectionMember
 )
 from .forms import AppointmentForm, ContactMessageForm
 
@@ -34,10 +34,12 @@ def about_us(request):
     """Page À propos"""
     settings = SiteSettings.get_settings()
     page = Page.objects.filter(slug='a-propos', is_active=True).first()
+    direction_members = DirectionMember.objects.filter(is_active=True)
     
     context = {
         'settings': settings,
         'page': page,
+        'direction_members': direction_members,
     }
     return render(request, 'Home/about_us.html', context)
 
