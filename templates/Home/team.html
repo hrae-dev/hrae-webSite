@@ -29,16 +29,16 @@
             </select>
             
             <input type="text" name="search" placeholder="Rechercher..." 
-                   class="px-4 py-2 border rounded flex-1" value="{{ request.GET.search }}">
+                   class="px-4 py-2 border rounded flex-1">
             
-            <button type="submit" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700">
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
                 Rechercher
             </button>
         </form>
     </div>
 </div>
 
-<!-- Liste -->
+<!-- Liste du personnel -->
 <div class="container mx-auto px-4 py-12">
     <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
         {% for staff in staff_list %}
@@ -63,7 +63,7 @@
                 {% endfor %}
             </div>
             
-            <a href="{% url 'doctor_detail' staff.id %}" 
+            <a href="{% url 'staff_detail' staff.id %}" 
                class="inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
                 Voir profil
             </a>

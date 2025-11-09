@@ -89,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'fr-fr')
 TIME_ZONE = os.getenv('TIME_ZONE', 'Africa/Douala')
 USE_I18N = True
-USE_TZ = True
+USE_TZ = False
 
 # Static & Media
 STATIC_URL = '/static/'

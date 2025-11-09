@@ -1,24 +1,112 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>{% block title %}Django + Tailwind{% endblock %}</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HRAE - Hôpital Régional Annexe d'Edea{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Hôpital Régional Annexe d'Edea - Votre santé, notre priorité{% endblock %}">
+    
+    <!-- Tailwind CSS -->
 		{% tailwind_css %}
+    
+    {% block extra_css %}{% endblock %}
 </head>
-
-<body class="{% block body_class %}bg-grey-lightest font-serif leading-normal tracking-normal{% endblock %}">
-	<div class="container mx-auto">
-		{% block content %}
-			<section class="flex items-center justify-center h-screen">
-				<h1 class="text-5xl">Django + Tailwind = ❤️</h1>
-			</section>
-		{% endblock %}
-	</div>
-
-	{% block javascripts %}{% endblock %}
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <!-- Top bar -->
+            <div class="py-2 border-b border-gray-200 text-sm">
+                <div class="flex justify-between items-center">
+                    <div class="flex gap-4 text-gray-600">
+                        <span>📞 {{ settings.phone|default:"+237 XXX XXX XXX" }}</span>
+                        <span>📧 {{ settings.email|default:"contact@hrae.cm" }}</span>
+                    </div>
+                    <div class="flex gap-3">
+                        {% if settings.facebook_url %}<a href="{{ settings.facebook_url }}" class="text-blue-600 hover:text-blue-800">Facebook</a>{% endif %}
+                        {% if settings.twitter_url %}<a href="{{ settings.twitter_url }}" class="text-blue-400 hover:text-blue-600">Twitter</a>{% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main navigation -->
+            <nav class="py-4">
+                <div class="flex justify-between items-center">
+                    <div class="text-2xl font-bold text-blue-600">
+                        <a href="{% url 'home' %}">HRAE</a>
+                    </div>
+                    
+                    <ul class="hidden md:flex space-x-6">
+                        <li><a href="{% url 'home' %}" class="hover:text-blue-600">Accueil</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-blue-600">À propos</a></li>
+                        <li><a href="{% url 'services' %}" class="hover:text-blue-600">Services</a></li>
+                        <li><a href="{% url 'team' %}" class="hover:text-blue-600">Notre équipe</a></li>
+                        <li><a href="{% url 'news' %}" class="hover:text-blue-600">Actualités</a></li>
+                        <li><a href="{% url 'practical_info' %}" class="hover:text-blue-600">Infos pratiques</a></li>
+                        <li><a href="{% url 'contact' %}" class="hover:text-blue-600">Contact</a></li>
+                    </ul>
+                    
+                    <a href="{% url 'appointment' %}" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">
+                        📅 Prendre RDV
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Messages -->
+    {% if messages %}
+    <div class="container mx-auto px-4 mt-4">
+        {% for message in messages %}
+        <div class="p-4 rounded-lg mb-2 {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="font-bold text-xl mb-4">HRAE</h3>
+                    <p class="text-gray-400">{{ settings.site_tagline|default:"Votre santé, notre priorité" }}</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <ul class="text-gray-400 space-y-2">
+                        <li>📍 {{ settings.address|default:"Edea, Cameroun" }}</li>
+                        <li>📞 {{ settings.phone|default:"+237 XXX XXX XXX" }}</li>
+                        <li>🚨 Urgences: {{ settings.emergency_phone|default:"24/7" }}</li>
+                        <li>📧 {{ settings.email|default:"contact@hrae.cm" }}</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Liens rapides</h4>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><a href="{% url 'services' %}" class="hover:text-white">Nos services</a></li>
+                        <li><a href="{% url 'team' %}" class="hover:text-white">Notre équipe</a></li>
+                        <li><a href="{% url 'appointment' %}" class="hover:text-white">Prendre RDV</a></li>
+                        <li><a href="{% url 'contact' %}" class="hover:text-white">Nous contacter</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                © 2025 HRAE - Tous droits réservés
+            </div>
+        </div>
+    </footer>
+    
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

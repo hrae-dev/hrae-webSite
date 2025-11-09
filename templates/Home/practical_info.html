@@ -1,1 +1,74 @@
-{% extends 'base.html' %}{% block content %}<h1>Practical informations</h1>{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Informations Pratiques - HRAE{% endblock %}
+
+{% block content %}
+<div class="bg-teal-600 text-white py-12">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">Informations Pratiques</h1>
+        <p class="mt-2 text-teal-100">Tout ce que vous devez savoir</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    {% if page %}
+        <div class="prose max-w-none">
+            {{ page.content|safe|linebreaks }}
+        </div>
+    {% else %}
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="text-3xl mr-3">⏰</span> Horaires
+                </h2>
+                <div class="space-y-2 text-gray-600">
+                    <p><strong>Consultations:</strong> Lun-Ven 8h-17h</p>
+                    <p><strong>Urgences:</strong> 24h/24, 7j/7</p>
+                    <p><strong>Administration:</strong> Lun-Ven 8h-15h</p>
+                    <p><strong>Pharmacie:</strong> Lun-Sam 8h-18h</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="text-3xl mr-3">💰</span> Tarifs & Paiements
+                </h2>
+                <div class="space-y-2 text-gray-600">
+                    <p><strong>Modes de paiement:</strong></p>
+                    <ul class="list-disc list-inside">
+                        <li>Espèces</li>
+                        <li>Mobile Money (OM, Momo)</li>
+                        <li>Carte bancaire</li>
+                    </ul>
+                    <p class="mt-3"><strong>Mutuelles acceptées</strong></p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="text-3xl mr-3">📋</span> Admission
+                </h2>
+                <div class="space-y-2 text-gray-600">
+                    <p><strong>Documents requis:</strong></p>
+                    <ul class="list-disc list-inside">
+                        <li>Carte d'identité</li>
+                        <li>Carnet de santé</li>
+                        <li>Carte d'assurance (si applicable)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="text-3xl mr-3">📍</span> Accès
+                </h2>
+                <div class="space-y-2 text-gray-600">
+                    <p><strong>Adresse:</strong><br>{{ settings.address|linebreaks }}</p>
+                    <p><strong>Parking:</strong> Gratuit</p>
+                    <p><strong>Accessibilité PMR:</strong> Oui</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

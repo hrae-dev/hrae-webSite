@@ -1,1 +1,47 @@
-{% extends 'base.html' %}{% block content %}<h1>Services</h1>{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Nos Services - HRAE{% endblock %}
+
+{% block content %}
+<div class="bg-blue-600 text-white py-12">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">Nos Services & Spécialités</h1>
+        <p class="mt-2 text-blue-100">Des soins de qualité dans toutes les spécialités</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for service in services %}
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6">
+            <div class="text-4xl mb-4">
+                {% if service.icon %}<i class="fas {{ service.icon }}"></i>{% else %}🏥{% endif %}
+            </div>
+            <h2 class="text-2xl font-bold mb-3">{{ service.name }}</h2>
+            <p class="text-gray-600 mb-4">{{ service.short_description }}</p>
+            
+            {% if service.consultation_hours %}
+            <p class="text-sm text-gray-500 mb-2">
+                ⏰ {{ service.consultation_hours }}
+            </p>
+            {% endif %}
+            
+            {% if service.contact_phone %}
+            <p class="text-sm text-gray-500 mb-4">
+                📞 {{ service.contact_phone }}
+            </p>
+            {% endif %}
+            
+            <a href="{% url 'service_detail' service.slug %}" 
+               class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                En savoir plus
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-span-3 text-center py-12 text-gray-500">
+            Aucun service disponible pour le moment
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -2,23 +2,38 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    # Page d'accueil
+    path('', views.index, name='home'),
 
-    path('about-us/', views.about_us, name='about_us'),
+    # À propos
+    path('about-us/', views.about_us, name='about'),
 
-    path('services/', views.our_services, name='our_services'),
+    # Services
+    path('services/', views.our_services, name='services'),
     path('services/<int:service_id>/', views.service_detail, name='service_detail'),
 
-    path('team/', views.our_team, name='our_team'),
+    # Équipe médicale
+    path('team/', views.our_team, name='team'),
     path('team/<int:doctor_id>/', views.doctor_detail, name='doctor_detail'),
 
+    # Actualités
     path('news/', views.news, name='news'),
     path('news/<int:news_id>/', views.news_detail, name='news_detail'),
 
+    # Campagnes de santé
     path('health-campaigns/', views.health_campaigns, name='health_campaigns'),
     path('health-campaigns/<int:campaign_id>/', views.campaign_detail, name='campaign_detail'),
 
+    # Partenaires
     path('partners/', views.our_partners, name='our_partners'),
+    
+    # Informations pratiques
     path('practical-info/', views.practical_info, name='practical_info'),
-    path('contact-us/', views.contact_us, name='contact_us'),
+    
+    # Contact
+    path('contact-us/', views.contact_us, name='contact'),
+    
+    # Rendez-vous
+    path('appointment/', views.appointment_create, name='appointment'),
+    path('appointment/success/', views.appointment_success, name='appointment_success'),
 ]

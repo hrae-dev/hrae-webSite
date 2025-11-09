@@ -1,1 +1,104 @@
-{% extends 'base.html' %}{% block content %}<h1>Service Detail</h1>{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}{{ service.name }} - HRAE{% endblock %}
+
+{% block content %}
+<div class="bg-blue-600 text-white py-12">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">{{ service.name }}</h1>
+        <p class="mt-2 text-blue-100">{{ service.short_description }}</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="md:col-span-2">
+            {% if service.banner_image %}
+            <img src="{{ service.banner_image.url }}" alt="{{ service.name }}" class="w-full rounded-lg mb-6">
+            {% endif %}
+
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h2 class="text-2xl font-bold mb-4">Description</h2>
+                <div class="text-gray-600">
+                    {{ service.full_description|linebreaks }}
+                </div>
+            </div>
+
+            {% if service.pathologies %}
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h2 class="text-2xl font-bold mb-4">Pathologies traitées</h2>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    {% for pathology in service.pathologies.splitlines %}
+                    <li>{{ pathology }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if service.equipment %}
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h2 class="text-2xl font-bold mb-4">Équipements disponibles</h2>
+                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                    {% for item in service.equipment.splitlines %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+
+        <div>
+            <div class="bg-white p-6 rounded-lg shadow mb-6 sticky top-4">
+                <h3 class="font-bold text-lg mb-4">Informations pratiques</h3>
+                
+                {% if service.consultation_hours %}
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700">⏰ Horaires</p>
+                    <p class="text-gray-600">{{ service.consultation_hours }}</p>
+                </div>
+                {% endif %}
+
+                {% if service.contact_phone %}
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700">📞 Contact</p>
+                    <p class="text-gray-600">{{ service.contact_phone }}</p>
+                </div>
+                {% endif %}
+
+                {% if service.admission_conditions %}
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700">📋 Admission</p>
+                    <p class="text-gray-600 text-sm">{{ service.admission_conditions|truncatewords:20 }}</p>
+                </div>
+                {% endif %}
+
+                <a href="{% url 'appointment_create' %}" class="block w-full bg-red-600 text-white text-center py-3 rounded-lg font-bold hover:bg-red-700">
+                    Prendre RDV
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% if staff_members %}
+    <div class="mt-12">
+        <h2 class="text-3xl font-bold mb-6">Équipe du service</h2>
+        <div class="grid md:grid-cols-4 gap-6">
+            {% for staff in staff_members %}
+            <div class="bg-white p-4 rounded-lg shadow text-center">
+                {% if staff.photo %}
+                <img src="{{ staff.photo.url }}" alt="{{ staff.full_name }}" class="w-24 h-24 rounded-full mx-auto mb-3 object-cover">
+                {% else %}
+                <div class="w-24 h-24 rounded-full bg-gray-200 mx-auto mb-3 flex items-center justify-center text-3xl">👤</div>
+                {% endif %}
+                <h3 class="font-bold">{{ staff.get_grade_display }} {{ staff.full_name }}</h3>
+                <p class="text-sm text-gray-600">{{ staff.speciality }}</p>
+                <a href="{% url 'doctor_detail' staff.id %}" class="text-blue-600 text-sm hover:underline mt-2 inline-block">
+                    Voir profil →
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,1 +1,42 @@
-{% extends 'base.html' %}{% block content %}<h1>Our Partners</h1>{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Nos Partenaires - HRAE{% endblock %}
+
+{% block content %}
+<div class="bg-blue-700 text-white py-12">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">Nos Partenaires</h1>
+        <p class="mt-2 text-blue-100">Ensemble pour votre santé</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    {% for label, partner_list in partners_by_type.items %}
+    {% if partner_list %}
+    <div class="mb-12">
+        <h2 class="text-3xl font-bold mb-6">{{ label }}</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {% for partner in partner_list %}
+            <div class="bg-white p-6 rounded-lg shadow text-center hover:shadow-lg transition">
+                {% if partner.logo %}
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="h-20 mx-auto mb-4 object-contain">
+                {% else %}
+                <div class="h-20 flex items-center justify-center text-gray-400 mb-4">{{ partner.name }}</div>
+                {% endif %}
+                <h3 class="font-bold">{{ partner.name }}</h3>
+                {% if partner.description %}
+                <p class="text-sm text-gray-600 mt-2">{{ partner.description|truncatewords:15 }}</p>
+                {% endif %}
+                {% if partner.website %}
+                <a href="{{ partner.website }}" target="_blank" class="text-blue-600 text-sm hover:underline mt-2 inline-block">
+                    Visitez le site →
+                </a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

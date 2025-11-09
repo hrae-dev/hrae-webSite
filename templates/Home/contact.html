@@ -1,1 +1,126 @@
-{% extends 'base.html' %}{% block content %}<h1>Contact Us</h1>{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Contact - HRAE{% endblock %}
+
+{% block content %}
+<div class="bg-orange-600 text-white py-12">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">Contactez-nous</h1>
+        <p class="mt-2 text-orange-100">Nous sommes à votre écoute</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-2 gap-12">
+        <!-- Informations de contact -->
+        <div>
+            <h2 class="text-2xl font-bold mb-6">Informations de contact</h2>
+            
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="text-2xl mr-4">📍</div>
+                    <div>
+                        <h3 class="font-bold">Adresse</h3>
+                        <p class="text-gray-600">{{ settings.address|default:"Edea, Cameroun"|linebreaks }}</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="text-2xl mr-4">📞</div>
+                    <div>
+                        <h3 class="font-bold">Téléphone</h3>
+                        <p class="text-gray-600">{{ settings.phone|default:"+237 XXX XXX XXX" }}</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="text-2xl mr-4">🚨</div>
+                    <div>
+                        <h3 class="font-bold">Urgences 24/7</h3>
+                        <p class="text-gray-600">{{ settings.emergency_phone|default:"+237 XXX XXX XXX" }}</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="text-2xl mr-4">📧</div>
+                    <div>
+                        <h3 class="font-bold">Email</h3>
+                        <p class="text-gray-600">{{ settings.email|default:"contact@hrae.cm" }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                <h3 class="font-bold mb-4">Réseaux sociaux</h3>
+                <div class="flex gap-4">
+                    {% if settings.facebook_url %}
+                    <a href="{{ settings.facebook_url }}" class="text-blue-600 text-2xl hover:text-blue-800">📘</a>
+                    {% endif %}
+                    {% if settings.twitter_url %}
+                    <a href="{{ settings.twitter_url }}" class="text-blue-400 text-2xl hover:text-blue-600">🐦</a>
+                    {% endif %}
+                    {% if settings.linkedin_url %}
+                    <a href="{{ settings.linkedin_url }}" class="text-blue-700 text-2xl hover:text-blue-900">💼</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Formulaire de contact -->
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h2 class="text-2xl font-bold mb-6">Envoyez-nous un message</h2>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block mb-2 font-semibold">{{ form.name.label }}</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.name.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label class="block mb-2 font-semibold">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label class="block mb-2 font-semibold">{{ form.phone.label }}</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.phone.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label class="block mb-2 font-semibold">{{ form.subject.label }}</label>
+                        {{ form.subject }}
+                        {% if form.subject.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.subject.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label class="block mb-2 font-semibold">{{ form.message.label }}</label>
+                        {{ form.message }}
+                        {% if form.message.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.message.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <button type="submit" 
+                        class="w-full bg-orange-600 text-white py-3 rounded-lg font-bold mt-6 hover:bg-orange-700">
+                    Envoyer le message
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,1 +1,84 @@
-{% extends 'base.html' %}{% block content %}<h1>About Us</h1>{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}À propos - HRAE{% endblock %}
+
+{% block content %}
+<div class="bg-blue-600 text-white py-12">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">À propos de l'HRAE</h1>
+        <p class="mt-2 text-blue-100">Notre histoire, notre mission</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    {% if page %}
+        <div class="prose max-w-none">
+            {{ page.content|safe|linebreaks }}
+        </div>
+    {% else %}
+        <div class="grid md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">Notre Mission</h2>
+                <p class="text-gray-600 mb-4">
+                    L'Hôpital Régional Annexe d'Edea a pour mission de fournir des soins de santé de qualité, 
+                    accessibles à tous, dans un environnement sûr et respectueux de la dignité humaine.
+                </p>
+                <p class="text-gray-600">
+                    Nous nous engageons à servir notre communauté avec professionnalisme, compassion et excellence.
+                </p>
+            </div>
+            
+            <div>
+                <h2 class="text-3xl font-bold mb-6">Notre Vision</h2>
+                <p class="text-gray-600 mb-4">
+                    Devenir un établissement de référence en matière de soins de santé dans la région, 
+                    reconnu pour son expertise médicale et son engagement envers l'innovation.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-12 bg-gray-50 p-8 rounded-lg">
+            <h2 class="text-3xl font-bold mb-6 text-center">Nos Valeurs</h2>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🤝</div>
+                    <h3 class="font-bold mb-2">Compassion</h3>
+                    <p class="text-sm text-gray-600">Empathie envers nos patients</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl mb-3">⭐</div>
+                    <h3 class="font-bold mb-2">Excellence</h3>
+                    <p class="text-sm text-gray-600">Qualité des soins</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl mb-3">🔬</div>
+                    <h3 class="font-bold mb-2">Innovation</h3>
+                    <p class="text-sm text-gray-600">Technologies modernes</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl mb-3">👥</div>
+                    <h3 class="font-bold mb-2">Respect</h3>
+                    <p class="text-sm text-gray-600">Dignité humaine</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 grid md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-2xl font-bold mb-4">📜 Notre Histoire</h3>
+                <p class="text-gray-600">
+                    Fondé en [ANNÉE], l'Hôpital Régional Annexe d'Edea a évolué pour devenir un 
+                    établissement de soins complet, offrant une gamme complète de services médicaux.
+                </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-2xl font-bold mb-4">🏆 Certifications</h3>
+                <p class="text-gray-600">
+                    Notre établissement respecte les standards nationaux et internationaux de qualité 
+                    en matière de soins de santé.
+                </p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
