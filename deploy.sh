@@ -17,7 +17,7 @@ source venv/bin/activate
 
 # Mettre à jour les dépendances
 echo "📦 Installing dependencies..."
-pip install -r requirements.txts
+pip install -r requirements.txt
 
 # Migrer la base de données
 echo "🧱 Applying migrations..."
