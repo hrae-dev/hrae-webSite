@@ -1,109 +1,97 @@
 {% extends "base.html" %}
 
-{% block title %}{{ staff.get_grade_display }} {{ staff.full_name }} - HRAE{% endblock %}
+{% block title %}{{ article.title }} - HRAE{% endblock %}
 
 {% block content %}
-<div class="bg-purple-600 text-white py-12">
+<div class="bg-blue-600 text-white py-12">
     <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold">{{ staff.get_grade_display }} {{ staff.full_name }}</h1>
-        <p class="mt-2 text-purple-100">{{ staff.speciality }}</p>
+        <div class="text-sm mb-2">
+            <span class="bg-blue-500 px-3 py-1 rounded">{{ article.category.name }}</span>
+            <span class="ml-4">📅 {{ article.published_at|date:"d/m/Y" }}</span>
+            {% if article.author %}
+            <span class="ml-4">✍️ {{ article.author.get_full_name|default:article.author.username }}</span>
+            {% endif %}
+        </div>
+        <h1 class="text-4xl font-bold mt-4">{{ article.title }}</h1>
     </div>
 </div>
 
 <div class="container mx-auto px-4 py-12">
-    <div class="grid md:grid-cols-3 gap-8">
-        <div>
-            <div class="bg-white p-6 rounded-lg shadow text-center sticky top-4">
-                {% if staff.photo %}
-                <img src="{{ staff.photo.url }}" alt="{{ staff.full_name }}" class="w-48 h-48 rounded-full mx-auto mb-4 object-cover">
-                {% else %}
-                <div class="w-48 h-48 rounded-full bg-gray-200 mx-auto mb-4 flex items-center justify-center text-6xl">👤</div>
-                {% endif %}
+    <div class="max-w-4xl mx-auto">
+        <!-- Image principale -->
+        {% if article.featured_image %}
+        <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full rounded-lg mb-6">
+        {% endif %}
 
-                <h2 class="text-2xl font-bold mb-2">{{ staff.get_grade_display }} {{ staff.full_name }}</h2>
-                <p class="text-gray-600 mb-4">{{ staff.speciality }}</p>
-
-                <div class="text-left space-y-3 mb-6">
-                    {% if staff.services.all %}
-                    <div>
-                        <p class="font-semibold text-sm text-gray-700">Services:</p>
-                        {% for service in staff.services.all %}
-                        <span class="inline-block bg-gray-100 px-2 py-1 rounded text-sm mr-1 mb-1">{{ service.name }}</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
-                    {% if staff.languages %}
-                    <div>
-                        <p class="font-semibold text-sm text-gray-700">🌍 Langues:</p>
-                        <p class="text-sm text-gray-600">{{ staff.languages }}</p>
-                    </div>
-                    {% endif %}
-
-                    {% if staff.email %}
-                    <div>
-                        <p class="font-semibold text-sm text-gray-700">📧 Email:</p>
-                        <p class="text-sm text-gray-600">{{ staff.email }}</p>
-                    </div>
-                    {% endif %}
-
-                    {% if staff.phone %}
-                    <div>
-                        <p class="font-semibold text-sm text-gray-700">📞 Téléphone:</p>
-                        <p class="text-sm text-gray-600">{{ staff.phone }}</p>
-                    </div>
-                    {% endif %}
-                </div>
-
-                {% if staff.accepts_appointments %}
-                <a href="{% url 'appointment_create' %}" class="block w-full bg-purple-600 text-white text-center py-3 rounded-lg font-bold hover:bg-purple-700">
-                    Prendre RDV
-                </a>
-                {% endif %}
-            </div>
+        <!-- Boutons de partage social -->
+        <div class="flex items-center gap-3 mb-8 pb-6 border-b">
+            <span class="font-semibold text-gray-700">Partager :</span>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+               target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                📘 Facebook
+            </a>
+            <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ article.title }}" 
+               target="_blank" class="bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-600">
+                🐦 Twitter
+            </a>
+            <a href="https://wa.me/?text={{ article.title }}%20{{ request.build_absolute_uri }}" 
+               target="_blank" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                💬 WhatsApp
+            </a>
         </div>
 
-        <div class="md:col-span-2">
-            {% if staff.diplomas %}
-            <div class="bg-white p-6 rounded-lg shadow mb-6">
-                <h3 class="text-2xl font-bold mb-4">🎓 Diplômes & Formation</h3>
-                <ul class="list-disc list-inside text-gray-600 space-y-2">
-                    {% for diploma in staff.diplomas.splitlines %}
-                    <li>{{ diploma }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+        <!-- Contenu de l'article -->
+        <div class="prose max-w-none mb-12">
+            {{ article.content|linebreaks }}
+        </div>
 
-            {% if staff.experience %}
-            <div class="bg-white p-6 rounded-lg shadow mb-6">
-                <h3 class="text-2xl font-bold mb-4">💼 Parcours Professionnel</h3>
-                <div class="text-gray-600">
-                    {{ staff.experience|linebreaks }}
+        <!-- Galerie photos -->
+        {% if article.gallery_images.all %}
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">📸 Galerie photos</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                {% for image in article.gallery_images.all %}
+                <div>
+                    <img src="{{ image.image.url }}" alt="{{ image.caption }}" 
+                         class="w-full h-64 object-cover rounded-lg shadow hover:shadow-lg transition">
+                    {% if image.caption %}
+                    <p class="text-sm text-gray-600 mt-2">{{ image.caption }}</p>
+                    {% endif %}
                 </div>
+                {% endfor %}
             </div>
-            {% endif %}
+        </div>
+        {% endif %}
 
-            {% if staff.expertise %}
-            <div class="bg-white p-6 rounded-lg shadow mb-6">
-                <h3 class="text-2xl font-bold mb-4">⭐ Domaines d'Expertise</h3>
-                <div class="text-gray-600">
-                    {{ staff.expertise|linebreaks }}
-                </div>
+        <!-- Articles similaires -->
+        {% if similar_articles %}
+        <div class="mt-12 pt-8 border-t">
+            <h2 class="text-2xl font-bold mb-6">Articles similaires</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                {% for similar in similar_articles %}
+                <a href="{% url 'news_detail' similar.id %}" class="group">
+                    <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
+                        {% if similar.featured_image %}
+                        <img src="{{ similar.featured_image.url }}" alt="{{ similar.title }}" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition duration-300">
+                        {% endif %}
+                        <div class="p-4">
+                            <div class="text-xs text-gray-500 mb-2">{{ similar.published_at|date:"d/m/Y" }}</div>
+                            <h3 class="font-bold group-hover:text-blue-600">{{ similar.title }}</h3>
+                            <p class="text-sm text-gray-600 mt-2">{{ similar.excerpt|truncatewords:15 }}</p>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
             </div>
-            {% endif %}
+        </div>
+        {% endif %}
 
-            {% if staff.consultation_hours %}
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-2xl font-bold mb-4">⏰ Horaires de Consultation</h3>
-                <div class="text-gray-600">
-                    {{ staff.consultation_hours|linebreaks }}
-                </div>
-                {% if staff.consultation_duration %}
-                <p class="text-sm text-gray-500 mt-3">Durée: {{ staff.consultation_duration }} minutes</p>
-                {% endif %}
-            </div>
-            {% endif %}
+        <!-- Bouton retour -->
+        <div class="mt-8">
+            <a href="{% url 'news' %}" class="inline-block bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300">
+                ← Retour aux actualités
+            </a>
         </div>
     </div>
 </div>

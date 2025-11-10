@@ -6,7 +6,8 @@ from .models import (
     SiteSettings, Page, Service, Staff, Article, Category,
     Campaign, Partner, Appointment, ContactMessage, Testimonial, DirectionMember
 )
-from .forms import AppointmentForm, ContactMessageForm
+from .forms import AppointmentForm, CampaignRegistrationForm, ContactMessageForm
+from django.utils import timezone
 
 
 # ========================================
@@ -119,24 +120,33 @@ def news(request):
     return render(request, 'Home/news.html', context)
 
 
+
 def health_campaigns(request):
-    """Liste des campagnes"""
+    """Liste des campagnes groupées par statut"""
     settings = SiteSettings.get_settings()
-    campaigns = Campaign.objects.all().order_by('-start_date')
+    today = timezone.now().date()
     
-    # Filtrer par statut
-    status = request.GET.get('status')
-    if status:
-        campaigns = campaigns.filter(status=status)
+    # Calculer automatiquement le statut basé sur les dates
+    campaigns_ongoing = Campaign.objects.filter(
+        start_date__lte=today,
+        end_date__gte=today
+    ).order_by('-start_date')
+    
+    campaigns_upcoming = Campaign.objects.filter(
+        start_date__gt=today
+    ).order_by('start_date')
+    
+    campaigns_completed = Campaign.objects.filter(
+        end_date__lt=today
+    ).order_by('-end_date')
     
     context = {
         'settings': settings,
-        'campaigns': campaigns,
-        'statuses': Campaign.STATUS_CHOICES,
+        'campaigns_ongoing': campaigns_ongoing,
+        'campaigns_upcoming': campaigns_upcoming,
+        'campaigns_completed': campaigns_completed,
     }
     return render(request, 'Home/health_campaigns.html', context)
-
-
 def our_partners(request):
     """Liste des partenaires"""
     settings = SiteSettings.get_settings()
@@ -254,16 +264,25 @@ def news_detail(request, news_id):
 
 
 def campaign_detail(request, campaign_id):
-    """Détail d'une campagne"""
     settings = SiteSettings.get_settings()
     campaign = get_object_or_404(Campaign, id=campaign_id)
     
-    context = {
+    if request.method == 'POST' and campaign.registration_enabled:
+        form = CampaignRegistrationForm(request.POST)
+        if form.is_valid():
+            registration = form.save(commit=False)
+            registration.campaign = campaign
+            registration.save()
+            messages.success(request, 'Inscription confirmée !')
+            return redirect('campaign_detail', campaign_id=campaign.id)
+    else:
+        form = CampaignRegistrationForm()
+    
+    return render(request, 'campaigns/campaign_detail.html', {
         'settings': settings,
         'campaign': campaign,
-    }
-    return render(request, 'campaigns/campaign_detail.html', context)
-
+        'form': form,
+    })
 
 # ========================================
 # RENDEZ-VOUS

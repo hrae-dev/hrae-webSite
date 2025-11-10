@@ -1,5 +1,5 @@
 from django import forms
-from .models import Appointment, ContactMessage
+from .models import Appointment, ContactMessage, CampaignRegistration
 
 
 class AppointmentForm(forms.ModelForm):
@@ -89,7 +89,17 @@ class AppointmentForm(forms.ModelForm):
         
         return cleaned_data
 
-
+class CampaignRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = CampaignRegistration
+        fields = ['full_name', 'email', 'phone', 'age', 'reason']
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'w-full px-4 py-2 border rounded-lg'}),
+            'email': forms.EmailInput(attrs={'class': 'w-full px-4 py-2 border rounded-lg'}),
+            'phone': forms.TextInput(attrs={'class': 'w-full px-4 py-2 border rounded-lg'}),
+            'age': forms.NumberInput(attrs={'class': 'w-full px-4 py-2 border rounded-lg'}),
+            'reason': forms.Textarea(attrs={'class': 'w-full px-4 py-2 border rounded-lg', 'rows': 3}),
+        }
 class ContactMessageForm(forms.ModelForm):
     """Formulaire de contact"""
     

@@ -1,1 +1,156 @@
-{% extends 'base.html' %}{% block content %}<h1>Campaign Detail</h1>{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}{{ campaign.title }} - HRAE{% endblock %}
+
+{% block content %}
+<div class="bg-green-600 text-white py-12">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center gap-3 mb-2">
+            <span class="bg-green-500 px-4 py-1 rounded-full text-sm">{{ campaign.get_status_display }}</span>
+        </div>
+        <h1 class="text-4xl font-bold mt-4">{{ campaign.title }}</h1>
+        <p class="text-lg mt-2 text-green-100">{{ campaign.short_description }}</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-3 gap-8">
+        <!-- Contenu principal -->
+        <div class="md:col-span-2">
+            {% if campaign.banner_image %}
+            <img src="{{ campaign.banner_image.url }}" alt="{{ campaign.title }}" class="w-full rounded-lg mb-6">
+            {% endif %}
+
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h2 class="text-2xl font-bold mb-4">À propos de la campagne</h2>
+                <div class="text-gray-600 leading-relaxed">
+                    {{ campaign.full_description|linebreaks }}
+                </div>
+            </div>
+
+            {% if campaign.objectives %}
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h2 class="text-2xl font-bold mb-4">🎯 Objectifs</h2>
+                <p class="text-gray-600">{{ campaign.objectives }}</p>
+            </div>
+            {% endif %}
+
+            {% if campaign.services_offered %}
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h2 class="text-2xl font-bold mb-4">🏥 Services offerts</h2>
+                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                    {% for service in campaign.services_offered.splitlines %}
+                    <li>{{ service }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div>
+            <div class="bg-white p-6 rounded-lg shadow mb-6 sticky top-4">
+                <h3 class="font-bold text-lg mb-4">Informations pratiques</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <p class="font-semibold text-gray-700">📅 Dates</p>
+                        <p class="text-gray-600">Du {{ campaign.start_date|date:"d/m/Y" }} au {{ campaign.end_date|date:"d/m/Y" }}</p>
+                    </div>
+
+                    {% if campaign.schedule %}
+                    <div>
+                        <p class="font-semibold text-gray-700">⏰ Horaires</p>
+                        <p class="text-gray-600">{{ campaign.schedule }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div>
+                        <p class="font-semibold text-gray-700">📍 Lieu</p>
+                        <p class="text-gray-600">{{ campaign.location }}</p>
+                    </div>
+
+                    {% if campaign.target_audience %}
+                    <div>
+                        <p class="font-semibold text-gray-700">👥 Public cible</p>
+                        <p class="text-gray-600">{{ campaign.target_audience }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if campaign.contact_name or campaign.contact_phone %}
+                    <div>
+                        <p class="font-semibold text-gray-700">📞 Contact</p>
+                        {% if campaign.contact_name %}<p class="text-gray-600">{{ campaign.contact_name }}</p>{% endif %}
+                        {% if campaign.contact_phone %}<p class="text-gray-600">{{ campaign.contact_phone }}</p>{% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Formulaire d'inscription -->
+                {% if campaign.registration_enabled and campaign.status != 'completed' %}
+                <div class="mt-6 pt-6 border-t">
+                    <h3 class="font-bold text-lg mb-4">📝 S'inscrire</h3>
+                    <form method="post" class="space-y-3">
+                        {% csrf_token %}
+                        
+                        <div>
+                            <label class="block mb-1 text-sm font-semibold">Nom complet *</label>
+                            {{ form.full_name }}
+                            {% if form.full_name.errors %}
+                            <p class="text-red-600 text-xs mt-1">{{ form.full_name.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label class="block mb-1 text-sm font-semibold">Email *</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                            <p class="text-red-600 text-xs mt-1">{{ form.email.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label class="block mb-1 text-sm font-semibold">Téléphone *</label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                            <p class="text-red-600 text-xs mt-1">{{ form.phone.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label class="block mb-1 text-sm font-semibold">Âge</label>
+                            {{ form.age }}
+                            {% if form.age.errors %}
+                            <p class="text-red-600 text-xs mt-1">{{ form.age.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label class="block mb-1 text-sm font-semibold">Raison de participation</label>
+                            {{ form.reason }}
+                            {% if form.reason.errors %}
+                            <p class="text-red-600 text-xs mt-1">{{ form.reason.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700">
+                            ✅ Confirmer mon inscription
+                        </button>
+                    </form>
+                </div>
+                {% elif campaign.status == 'completed' %}
+                <div class="mt-6 pt-6 border-t">
+                    <p class="text-gray-500 text-center">Cette campagne est terminée</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8">
+        <a href="{% url 'health_campaigns' %}" class="inline-block bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300">
+            ← Retour aux campagnes
+        </a>
+    </div>
+</div>
+{% endblock %}

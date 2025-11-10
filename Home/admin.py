@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import (
-    SiteSettings, Page, Service, Staff, Category, Article,
+    ArticleImage, SiteSettings, Page, Service, Staff, Category, Article,
     Campaign, Partner, Appointment, ContactMessage, Testimonial, DirectionMember
 )
 
@@ -148,7 +148,10 @@ class CategoryAdmin(admin.ModelAdmin):
         return obj.article_set.count()
     article_count.short_description = 'Articles'
 
-
+class ArticleImageInline(admin.TabularInline):
+    model = ArticleImage
+    extra = 1
+    fields = ('image', 'caption', 'display_order')
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'author', 'status', 'published_at', 'views_count')

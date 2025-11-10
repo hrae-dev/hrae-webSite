@@ -248,7 +248,19 @@ class Article(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-
+class ArticleImage(models.Model):
+    """Images de galerie pour articles"""
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, 
+                               related_name='gallery_images')
+    image = models.ImageField("Image", upload_to='articles/gallery/')
+    caption = models.CharField("Légende", max_length=255, blank=True)
+    display_order = models.IntegerField("Ordre", default=0)
+    
+    class Meta:
+        ordering = ['display_order']
+    
+    def __str__(self):
+        return f"{self.article.title} - Image {self.display_order}"
 # ========================================
 # CAMPAGNES DE SANTÉ
 # ========================================
@@ -302,7 +314,22 @@ class Campaign(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-
+class CampaignRegistration(models.Model):
+    """Inscriptions aux campagnes"""
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE,
+                                related_name='registrations')
+    full_name = models.CharField("Nom complet", max_length=255)
+    email = models.EmailField("Email")
+    phone = models.CharField("Téléphone", max_length=20)
+    age = models.IntegerField("Âge", null=True, blank=True)
+    reason = models.TextField("Raison de participation", blank=True)
+    registered_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-registered_at']
+    
+    def __str__(self):
+        return f"{self.full_name} - {self.campaign.title}"
 # ========================================
 # PARTENAIRES
 # ========================================
