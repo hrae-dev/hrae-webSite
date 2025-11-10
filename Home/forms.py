@@ -35,9 +35,9 @@ class AppointmentForm(forms.ModelForm):
             'staff': forms.Select(attrs={
                 'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500'
             }),
-            'appointment_date': forms.DateTimeInput(attrs={
-                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500',
-                'type': 'datetime-local'
+            'appointment_date': forms.HiddenInput(attrs={
+                'id': 'id_appointment_date',
+                'required': 'required'
             }),
             'reason': forms.Textarea(attrs={
                 'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500',

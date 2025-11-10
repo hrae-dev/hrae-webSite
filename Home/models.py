@@ -34,9 +34,12 @@ class SiteSettings(models.Model):
     # À propos
     organization_chart = models.ImageField("Organigramme administratif", 
                                           upload_to='settings/', blank=True)
+    certifications = models.TextField("Certifications et accréditations", blank=True,
+                                 help_text="Une par ligne")
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
     
     class Meta:
         verbose_name = "Paramètres du site"
