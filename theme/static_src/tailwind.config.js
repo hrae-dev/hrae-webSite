@@ -51,7 +51,28 @@ module.exports = {
     ],
     darkMode: false, // or 'media' or 'class'
     theme: {
-        extend: {},
+        extend: {
+      fontFamily: {
+        'paris': ['Paris2024', 'sans-serif'],
+      },
+      
+      colors: {
+        primary: {
+          500: '#ef4444',
+          600: '#dc2626',
+          700: '#b91c1c',
+        },
+        'paris-pink': '#FF6B9D',
+        'paris-purple': '#9B59B6',
+      },
+      
+      fontSize: {
+        'h1': ['3rem', { lineHeight: '3.5rem', fontWeight: '800', letterSpacing: '-0.02em' }],
+        'h2': ['2.25rem', { lineHeight: '2.75rem', fontWeight: '700', letterSpacing: '-0.01em' }],
+        'h3': ['1.875rem', { lineHeight: '2.375rem', fontWeight: '600' }],
+        'h4': ['1.5rem', { lineHeight: '2rem', fontWeight: '600' }],
+      },
+    },
     },
     variants: {
         extend: {},

@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer base {
+  @font-face {
+    font-family: 'Paris2024';
+    src: url('../fonts/Paris2024.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+  }
+  
+  /* Apply to body if you want it everywhere */
+  body {
+    @apply font-paris;
+  }
+  
+  /* Auto-apply heading styles */
+  h1 {
+    @apply text-h1 font-paris text-gray-900;
+  }
+  
+  h2 {
+    @apply text-h2 font-paris text-gray-800;
+  }
+  
+  h3 {
+    @apply text-h3 font-paris text-gray-800;
+  }
+  
+  h4 {
+    @apply text-h4 font-paris text-gray-700;
+  }
+}
