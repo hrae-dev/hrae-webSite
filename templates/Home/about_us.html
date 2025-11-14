@@ -1,159 +1,148 @@
 {% extends "base.html" %}
+{% load static i18n %}
 
-{% block title %}À propos - HRAE{% endblock %}
+{% block title %}{% trans "À propos" %} - HRAE{% endblock %}
 
 {% block content %}
-<div class="bg-blue-600 text-white py-12">
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold">À propos de l'HRAE</h1>
-        <p class="mt-2 text-blue-100">Notre histoire, notre mission</p>
+<!-- Hero Header -->
+<section class="bg-gradient-blue-light text-white py-16 sm:py-20 md:py-24 mt-16 lg:mt-20">
+    <div class="container mx-auto px-3 sm:px-4 text-center">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">{% trans "À propos de l'HRAE" %}</h1>
+        <p class="text-base sm:text-lg md:text-xl text-white/90">{% trans "Notre histoire, notre mission" %}</p>
     </div>
-</div>
+</section>
 
-<div class="container mx-auto px-4 py-12">
-    {% if page %}
-        <div class="prose max-w-none mb-12">
-            {{ page.content|safe|linebreaks }}
+<div class="container mx-auto px-3 sm:px-4 py-8 sm:py-12 md:py-16">
+    <!-- Mission & Vision -->
+    <div class="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 mb-12 sm:mb-16">
+        <div class="bg-primary-10 border-l-4 border-primary-60 rounded-lg p-4 sm:p-6 md:p-8">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-primary-60">{% trans "Notre Mission" %}</h2>
+            {% if page %}
+                <div class="text-gray-700 text-sm sm:text-base">{{ page.mission|safe|linebreaks }}</div>
+            {% else %}
+                <p class="text-gray-700 mb-3 sm:mb-4 text-sm sm:text-base">
+                    {% trans "L'Hôpital Régional Annexe d'Edea a pour mission de fournir des soins de santé de qualité, accessibles à tous, dans un environnement sûr et respectueux de la dignité humaine." %}
+                </p>
+                <p class="text-gray-700 text-sm sm:text-base">
+                    {% trans "Nous nous engageons à servir notre communauté avec professionnalisme, compassion et excellence." %}
+                </p>
+            {% endif %}
         </div>
-    {% else %}
-        <div class="grid md:grid-cols-2 gap-12 mb-12">
-            <div>
-                <h2 class="text-3xl font-bold mb-6">Notre Mission</h2>
-                <p class="text-gray-600 mb-4">
-                    L'Hôpital Régional Annexe d'Edea a pour mission de fournir des soins de santé de qualité, 
-                    accessibles à tous, dans un environnement sûr et respectueux de la dignité humaine.
+        
+        <div class="bg-green-10 border-l-4 border-green-60 rounded-lg p-4 sm:p-6 md:p-8">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-green-60">{% trans "Notre Vision" %}</h2>
+            {% if page %}
+                <div class="text-gray-700 text-sm sm:text-base">{{ page.vision|safe|linebreaks }}</div>
+            {% else %}
+                <p class="text-gray-700 text-sm sm:text-base">
+                    {% trans "Devenir un établissement de référence en matière de soins de santé dans la région, reconnu pour son expertise médicale et son engagement envers l'innovation." %}
                 </p>
-                <p class="text-gray-600">
-                    Nous nous engageons à servir notre communauté avec professionnalisme, compassion et excellence.
-                </p>
-            </div>
-            
-            <div>
-                <h2 class="text-3xl font-bold mb-6">Notre Vision</h2>
-                <p class="text-gray-600 mb-4">
-                    Devenir un établissement de référence en matière de soins de santé dans la région, 
-                    reconnu pour son expertise médicale et son engagement envers l'innovation.
-                </p>
-            </div>
-        </div>
-    {% endif %}
-
-    <!-- Chiffres & Statistiques -->
-    <div class="bg-gradient-to-r from-blue-50 to-green-50 p-8 rounded-lg mb-12">
-        <h2 class="text-3xl font-bold mb-6 text-center">Chiffres & Statistiques</h2>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-            <div class="text-center">
-                <div class="text-4xl font-bold text-blue-600 mb-2">{{ settings.patients_per_year|default:"5000" }}+</div>
-                <div class="text-gray-600 text-sm">Patients traités/an</div>
-            </div>
-            <div class="text-center">
-                <div class="text-4xl font-bold text-green-600 mb-2">{{ settings.beds_count|default:"100" }}</div>
-                <div class="text-gray-600 text-sm">Lits disponibles</div>
-            </div>
-            <div class="text-center">
-                <div class="text-4xl font-bold text-purple-600 mb-2">{{ settings.specialties_count|default:"15" }}</div>
-                <div class="text-gray-600 text-sm">Spécialités</div>
-            </div>
-            <div class="text-center">
-                <div class="text-4xl font-bold text-orange-600 mb-2">{{ settings.staff_count|default:"80" }}+</div>
-                <div class="text-gray-600 text-sm">Personnel médical</div>
-            </div>
-            {% if settings.success_rate %}
-            <div class="text-center">
-                <div class="text-4xl font-bold text-red-600 mb-2">{{ settings.success_rate }}%</div>
-                <div class="text-gray-600 text-sm">Taux de réussite</div>
-            </div>
             {% endif %}
         </div>
     </div>
 
-    <!-- Organigramme -->
-    {% if settings.organization_chart %}
-    <div class="mb-12">
-        <h2 class="text-3xl font-bold mb-6 text-center">Organisation Administrative</h2>
-        <div class="bg-white p-6 rounded-lg shadow">
-            <img src="{{ settings.organization_chart.url }}" alt="Organigramme" class="w-full">
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- Valeurs -->
-    <div class="bg-gray-50 p-8 rounded-lg mb-12">
-        <h2 class="text-3xl font-bold mb-6 text-center">Nos Valeurs</h2>
-        <div class="grid md:grid-cols-4 gap-6">
+    <!-- Chiffres & Statistiques -->
+    <section class="bg-primary-10 rounded-xl p-6 sm:p-8 md:p-10 mb-12 sm:mb-16">
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-base">{% trans "Chiffres & Statistiques" %}</h2>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-6">
             <div class="text-center">
-                <div class="text-4xl mb-3">🤝</div>
-                <h3 class="font-bold mb-2">Compassion</h3>
-                <p class="text-sm text-gray-600">Empathie envers nos patients</p>
+                <div class="text-3xl sm:text-4xl font-bold text-primary-60 mb-1 sm:mb-2">5000+</div>
+                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Patients traités/an" %}</div>
             </div>
             <div class="text-center">
-                <div class="text-4xl mb-3">⭐</div>
-                <h3 class="font-bold mb-2">Excellence</h3>
-                <p class="text-sm text-gray-600">Qualité des soins</p>
+                <div class="text-3xl sm:text-4xl font-bold text-green-60 mb-1 sm:mb-2">100</div>
+                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Lits disponibles" %}</div>
             </div>
             <div class="text-center">
-                <div class="text-4xl mb-3">🔬</div>
-                <h3 class="font-bold mb-2">Innovation</h3>
-                <p class="text-sm text-gray-600">Technologies modernes</p>
+                <div class="text-3xl sm:text-4xl font-bold text-primary-60 mb-1 sm:mb-2">15</div>
+                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Spécialités" %}</div>
             </div>
             <div class="text-center">
-                <div class="text-4xl mb-3">👥</div>
-                <h3 class="font-bold mb-2">Respect</h3>
-                <p class="text-sm text-gray-600">Dignité humaine</p>
+                <div class="text-3xl sm:text-4xl font-bold text-green-60 mb-1 sm:mb-2">80+</div>
+                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Personnel médical" %}</div>
+            </div>
+            <div class="text-center col-span-2 md:col-span-1">
+                <div class="text-3xl sm:text-4xl font-bold text-primary-60 mb-1 sm:mb-2">95%</div>
+                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Taux de réussite" %}</div>
             </div>
         </div>
-    </div>
+    </section>
 
-<!-- Histoire & Certifications -->
-<div class="grid md:grid-cols-2 gap-8 mb-12">
-    <div class="bg-white p-6 rounded-lg shadow">
-        <h3 class="text-2xl font-bold mb-4">📜 Notre Histoire</h3>
-        <p class="text-gray-600">
-            Fondé en [ANNÉE], l'Hôpital Régional Annexe d'Edea a évolué pour devenir un 
-            établissement de soins complet, offrant une gamme complète de services médicaux.
-        </p>
-    </div>
-    <div class="bg-white p-6 rounded-lg shadow">
-        <h3 class="text-2xl font-bold mb-4">🏆 Certifications & Accréditations</h3>
-        {% if settings.certifications %}
-            <ul class="list-disc list-inside text-gray-600 space-y-2">
-                {% for cert in settings.certifications.splitlines %}
-                <li>{{ cert }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p class="text-gray-600">
-                Notre établissement respecte les standards nationaux et internationaux de qualité 
-                en matière de soins de santé.
+    <!-- Nos Valeurs -->
+    <section class="mb-12 sm:mb-16">
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-base">{% trans "Nos Valeurs" %}</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div class="bg-white border-2 border-primary-60 rounded-lg p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-primary-10 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                    <span class="text-2xl sm:text-3xl font-bold text-primary-60">C</span>
+                </div>
+                <h3 class="font-bold text-base sm:text-lg mb-2 text-base">{% trans "Compassion" %}</h3>
+                <p class="text-xs sm:text-sm text-gray-600">{% trans "Empathie envers nos patients" %}</p>
+            </div>
+            <div class="bg-white border-2 border-green-60 rounded-lg p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-10 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                    <span class="text-2xl sm:text-3xl font-bold text-green-60">E</span>
+                </div>
+                <h3 class="font-bold text-base sm:text-lg mb-2 text-base">{% trans "Excellence" %}</h3>
+                <p class="text-xs sm:text-sm text-gray-600">{% trans "Qualité des soins" %}</p>
+            </div>
+            <div class="bg-white border-2 border-primary-60 rounded-lg p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-primary-10 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                    <span class="text-2xl sm:text-3xl font-bold text-primary-60">I</span>
+                </div>
+                <h3 class="font-bold text-base sm:text-lg mb-2 text-base">{% trans "Innovation" %}</h3>
+                <p class="text-xs sm:text-sm text-gray-600">{% trans "Technologies modernes" %}</p>
+            </div>
+            <div class="bg-white border-2 border-green-60 rounded-lg p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-10 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                    <span class="text-2xl sm:text-3xl font-bold text-green-60">R</span>
+                </div>
+                <h3 class="font-bold text-base sm:text-lg mb-2 text-base">{% trans "Respect" %}</h3>
+                <p class="text-xs sm:text-sm text-gray-600">{% trans "Dignité humaine" %}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Histoire & Certifications -->
+    <div class="grid md:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-16">
+        <div class="bg-white border-l-4 border-primary-60 rounded-lg p-4 sm:p-6 shadow">
+            <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-primary-60">{% trans "Notre Histoire" %}</h3>
+            <p class="text-gray-700 text-sm sm:text-base">
+                {% trans "Fondé en 1985, l'Hôpital Régional Annexe d'Edea a évolué pour devenir un établissement de soins complet, offrant une gamme complète de services médicaux." %}
             </p>
-        {% endif %}
+        </div>
+        <div class="bg-white border-l-4 border-green-60 rounded-lg p-4 sm:p-6 shadow">
+            <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-green-60">{% trans "Certifications" %}</h3>
+            <p class="text-gray-700 text-sm sm:text-base">
+                {% trans "Notre établissement respecte les standards nationaux et internationaux de qualité en matière de soins de santé." %}
+            </p>
+        </div>
     </div>
-</div>
 
     <!-- Équipe de direction -->
     {% if direction_members %}
-    <div>
-        <h2 class="text-3xl font-bold mb-8 text-center">Équipe de Direction</h2>
-        <div class="grid md:grid-cols-3 gap-6">
+    <section>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-base">{% trans "Équipe de Direction" %}</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {% for member in direction_members %}
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-center">
+            <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 sm:p-6 text-center">
                 {% if member.photo %}
                 <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" 
-                     class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                     class="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full mx-auto mb-3 sm:mb-4 object-cover border-4 border-primary-10">
                 {% else %}
-                <div class="w-32 h-32 rounded-full bg-gray-200 mx-auto mb-4 flex items-center justify-center text-4xl">
-                    👤
+                <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full bg-primary-10 mx-auto mb-3 sm:mb-4 flex items-center justify-center border-4 border-primary-60">
+                    <span class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-60">{{ member.full_name|slice:":1" }}</span>
                 </div>
                 {% endif %}
-                <h3 class="font-bold text-lg">{{ member.full_name }}</h3>
-                <p class="text-blue-600 mb-3">{{ member.position }}</p>
+                <h3 class="font-bold text-base sm:text-lg text-base">{{ member.full_name }}</h3>
+                <p class="text-primary-60 mb-2 sm:mb-3 text-sm sm:text-base">{{ member.position }}</p>
                 {% if member.bio %}
-                <p class="text-sm text-gray-600">{{ member.bio|truncatewords:20 }}</p>
+                <p class="text-xs sm:text-sm text-gray-600">{{ member.bio|truncatewords:20 }}</p>
                 {% endif %}
             </div>
             {% endfor %}
         </div>
-    </div>
+    </section>
     {% endif %}
 </div>
 {% endblock %}

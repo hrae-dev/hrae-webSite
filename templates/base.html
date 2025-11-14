@@ -1,69 +1,108 @@
-{% load static tailwind_tags %}
+{% load static tailwind_tags i18n %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}HRAE - Hôpital Régional Annexe d'Edea{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Hôpital Régional Annexe d'Edea - Votre santé, notre priorité{% endblock %}">
+    <title>{% block title %}HRAE - {% trans "Hôpital Régional Annexe d'Edea" %}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{% trans "Hôpital Régional Annexe d'Edea - Votre santé, notre priorité" %}{% endblock %}">
     
-    <!-- Tailwind CSS -->
-		{% tailwind_css %}
+    {% tailwind_css %}
     
-    {% block extra_css %}{% endblock %}
+    <style>
+        .nav-notch {
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .nav-notch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: inherit;
+            clip-path: path('M 0,0 Q 50,0 100,20 L 100,0 Q 150,0 200,10 L 200,0 L 100%,0 L 100%,0 Q calc(100% - 200),0 calc(100% - 200),10 L calc(100% - 200),0 Q calc(100% - 150),0 calc(100% - 100),20 L calc(100% - 100),0 Q calc(100% - 50),0 100%,0 L 100%,100 Q calc(100% - 100),100 calc(100% - 200),80 Q calc(100% - 300),100 calc(100% - 400),80 Q 400,100 300,80 Q 200,100 100,80 Q 50,100 0,100 Z');
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4">
-            <!-- Top bar -->
-            <div class="py-2 border-b border-gray-200 text-sm">
-                <div class="flex justify-between items-center">
-                    <div class="flex gap-4 text-gray-600">
-                        <span>📞 {{ settings.phone|default:"+237 XXX XXX XXX" }}</span>
-                        <span>📧 {{ settings.email|default:"contact@hrae.cm" }}</span>
-                    </div>
-                    <div class="flex gap-3">
-                        {% if settings.facebook_url %}<a href="{{ settings.facebook_url }}" class="text-blue-600 hover:text-blue-800">Facebook</a>{% endif %}
-                        {% if settings.twitter_url %}<a href="{{ settings.twitter_url }}" class="text-blue-400 hover:text-blue-600">Twitter</a>{% endif %}
-                    </div>
+<body class="bg-white font-paris">
+    <!-- Navbar Overlay -->
+    <nav class="fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto px-2 sm:px-4 max-w-7xl">
+            <!-- Desktop Navigation -->
+            <div class="hidden lg:block">
+                <div class="bg-white/95 backdrop-blur-sm shadow-2xl" style="border-radius: 0 0 60px 60px; padding: 1.25rem 2rem;">
+                    <ul class="flex justify-center items-center space-x-1 text-sm xl:text-base">
+                        <li><a href="{% url 'home' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'home' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Accueil" %}</a></li>
+                        <li><a href="{% url 'about' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'about' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "À propos" %}</a></li>
+                        <li><a href="{% url 'services' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'services' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Services et spécialités" %}</a></li>
+                        <li><a href="{% url 'team' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'team' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Notre équipe" %}</a></li>
+                        <li><a href="{% url 'news' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'news' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Actualités" %}</a></li>
+                        <li><a href="{% url 'practical_info' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'practical_info' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Infos pratiques" %}</a></li>
+                        <li><a href="{% url 'contact' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'contact' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Contacts" %}</a></li>
+                    </ul>
                 </div>
             </div>
             
-            <!-- Main navigation -->
-            <nav class="py-4">
+            <!-- Mobile/Tablet Navigation -->
+            <div class="lg:hidden bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl px-4 py-3 mt-3">
                 <div class="flex justify-between items-center">
-                    <div class="text-2xl font-bold text-blue-600">
-                        <a href="{% url 'home' %}">HRAE</a>
-                    </div>
-                    
-                    <ul class="hidden md:flex space-x-6">
-                        <li><a href="{% url 'home' %}" class="hover:text-blue-600">Accueil</a></li>
-                        <li><a href="{% url 'about' %}" class="hover:text-blue-600">À propos</a></li>
-                        <li><a href="{% url 'services' %}" class="hover:text-blue-600">Services</a></li>
-                        <li><a href="{% url 'team' %}" class="hover:text-blue-600">Notre équipe</a></li>
-                        <li><a href="{% url 'news' %}" class="hover:text-blue-600">Actualités</a></li>
-                        <li><a href="{% url 'health_campaigns' %}" class="hover:text-blue-600">Campagnes</a></li>
-                        <li><a href="{% url 'practical_info' %}" class="hover:text-blue-600">Infos pratiques</a></li>
-                        <li><a href="{% url 'contact' %}" class="hover:text-blue-600">Contact</a></li>
-                    </ul>
-                    
-                    <a href="{% url 'appointment' %}" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">
-                        📅 Prendre RDV
-                    </a>
+                    <a href="{% url 'home' %}" class="text-lg font-bold text-primary-60">HRAE</a>
+                    <button onclick="toggleMobileMenu()" class="text-base p-2 hover:bg-primary-10 rounded-lg transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
                 </div>
-            </nav>
+                
+                <!-- Mobile Menu -->
+                <div id="mobile-menu" class="hidden mt-4 pb-2">
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'home' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'home' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Accueil" %}</a></li>
+                        <li><a href="{% url 'about' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'about' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "À propos" %}</a></li>
+                        <li><a href="{% url 'services' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'services' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Services et spécialités" %}</a></li>
+                        <li><a href="{% url 'team' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'team' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Notre équipe" %}</a></li>
+                        <li><a href="{% url 'news' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'news' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Actualités" %}</a></li>
+                        <li><a href="{% url 'practical_info' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'practical_info' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Infos pratiques" %}</a></li>
+                        <li><a href="{% url 'contact' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'contact' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Contacts" %}</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </header>
+    </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="menu-overlay" class="hidden fixed inset-0 bg-black/50 z-40 lg:hidden" onclick="closeMobileMenu()"></div>
+    
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('menu-overlay');
+            menu.classList.toggle('hidden');
+            overlay.classList.toggle('hidden');
+        }
+        
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('menu-overlay');
+            menu.classList.add('hidden');
+            overlay.classList.add('hidden');
+        }
+    </script>
     
     <!-- Messages -->
     {% if messages %}
-    <div class="container mx-auto px-4 mt-4">
-        {% for message in messages %}
-        <div class="p-4 rounded-lg mb-2 {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
-            {{ message }}
+    <div class="fixed top-24 left-0 right-0 z-40 px-4">
+        <div class="container mx-auto max-w-2xl">
+            {% for message in messages %}
+            <div class="p-4 rounded-lg mb-2 shadow-lg {% if message.tags == 'success' %}bg-green-10 text-green-60 border border-green-60{% elif message.tags == 'error' %}bg-red-100 text-red-800 border border-red-800{% else %}bg-primary-10 text-primary-60 border border-primary-60{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
     {% endif %}
     
@@ -73,38 +112,46 @@
     </main>
     
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white mt-12">
-        <div class="container mx-auto px-4 py-8">
-            <div class="grid md:grid-cols-3 gap-8">
+    <footer class="bg-base text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="font-bold text-xl mb-4">HRAE</h3>
-                    <p class="text-gray-400">{{ settings.site_tagline|default:"Votre santé, notre priorité" }}</p>
+                    <h3 class="font-bold text-2xl mb-4">HRAE</h3>
+                    <p class="text-gray-400">{% trans "Votre santé, notre priorité" %}</p>
                 </div>
                 
                 <div>
-                    <h4 class="font-bold mb-4">Contact</h4>
+                    <h4 class="font-bold mb-4 text-lg">{% trans "Navigation" %}</h4>
                     <ul class="text-gray-400 space-y-2">
-                        <li>BP 100 edea</li>
-                        <li>📞 Tel secretariat 233 4642 32</li>
-                        <li>🚨 Urgences: 119 urgence gratuit</li>
-                        <li>📧 {{ settings.email|default:"contact@hrae.cm" }}</li>
+                        <li><a href="{% url 'about' %}" class="hover:text-white transition-colors">{% trans "À propos" %}</a></li>
+                        <li><a href="{% url 'services' %}" class="hover:text-white transition-colors">{% trans "Services" %}</a></li>
+                        <li><a href="{% url 'team' %}" class="hover:text-white transition-colors">{% trans "Notre équipe" %}</a></li>
+                        <li><a href="{% url 'news' %}" class="hover:text-white transition-colors">{% trans "Actualités" %}</a></li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h4 class="font-bold mb-4">Liens rapides</h4>
+                    <h4 class="font-bold mb-4 text-lg">{% trans "Contact" %}</h4>
                     <ul class="text-gray-400 space-y-2">
-                        <li><a href="{% url 'services' %}" class="hover:text-white">Nos services</a></li>
-                        <li><a href="{% url 'team' %}" class="hover:text-white">Notre équipe</a></li>
-                        <li><a href="{% url 'health_campaigns' %}" class="hover:text-white">Campagnes</a></li>
-                        <li><a href="{% url 'appointment' %}" class="hover:text-white">Prendre RDV</a></li>
-                        <li><a href="{% url 'contact' %}" class="hover:text-white">Nous contacter</a></li>
+                        <li>BP 100 Edea</li>
+                        <li>📞 233 4642 32</li>
+                        <li>🚨 {% trans "Urgences" %}: 119</li>
+                        <li>📧 contact@hrae.cm</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-lg">{% trans "Horaires" %}</h4>
+                    <ul class="text-gray-400 space-y-2">
+                        <li>{% trans "Lun - Ven" %}: 8h - 17h</li>
+                        <li>{% trans "Samedi" %}: 8h - 13h</li>
+                        <li>{% trans "Urgences" %}: 24h/24</li>
                     </ul>
                 </div>
             </div>
             
             <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
-                © 2025 HRAE - Tous droits réservés
+                © 2025 HRAE - {% trans "Tous droits réservés" %}
             </div>
         </div>
     </footer>

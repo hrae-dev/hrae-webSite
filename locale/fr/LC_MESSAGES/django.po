@@ -1,0 +1,240 @@
+# FRENCH TRANSLATION FILE FOR HRAE
+# Copyright (C) 2025
+# This file is distributed under the same license as the HRAE project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: HRAE 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-14 12:00+0000\n"
+"PO-Revision-Date: 2025-01-14 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Hôpital Régional Annexe d'Edea"
+msgstr "Hôpital Régional Annexe d'Edea"
+
+msgid "Hôpital Régional Annexe d'Edea - Votre santé, notre priorité"
+msgstr "Hôpital Régional Annexe d'Edea - Votre santé, notre priorité"
+
+msgid "Accueil"
+msgstr "Accueil"
+
+msgid "À propos"
+msgstr "À propos"
+
+msgid "Services et spécialités"
+msgstr "Services et spécialités"
+
+msgid "Notre équipe"
+msgstr "Notre équipe"
+
+msgid "Actualités"
+msgstr "Actualités"
+
+msgid "Infos pratiques"
+msgstr "Infos pratiques"
+
+msgid "Contacts"
+msgstr "Contacts"
+
+msgid "Votre santé, notre priorité"
+msgstr "Votre santé, notre priorité"
+
+msgid "Navigation"
+msgstr "Navigation"
+
+msgid "Services"
+msgstr "Services"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Urgences"
+msgstr "Urgences"
+
+msgid "Horaires"
+msgstr "Horaires"
+
+msgid "Lun - Ven"
+msgstr "Lun - Ven"
+
+msgid "Samedi"
+msgstr "Samedi"
+
+msgid "Tous droits réservés"
+msgstr "Tous droits réservés"
+
+msgid "Bienvenue à"
+msgstr "Bienvenue à"
+
+msgid "L'Hopital"
+msgstr "L'Hopital"
+
+msgid "Régional d'Édéa"
+msgstr "Régional d'Édéa"
+
+msgid "Prendre rendez-vous"
+msgstr "Prendre rendez-vous"
+
+msgid "Urgences 24/7"
+msgstr "Urgences 24/7"
+
+msgid "Recherche"
+msgstr "Recherche"
+
+msgid "Plan d'accès"
+msgstr "Plan d'accès"
+
+msgid "Bienvenue à l'HRAE"
+msgstr "Bienvenue à l'HRAE"
+
+msgid "Établissement de référence en santé publique, l'Hôpital Régional Annexe d'Edea offre des soins de qualité dans un environnement moderne et humain. Notre mission est d'assurer votre bien-être avec professionnalisme et compassion."
+msgstr "Établissement de référence en santé publique, l'Hôpital Régional Annexe d'Edea offre des soins de qualité dans un environnement moderne et humain. Notre mission est d'assurer votre bien-être avec professionnalisme et compassion."
+
+msgid "Nos chiffres clés"
+msgstr "Nos chiffres clés"
+
+msgid "Patients par an"
+msgstr "Patients par an"
+
+msgid "Lits disponibles"
+msgstr "Lits disponibles"
+
+msgid "Spécialités"
+msgstr "Spécialités"
+
+msgid "Personnel médical"
+msgstr "Personnel médical"
+
+msgid "Nos services principaux"
+msgstr "Nos services principaux"
+
+msgid "Consultations"
+msgstr "Consultations"
+
+msgid "Consultations médicales générales et spécialisées avec nos médecins experts."
+msgstr "Consultations médicales générales et spécialisées avec nos médecins experts."
+
+msgid "Service d'urgences disponible 24h/24 et 7j/7 pour vos besoins médicaux urgents."
+msgstr "Service d'urgences disponible 24h/24 et 7j/7 pour vos besoins médicaux urgents."
+
+msgid "Laboratoire"
+msgstr "Laboratoire"
+
+msgid "Analyses médicales complètes avec équipements de pointe et résultats rapides."
+msgstr "Analyses médicales complètes avec équipements de pointe et résultats rapides."
+
+msgid "Voir tous nos services"
+msgstr "Voir tous nos services"
+
+msgid "Dernières actualités"
+msgstr "Dernières actualités"
+
+msgid "Lire la suite"
+msgstr "Lire la suite"
+
+msgid "Aucune actualité disponible"
+msgstr "Aucune actualité disponible"
+
+msgid "Toutes les actualités"
+msgstr "Toutes les actualités"
+
+msgid "Besoin d'une consultation ?"
+msgstr "Besoin d'une consultation ?"
+
+msgid "Prenez rendez-vous en ligne et profitez de nos services médicaux de qualité."
+msgstr "Prenez rendez-vous en ligne et profitez de nos services médicaux de qualité."
+
+msgid "Prendre rendez-vous maintenant"
+msgstr "Prendre rendez-vous maintenant"
+
+msgid "Témoignages de nos patients"
+msgstr "Témoignages de nos patients"
+
+msgid "Nos partenaires"
+msgstr "Nos partenaires"
+
+msgid "Voir tous nos partenaires"
+msgstr "Voir tous nos partenaires"
+
+msgid "À propos"
+msgstr "À propos"
+
+msgid "À propos de l'HRAE"
+msgstr "À propos de l'HRAE"
+
+msgid "Notre histoire, notre mission"
+msgstr "Notre histoire, notre mission"
+
+msgid "Notre Mission"
+msgstr "Notre Mission"
+
+msgid "L'Hôpital Régional Annexe d'Edea a pour mission de fournir des soins de santé de qualité, accessibles à tous, dans un environnement sûr et respectueux de la dignité humaine."
+msgstr "L'Hôpital Régional Annexe d'Edea a pour mission de fournir des soins de santé de qualité, accessibles à tous, dans un environnement sûr et respectueux de la dignité humaine."
+
+msgid "Nous nous engageons à servir notre communauté avec professionnalisme, compassion et excellence."
+msgstr "Nous nous engageons à servir notre communauté avec professionnalisme, compassion et excellence."
+
+msgid "Notre Vision"
+msgstr "Notre Vision"
+
+msgid "Devenir un établissement de référence en matière de soins de santé dans la région, reconnu pour son expertise médicale et son engagement envers l'innovation."
+msgstr "Devenir un établissement de référence en matière de soins de santé dans la région, reconnu pour son expertise médicale et son engagement envers l'innovation."
+
+msgid "Chiffres & Statistiques"
+msgstr "Chiffres & Statistiques"
+
+msgid "Patients traités/an"
+msgstr "Patients traités/an"
+
+msgid "Taux de réussite"
+msgstr "Taux de réussite"
+
+msgid "Nos Valeurs"
+msgstr "Nos Valeurs"
+
+msgid "Compassion"
+msgstr "Compassion"
+
+msgid "Empathie envers nos patients"
+msgstr "Empathie envers nos patients"
+
+msgid "Excellence"
+msgstr "Excellence"
+
+msgid "Qualité des soins"
+msgstr "Qualité des soins"
+
+msgid "Innovation"
+msgstr "Innovation"
+
+msgid "Technologies modernes"
+msgstr "Technologies modernes"
+
+msgid "Respect"
+msgstr "Respect"
+
+msgid "Dignité humaine"
+msgstr "Dignité humaine"
+
+msgid "Notre Histoire"
+msgstr "Notre Histoire"
+
+msgid "Fondé en 1985, l'Hôpital Régional Annexe d'Edea a évolué pour devenir un établissement de soins complet, offrant une gamme complète de services médicaux."
+msgstr "Fondé en 1985, l'Hôpital Régional Annexe d'Edea a évolué pour devenir un établissement de soins complet, offrant une gamme complète de services médicaux."
+
+msgid "Certifications"
+msgstr "Certifications"
+
+msgid "Notre établissement respecte les standards nationaux et internationaux de qualité en matière de soins de santé."
+msgstr "Notre établissement respecte les standards nationaux et internationaux de qualité en matière de soins de santé."
+
+msgid "Équipe de Direction"
+msgstr "Équipe de Direction"
+

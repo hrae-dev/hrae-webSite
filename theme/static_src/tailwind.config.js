@@ -51,26 +51,55 @@ module.exports = {
     ],
     darkMode: false, // or 'media' or 'class'
     theme: {
-        extend: {
+      extend: {
       fontFamily: {
-        'paris': ['Paris2024', 'sans-serif'],
+        'paris': ['Paris2024', 'system-ui', 'sans-serif'],
       },
       
       colors: {
+        // Base
+        'base': '#2C2C2C',
+        
+        // Primary (Blue) Scale
         primary: {
-          500: '#ef4444',
-          600: '#dc2626',
-          700: '#b91c1c',
+          10: '#F3F8FF',
+          20: '#E0EAFF',
+          30: '#C2D6FF',
+          40: '#7FA8FF',
+          50: '#4A7FE0',
+          60: '#11309F',
+          70: '#0D2580',
+          80: '#091B60',
+          90: '#051240',
         },
-        'paris-pink': '#FF6B9D',
-        'paris-purple': '#9B59B6',
+        
+        // Green Scale
+        green: {
+          10: '#F5FFF8',
+          20: '#E0FFF0',
+          30: '#B8FFD9',
+          40: '#7FFFB8',
+          50: '#4CF9BA',
+          60: '#09714B',
+          70: '#075A3C',
+          80: '#05442D',
+          90: '#032D1E',
+        },
+      },
+      
+      // Custom gradient utilities
+      backgroundImage: {
+        'gradient-green-light': 'linear-gradient(90.27deg, #4CF9BA 0.27%, #20BF86 104.59%)',
+        'gradient-green-dark': 'linear-gradient(90.27deg, #3CCC98 0.27%, #1C9A6D 104.59%)',
+        'gradient-blue-light': 'linear-gradient(90.27deg, #4BB8F4 0.27%, #3666E0 104.59%)',
+        'gradient-blue-dark': 'linear-gradient(90.27deg, #3C98CC 0.27%, #1C3F9A 104.59%)',
       },
       
       fontSize: {
-        'h1': ['3rem', { lineHeight: '3.5rem', fontWeight: '800', letterSpacing: '-0.02em' }],
-        'h2': ['2.25rem', { lineHeight: '2.75rem', fontWeight: '700', letterSpacing: '-0.01em' }],
-        'h3': ['1.875rem', { lineHeight: '2.375rem', fontWeight: '600' }],
-        'h4': ['1.5rem', { lineHeight: '2rem', fontWeight: '600' }],
+        'h1': ['3rem', { lineHeight: '3.5rem', fontWeight: '800', letterSpacing: '-0.02em' }],      // 48px
+        'h2': ['2.25rem', { lineHeight: '2.75rem', fontWeight: '700', letterSpacing: '-0.01em' }],  // 36px
+        'h3': ['1.875rem', { lineHeight: '2.375rem', fontWeight: '600' }],                          // 30px
+        'h4': ['1.5rem', { lineHeight: '2rem', fontWeight: '600' }],                                // 24px
       },
     },
     },
