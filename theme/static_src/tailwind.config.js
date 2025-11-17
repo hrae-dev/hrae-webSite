@@ -4,6 +4,7 @@
  * If you need the full config, get it from here:
  * https://unpkg.com/browse/tailwindcss@latest/stubs/defaultConfig.stub.js
  */
+const defaultColors = require('tailwindcss/colors')
 
 module.exports = {
     /**
@@ -53,10 +54,11 @@ module.exports = {
     theme: {
       extend: {
       fontFamily: {
-        'paris': ['Paris2024', 'system-ui', 'sans-serif'],
+        'paris': ['Paris2024','-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
       },
       
       colors: {
+        ...defaultColors,
         // Base
         'base': '#2C2C2C',
         

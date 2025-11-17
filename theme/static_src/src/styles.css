@@ -49,7 +49,7 @@
   } */
 }
 
-@layer utilities {
+/* @layer utilities {
   @media (min-width: 270px) {
     .xs\:text-xs { font-size: 0.75rem; }
     .xs\:text-sm { font-size: 0.875rem; }
@@ -65,7 +65,7 @@
     .xs\:flex-row { flex-direction: row; }
     .xs\:gap-4 { gap: 1rem; }
   }
-}
+} */
 
 
 

@@ -2,133 +2,224 @@
 {% load static i18n %}
 
 {% block content %}
-<!-- Hero Section - Fullscreen -->
-<section class="relative h-screen w-full bg-cover bg-center" style="background-image: url('{% static "images/hero_hospital.png" %}');">
-    <!-- Dark Overlay -->
-    <div class="absolute inset-0 bg-black/50"></div>
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
     
-    <!-- Hero Content -->
-    <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-3 sm:px-4">
-        <h1 class="text-white text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 leading-tight max-w-5xl">
-            {% trans "Bienvenue à" %} <span class="font-black">{% trans "L'Hopital" %}</span><br>
-            <span class="font-black">{% trans "Régional d'Édéa" %} (HRE)</span>
-        </h1>
-        
-        <!-- Description Text -->
-        <p class="text-white text-sm xs:text-base sm:text-lg lg:text-xl max-w-4xl mb-6 sm:mb-8 lg:mb-12 leading-relaxed px-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-        
-        <!-- CTA Button -->
-        <a href="{% url 'appointment' %}" class="group inline-flex items-center bg-white hover:bg-primary-10 transition-all duration-300 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 mb-12 sm:mb-16 lg:mb-24">
-            <span class="text-base font-semibold text-sm xs:text-base sm:text-lg px-4 xs:px-6 sm:px-8 py-2 xs:py-3 sm:py-4">{% trans "Prendre rendez-vous" %}</span>
-            <div class="bg-base group-hover:bg-primary-60 transition-colors duration-300 rounded-full p-2 xs:p-2.5 sm:p-3 ml-1 xs:ml-1.5 sm:ml-2 mr-1 xs:mr-1.5 sm:mr-2">
-                <svg class="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-white transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                </svg>
-            </div>
-        </a>
-        
-        <!-- Bottom Bar -->
-      <div class="absolute bottom-4 sm:bottom-8 lg:bottom-12 left-0 right-0 px-3 sm:px-4">
-            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-3 xs:gap-4 sm:gap-6 text-white max-w-4xl mx-auto text-xs xs:text-sm sm:text-base md:text-lg">
-                <div class="font-medium text-white">
-                    {% trans "Urgences 24/7" %}
-                </div>
-                <a href="{% url 'practical_info' %}" class="font-medium text-white hover:underline transition-all">
-                    {% trans "Plan d'accès" %}
+    @keyframes fadeInRight {
+        from { opacity: 0; transform: translateX(50px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    
+    @keyframes wormMove {
+        0%, 100% { transform: translateX(-100%); }
+        50% { transform: translateX(100%); }
+    }
+    
+    .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    .animate-fade-in-right { animation: fadeInRight 1s ease-out forwards; }
+    .will-animate { opacity: 0; }
+    
+    .carousel-container {
+        position: relative;
+    }
+    
+    .carousel-container img {
+        transition: opacity 1.5s ease-in-out;
+    }
+    
+    .fog-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(243, 244, 246, 1) 0%, rgba(243, 244, 246, 0) 100%);
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .worm-container {
+        position: relative;
+        overflow: hidden;
+        height: 3px;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+    }
+    
+    .worm-bar {
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        background: linear-gradient(90deg, transparent, rgba(0, 102, 204, 0.8), transparent);
+        animation: wormMove 2s ease-in-out infinite;
+    }
+</style>
+
+<section class="relative min-h-screen w-full bg-gray-100 flex items-center">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            
+            <div class="space-y-6 will-animate animate-fade-in-up">
+                <h1>
+                    <span class="block text-gray-800 text-5xl md:text-6xl font-normal mb-2">{% trans "Bienvenue à" %}</span>
+                    <span class="block text-primary-60 text-4xl md:text-5xl lg:text-6xl font-black leading-tight">{% trans "L'Hopital Régional" %}</span>
+                    <span class="block text-primary-60 text-4xl md:text-5xl lg:text-6xl font-black leading-tight">{% trans "d'Édéa" %} <span class="text-gray-800 font-normal">(HRE)</span></span>
+                </h1>
+                
+                <p class="text-gray-600 text-base md:text-lg max-w-xl">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                
+                <a href="{% url 'appointment' %}" class="inline-flex items-center bg-orange-500 hover:bg-orange-600 rounded-full shadow-lg transition group">
+                    <span class="text-black font-semibold text-sm md:text-xl px-6 md:px-8 py-3 md:py-4">{% trans "Prendre rendez-vous" %}</span>
+                    <div class="bg-base rounded-full p-2 md:p-3 ml-2 mr-2 transition">
+                        <svg class="w-5 h-5 md:w-6 md:h-6 text-orange-600 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(-45deg);">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </div>
                 </a>
-                <button class="font-medium hover:underline text-white transition-all">
-                    {% trans "Recherche" %}
-                </button>
-            </div>
-        </div>
-        </div>
-    </div>
-</section>
-
-<!-- Présentation rapide -->
-<section class="py-12 sm:py-16 md:py-20 bg-white">
-    <div class="container mx-auto px-3 sm:px-4 max-w-4xl text-center">
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-base mb-4 sm:mb-6">{% trans "Bienvenue à l'HRAE" %}</h2>
-        <p class="text-gray-700 text-sm sm:text-base lg:text-lg leading-relaxed">
-            {% trans "Établissement de référence en santé publique, l'Hôpital Régional Annexe d'Edea offre des soins de qualité dans un environnement moderne et humain. Notre mission est d'assurer votre bien-être avec professionnalisme et compassion." %}
-        </p>
-    </div>
-</section>
-
-<!-- Chiffres clés -->
-<section class="py-12 sm:py-16 md:py-20 bg-primary-10">
-    <div class="container mx-auto px-3 sm:px-4">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
-            <div class="text-center">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-primary-60 mb-1 sm:mb-2">5K+</div>
-                <div class="text-base text-xs sm:text-sm md:text-base">{% trans "Patients par an" %}</div>
-            </div>
-            <div class="text-center">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-green-60 mb-1 sm:mb-2">100</div>
-                <div class="text-base text-xs sm:text-sm md:text-base">{% trans "Lits disponibles" %}</div>
-            </div>
-            <div class="text-center">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-primary-60 mb-1 sm:mb-2">15</div>
-                <div class="text-base text-xs sm:text-sm md:text-base">{% trans "Spécialités" %}</div>
-            </div>
-            <div class="text-center">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-green-60 mb-1 sm:mb-2">80+</div>
-                <div class="text-base text-xs sm:text-sm md:text-base">{% trans "Personnel médical" %}</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Services phares -->
-<section class="py-12 sm:py-16 md:py-20 bg-white">
-    <div class="container mx-auto px-3 sm:px-4">
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-base mb-8 sm:mb-12">{% trans "Nos services principaux" %}</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
-            <div class="bg-green-10 border-l-4 border-green-60 rounded-lg p-4 sm:p-6 md:p-8 hover:shadow-lg transition-shadow">
-                <h3 class="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 text-green-60">{% trans "Consultations" %}</h3>
-                <p class="text-gray-700 text-xs sm:text-sm md:text-base">{% trans "Consultations médicales générales et spécialisées avec nos médecins experts." %}</p>
             </div>
             
-            <div class="bg-primary-10 border-l-4 border-primary-60 rounded-lg p-4 sm:p-6 md:p-8 hover:shadow-lg transition-shadow">
-                <h3 class="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 text-primary-60">{% trans "Urgences" %}</h3>
-                <p class="text-gray-700 text-xs sm:text-sm md:text-base">{% trans "Service d'urgences disponible 24h/24 et 7j/7 pour vos besoins médicaux urgents." %}</p>
-            </div>
-            
-            <div class="bg-green-10 border-l-4 border-green-60 rounded-lg p-4 sm:p-6 md:p-8 hover:shadow-lg transition-shadow sm:col-span-2 lg:col-span-1">
-                <h3 class="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 text-green-60">{% trans "Laboratoire" %}</h3>
-                <p class="text-gray-700 text-xs sm:text-sm md:text-base">{% trans "Analyses médicales complètes avec équipements de pointe et résultats rapides." %}</p>
+            <div class="will-animate animate-fade-in-right">
+                <div class="carousel-container overflow-hidden shadow-2xl" style="border-radius: 0 50px 50px 0;">
+                    <img id="img-0" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto">
+                    <img id="img-1" src="{% static 'images/hero_hospital_1.jpg' %}" alt="Hospital" class="w-full h-auto hidden">
+                    <img id="img-2" src="{% static 'images/hero_hospital_2.jpg' %}" alt="Hospital" class="w-full h-auto hidden">
+                    <img id="img-3" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto hidden">
+                    <img id="img-4" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto hidden">
+                    <div class="fog-overlay"></div>
+                </div>
+                
+                <div class="mt-6 space-y-3">
+                    <div class="flex justify-center gap-2">
+                        <button onclick="goToSlide(0)" class="dot transition-all duration-500 rounded-full bg-base" style="width: 32px; height: 12px;"></button>
+                        <button onclick="goToSlide(1)" class="dot transition-all duration-500 rounded-full bg-gray-300" style="width: 12px; height: 12px;"></button>
+                        <button onclick="goToSlide(2)" class="dot transition-all duration-500 rounded-full bg-gray-300" style="width: 12px; height: 12px;"></button>
+                        <button onclick="goToSlide(3)" class="dot transition-all duration-500 rounded-full bg-gray-300" style="width: 12px; height: 12px;"></button>
+                        <button onclick="goToSlide(4)" class="dot transition-all duration-500 rounded-full bg-gray-300" style="width: 12px; height: 12px;"></button>
+                    </div>
+                    
+                    
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Dernières actualités -->
-<section class="py-12 sm:py-16 md:py-20 bg-gray-50">
-    <div class="container mx-auto px-3 sm:px-4">
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-base mb-8 sm:mb-12">{% trans "Dernières actualités" %}</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4 max-w-4xl text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">{% trans "Bienvenue à l'HRAE" %}</h2>
+        <p class="text-gray-700 text-lg">{% trans "Établissement de référence en santé publique, l'Hôpital Régional Annexe d'Edea offre des soins de qualité dans un environnement moderne et humain. Notre mission est d'assurer votre bien-être avec professionnalisme et compassion." %}</p>
+    </div>
+</section>
+
+<section class="py-16 bg-primary-10">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            <div class="text-center">
+                <div class="text-4xl md:text-5xl font-bold text-primary-60 mb-2">5K+</div>
+                <div class="text-base text-sm md:text-base">{% trans "Patients par an" %}</div>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl md:text-5xl font-bold text-green-60 mb-2">100</div>
+                <div class="text-base text-sm md:text-base">{% trans "Lits disponibles" %}</div>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl md:text-5xl font-bold text-primary-60 mb-2">15</div>
+                <div class="text-base text-sm md:text-base">{% trans "Spécialités" %}</div>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl md:text-5xl font-bold text-green-60 mb-2">80+</div>
+                <div class="text-base text-sm md:text-base">{% trans "Personnel médical" %}</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">{% trans "Nos services principaux" %}</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div class="bg-green-10 border-l-4 border-green-60 rounded-lg p-6 md:p-8 hover:shadow-lg transition">
+                <h3 class="text-xl md:text-2xl font-bold mb-3 text-green-60">{% trans "Consultations" %}</h3>
+                <p class="text-gray-700 text-sm md:text-base">{% trans "Consultations médicales générales et spécialisées avec nos médecins experts." %}</p>
+            </div>
+            <div class="bg-primary-10 border-l-4 border-primary-60 rounded-lg p-6 md:p-8 hover:shadow-lg transition">
+                <h3 class="text-xl md:text-2xl font-bold mb-3 text-primary-60">{% trans "Urgences" %}</h3>
+                <p class="text-gray-700 text-sm md:text-base">{% trans "Service d'urgences disponible 24h/24 et 7j/7 pour vos besoins médicaux urgents." %}</p>
+            </div>
+            <div class="bg-green-10 border-l-4 border-green-60 rounded-lg p-6 md:p-8 hover:shadow-lg transition sm:col-span-2 lg:col-span-1">
+                <h3 class="text-xl md:text-2xl font-bold mb-3 text-green-60">{% trans "Laboratoire" %}</h3>
+                <p class="text-gray-700 text-sm md:text-base">{% trans "Analyses médicales complètes avec équipements de pointe et résultats rapides." %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">{% trans "Dernières actualités" %}</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {% for article in articles %}
             <div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition">
                 {% if article.featured_image %}
-                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-36 sm:h-48 object-cover">
+                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-48 object-cover">
                 {% else %}
-                <div class="w-full h-36 sm:h-48 bg-primary-10"></div>
+                <div class="w-full h-48 bg-primary-10"></div>
                 {% endif %}
-                <div class="p-4 sm:p-6">
-                    <div class="text-xs sm:text-sm text-gray-500 mb-2">{{ article.published_at|date:"d M Y" }}</div>
-                    <h3 class="font-bold text-sm sm:text-base md:text-lg text-base mb-2">{{ article.title }}</h3>
-                    <p class="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">{{ article.excerpt|truncatewords:15 }}</p>
-                    <a href="{% url 'news_detail' article.id %}" class="text-primary-60 font-semibold text-xs sm:text-sm hover:underline">
-                        {% trans "Lire la suite" %} →
-                    </a>
+                <div class="p-6">
+                    <div class="text-sm text-gray-500 mb-2">{{ article.published_at|date:"d M Y" }}</div>
+                    <h3 class="font-bold text-lg mb-2">{{ article.title }}</h3>
+                    <p class="text-gray-600 text-sm mb-4">{{ article.excerpt|truncatewords:15 }}</p>
+                    <a href="{% url 'news_detail' article.id %}" class="text-primary-60 font-semibold hover:underline">{% trans "Lire la suite" %} →</a>
                 </div>
             </div>
             {% empty %}
-            <div class="col-span-full text-center text-gray-500 text-sm sm:text-base">{% trans "Aucune actualité disponible" %}</div>
+            <div class="col-span-full text-center text-gray-500">{% trans "Aucune actualité disponible" %}</div>
             {% endfor %}
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let currentSlide = 0;
+    const totalSlides = 5;
+    
+    function updateCarousel() {
+        for (let i = 0; i < totalSlides; i++) {
+            document.getElementById(`img-${i}`).classList.toggle('hidden', i !== currentSlide);
+        }
+        
+        document.querySelectorAll('.dot').forEach((dot, i) => {
+            if (i === currentSlide) {
+                dot.classList.add('bg-base');
+                dot.classList.remove('bg-gray-300');
+                dot.style.width = '32px';
+            } else {
+                dot.classList.add('bg-gray-300');
+                dot.classList.remove('bg-base');
+                dot.style.width = '12px';
+            }
+        });
+    }
+    
+    function goToSlide(n) {
+        currentSlide = n;
+        updateCarousel();
+    }
+    
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateCarousel();
+    }, 5000);
+    
+    setTimeout(() => {
+        document.querySelectorAll('.will-animate').forEach(el => el.classList.remove('will-animate'));
+    }, 100);
+</script>
 {% endblock %}

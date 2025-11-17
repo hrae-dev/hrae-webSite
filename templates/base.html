@@ -4,155 +4,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}HRAE - {% trans "Hôpital Régional Annexe d'Edea" %}{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}{% trans "Hôpital Régional Annexe d'Edea - Votre santé, notre priorité" %}{% endblock %}">
-    
+    <title>{% block title %}HRAE{% endblock %}</title>
+
     {% tailwind_css %}
-    
-    <style>
-        .nav-notch {
-            position: relative;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        .nav-notch::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: inherit;
-            clip-path: path('M 0,0 Q 50,0 100,20 L 100,0 Q 150,0 200,10 L 200,0 L 100%,0 L 100%,0 Q calc(100% - 200),0 calc(100% - 200),10 L calc(100% - 200),0 Q calc(100% - 150),0 calc(100% - 100),20 L calc(100% - 100),0 Q calc(100% - 50),0 100%,0 L 100%,100 Q calc(100% - 100),100 calc(100% - 200),80 Q calc(100% - 300),100 calc(100% - 400),80 Q 400,100 300,80 Q 200,100 100,80 Q 50,100 0,100 Z');
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
 </head>
-<body class="bg-white font-paris">
-    <!-- Navbar Overlay -->
-    <nav class="fixed top-0 left-0 right-0 z-50">
-        <div class="container mx-auto px-2 sm:px-4 max-w-7xl">
-            <!-- Desktop Navigation -->
+<body class="bg-white min-w-[270px]">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto my-2 px-2 sm:px-4 max-w-7xl">
             <div class="hidden lg:block">
-                <div class="bg-white/95 backdrop-blur-sm shadow-2xl" style="border-radius: 0 0 60px 60px; padding: 1.25rem 2rem;">
+                <div class="py-4">
                     <ul class="flex justify-center items-center space-x-1 text-sm xl:text-base">
-                        <li><a href="{% url 'home' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'home' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Accueil" %}</a></li>
-                        <li><a href="{% url 'about' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'about' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "À propos" %}</a></li>
-                        <li><a href="{% url 'services' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'services' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Services et spécialités" %}</a></li>
-                        <li><a href="{% url 'team' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'team' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Notre équipe" %}</a></li>
-                        <li><a href="{% url 'news' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'news' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Actualités" %}</a></li>
-                        <li><a href="{% url 'practical_info' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'practical_info' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Infos pratiques" %}</a></li>
-                        <li><a href="{% url 'contact' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-primary-10 {% if request.resolver_match.url_name == 'contact' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Contacts" %}</a></li>
+                        <li><a href="{% url 'home' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'home' %}bg-orange-50 text-orange-600  font-semibold{% endif %}">{% trans "Accueil" %}</a></li>
+                        <li><a href="{% url 'about' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'about' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "À propos" %}</a></li>
+                        <li><a href="{% url 'services' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'services' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Services et spécialités" %}</a></li>
+                        <li><a href="{% url 'team' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'team' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Notre équipe" %}</a></li>
+                        <li><a href="{% url 'news' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'news' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Actualités" %}</a></li>
+                        <li><a href="{% url 'practical_info' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'practical_info' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Infos pratiques" %}</a></li>
+                        <li><a href="{% url 'contact' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'contact' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Contacts" %}</a></li>
                     </ul>
                 </div>
             </div>
             
-            <!-- Mobile/Tablet Navigation -->
-            <div class="lg:hidden bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl px-4 py-3 mt-3">
+            <div class="lg:hidden py-3">
                 <div class="flex justify-between items-center">
                     <a href="{% url 'home' %}" class="text-lg font-bold text-primary-60">HRAE</a>
-                    <button onclick="toggleMobileMenu()" class="text-base p-2 hover:bg-primary-10 rounded-lg transition-colors">
+                    <button onclick="toggleMenu()" class="p-2">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
                 </div>
-                
-                <!-- Mobile Menu -->
                 <div id="mobile-menu" class="hidden mt-4 pb-2">
-                    <ul class="space-y-2">
-                        <li><a href="{% url 'home' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'home' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Accueil" %}</a></li>
-                        <li><a href="{% url 'about' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'about' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "À propos" %}</a></li>
-                        <li><a href="{% url 'services' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'services' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Services et spécialités" %}</a></li>
-                        <li><a href="{% url 'team' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'team' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Notre équipe" %}</a></li>
-                        <li><a href="{% url 'news' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'news' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Actualités" %}</a></li>
-                        <li><a href="{% url 'practical_info' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'practical_info' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Infos pratiques" %}</a></li>
-                        <li><a href="{% url 'contact' %}" class="block px-4 py-2 rounded-lg hover:bg-primary-10 transition-colors {% if request.resolver_match.url_name == 'contact' %}bg-primary-10 text-primary-60 font-semibold{% endif %}">{% trans "Contacts" %}</a></li>
-                    </ul>
+                    <a href="{% url 'home' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100 ">{% trans "Accueil" %}</a>
+                    <a href="{% url 'about' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100 ">{% trans "À propos" %}</a>
+                    <a href="{% url 'services' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100 ">{% trans "Services" %}</a>
+                    <a href="{% url 'team' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100 ">{% trans "Équipe" %}</a>
+                    <a href="{% url 'news' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100 ">{% trans "Actualités" %}</a>
+                    <a href="{% url 'practical_info' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100 ">{% trans "Infos" %}</a>
+                    <a href="{% url 'contact' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100 ">{% trans "Contact" %}</a>
                 </div>
             </div>
         </div>
     </nav>
     
-    <!-- Mobile Menu Overlay -->
-    <div id="menu-overlay" class="hidden fixed inset-0 bg-black/50 z-40 lg:hidden" onclick="closeMobileMenu()"></div>
+    <div id="menu-overlay" class="hidden fixed inset-0 bg-black/50 z-40 lg:hidden" onclick="closeMenu()"></div>
     
     <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const overlay = document.getElementById('menu-overlay');
-            menu.classList.toggle('hidden');
-            overlay.classList.toggle('hidden');
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+            document.getElementById('menu-overlay').classList.toggle('hidden');
         }
-        
-        function closeMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const overlay = document.getElementById('menu-overlay');
-            menu.classList.add('hidden');
-            overlay.classList.add('hidden');
+        function closeMenu() {
+            document.getElementById('mobile-menu').classList.add('hidden');
+            document.getElementById('menu-overlay').classList.add('hidden');
         }
     </script>
     
-    <!-- Messages -->
-    {% if messages %}
-    <div class="fixed top-24 left-0 right-0 z-40 px-4">
-        <div class="container mx-auto max-w-2xl">
-            {% for message in messages %}
-            <div class="p-4 rounded-lg mb-2 shadow-lg {% if message.tags == 'success' %}bg-green-10 text-green-60 border border-green-60{% elif message.tags == 'error' %}bg-red-100 text-red-800 border border-red-800{% else %}bg-primary-10 text-primary-60 border border-primary-60{% endif %}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-    
-    <!-- Content -->
-    <main>
+    <main class="pt-10">
         {% block content %}{% endblock %}
     </main>
     
-    <!-- Footer -->
-    <footer class="bg-base text-white py-12">
+    <footer class="bg-base text-white py-12 mt-16" style="border-radius: 60px 60px 0 0;">
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
                     <h3 class="font-bold text-2xl mb-4">HRAE</h3>
-                    <p class="text-gray-400">{% trans "Votre santé, notre priorité" %}</p>
+                    <p>{% trans "Votre santé, notre priorité" %}</p>
                 </div>
-                
                 <div>
-                    <h4 class="font-bold mb-4 text-lg">{% trans "Navigation" %}</h4>
-                    <ul class="text-gray-400 space-y-2">
-                        <li><a href="{% url 'about' %}" class="hover:text-white transition-colors">{% trans "À propos" %}</a></li>
-                        <li><a href="{% url 'services' %}" class="hover:text-white transition-colors">{% trans "Services" %}</a></li>
-                        <li><a href="{% url 'team' %}" class="hover:text-white transition-colors">{% trans "Notre équipe" %}</a></li>
-                        <li><a href="{% url 'news' %}" class="hover:text-white transition-colors">{% trans "Actualités" %}</a></li>
+                    <h4 class="font-bold mb-4">{% trans "Navigation" %}</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'about' %}">{% trans "À propos" %}</a></li>
+                        <li><a href="{% url 'services' %}">{% trans "Services" %}</a></li>
+                        <li><a href="{% url 'team' %}">{% trans "Équipe" %}</a></li>
+                        <li><a href="{% url 'news' %}">{% trans "Actualités" %}</a></li>
                     </ul>
                 </div>
-                
                 <div>
-                    <h4 class="font-bold mb-4 text-lg">{% trans "Contact" %}</h4>
-                    <ul class="text-gray-400 space-y-2">
+                    <h4 class="font-bold mb-4">{% trans "Contact" %}</h4>
+                    <ul class="space-y-2">
                         <li>BP 100 Edea</li>
-                        <li>📞 233 4642 32</li>
-                        <li>🚨 {% trans "Urgences" %}: 119</li>
-                        <li>📧 contact@hrae.cm</li>
+                        <li>233 4642 32</li>
+                        <li>119</li>
+                        <li>contact@hrae.cm</li>
                     </ul>
                 </div>
-                
                 <div>
-                    <h4 class="font-bold mb-4 text-lg">{% trans "Horaires" %}</h4>
-                    <ul class="text-gray-400 space-y-2">
+                    <h4 class="font-bold mb-4">{% trans "Horaires" %}</h4>
+                    <ul class="space-y-2">
                         <li>{% trans "Lun - Ven" %}: 8h - 17h</li>
                         <li>{% trans "Samedi" %}: 8h - 13h</li>
-                        <li>{% trans "Urgences" %}: 24h/24</li>
+                        <li>{% trans "Urgences" %}: 24/7</li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
-                © 2025 HRAE - {% trans "Tous droits réservés" %}
-            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">© 2025 HRAE</div>
         </div>
     </footer>
     
