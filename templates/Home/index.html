@@ -3,42 +3,19 @@
 
 {% block content %}
 <style>
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes fadeInRight {
-        from { opacity: 0; transform: translateX(50px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-    
-    @keyframes wormMove {
-        0%, 100% { transform: translateX(-100%); }
-        50% { transform: translateX(100%); }
-    }
-    
-    .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
-    .animate-fade-in-right { animation: fadeInRight 1s ease-out forwards; }
-    .will-animate { opacity: 0; }
-    
-    .carousel-container {
-        position: relative;
-    }
-    
-    .carousel-container img {
-        transition: opacity 1.5s ease-in-out;
-    }
-    
-    .fog-overlay {
+    .hero-gradient-overlay {
         position: absolute;
         top: 0;
         left: 0;
-        width: 50%;
+        width: 40%;
         height: 100%;
-        background: linear-gradient(to right, rgba(243, 244, 246, 1) 0%, rgba(243, 244, 246, 0) 100%);
+        background: linear-gradient(to right, rgba(243, 244, 246, 1) 0%, rgba(243, 244, 246, 0.8) 50%, rgba(243, 244, 246, 0) 100%);
         pointer-events: none;
         z-index: 1;
+    }
+    
+    .carousel-img {
+        transition: opacity 1.5s ease-in-out;
     }
     
     .worm-container {
@@ -56,41 +33,61 @@
         background: linear-gradient(90deg, transparent, rgba(0, 102, 204, 0.8), transparent);
         animation: wormMove 2s ease-in-out infinite;
     }
+    
+    @keyframes wormMove {
+        0%, 100% { transform: translateX(-100%); }
+        50% { transform: translateX(100%); }
+    }
+    
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInRight {
+        from { opacity: 0; transform: translateX(50px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    .animate-fade-in-right { animation: fadeInRight 1s ease-out forwards; }
+    .will-animate { opacity: 0; }
 </style>
 
-<section class="relative min-h-screen w-full bg-gray-100 flex items-center">
+<!-- Hero Section -->
+<section class="relative w-full bg-gray-100 py-16 md:py-20">
     <div class="container mx-auto px-4 max-w-7xl">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             <div class="space-y-6 will-animate animate-fade-in-up">
                 <h1>
-                    <span class="block text-gray-800 text-5xl md:text-6xl font-normal mb-2">{% trans "Bienvenue à" %}</span>
+                    <span class="block text-gray-800 text-2xl md:text-3xl font-normal mb-2">{% trans "Bienvenue à" %}</span>
                     <span class="block text-primary-60 text-4xl md:text-5xl lg:text-6xl font-black leading-tight">{% trans "L'Hopital Régional" %}</span>
-                    <span class="block text-primary-60 text-4xl md:text-5xl lg:text-6xl font-black leading-tight">{% trans "d'Édéa" %} <span class="text-gray-800 font-normal">(HRE)</span></span>
+                    <span class="block text-primary-60 text-4xl md:text-5xl lg:text-6xl font-black leading-tight">{% trans "d'Édéa" %} <span class="text-gray-800">(HRE)</span></span>
                 </h1>
                 
                 <p class="text-gray-600 text-base md:text-lg max-w-xl">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    {% trans "Établissement de référence en santé publique, l'Hôpital Régional Annexe d'Edea offre des soins de qualité dans un environnement moderne et humain." %}
                 </p>
                 
                 <a href="{% url 'appointment' %}" class="inline-flex items-center bg-orange-500 hover:bg-orange-600 rounded-full shadow-lg transition group">
-                    <span class="text-black font-semibold text-sm md:text-xl px-6 md:px-8 py-3 md:py-4">{% trans "Prendre rendez-vous" %}</span>
+                    <span class="text-white font-semibold text-sm md:text-base px-6 md:px-8 py-3 md:py-4">{% trans "Prendre rendez-vous" %}</span>
                     <div class="bg-base rounded-full p-2 md:p-3 ml-2 mr-2 transition">
-                        <svg class="w-5 h-5 md:w-6 md:h-6 text-orange-600 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(-45deg);">
+                        <svg class="w-5 h-5 md:w-6 md:h-6 text-white transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
                     </div>
                 </a>
             </div>
             
-            <div class="will-animate animate-fade-in-right">
-                <div class="carousel-container overflow-hidden shadow-2xl" style="border-radius: 0 50px 50px 0;">
-                    <img id="img-0" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto">
-                    <img id="img-1" src="{% static 'images/hero_hospital_1.jpg' %}" alt="Hospital" class="w-full h-auto hidden">
-                    <img id="img-2" src="{% static 'images/hero_hospital_2.jpg' %}" alt="Hospital" class="w-full h-auto hidden">
-                    <img id="img-3" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto hidden">
-                    <img id="img-4" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto hidden">
-                    <div class="fog-overlay"></div>
+            <div class="will-animate animate-fade-in-right relative">
+                <div class="relative overflow-hidden shadow-2xl" style="border-radius: 0 50px 50px 0;">
+                    <img id="img-0" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img">
+                    <img id="img-1" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
+                    <img id="img-2" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
+                    <img id="img-3" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
+                    <img id="img-4" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
+                    <div class="hero-gradient-overlay"></div>
                 </div>
                 
                 <div class="mt-6 space-y-3">
@@ -102,84 +99,275 @@
                         <button onclick="goToSlide(4)" class="dot transition-all duration-500 rounded-full bg-gray-300" style="width: 12px; height: 12px;"></button>
                     </div>
                     
-                    
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="py-16 bg-white">
-    <div class="container mx-auto px-4 max-w-4xl text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">{% trans "Bienvenue à l'HRAE" %}</h2>
-        <p class="text-gray-700 text-lg">{% trans "Établissement de référence en santé publique, l'Hôpital Régional Annexe d'Edea offre des soins de qualité dans un environnement moderne et humain. Notre mission est d'assurer votre bien-être avec professionnalisme et compassion." %}</p>
-    </div>
-</section>
-
-<section class="py-16 bg-primary-10">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+<!-- Chiffres clés -->
+<section class="relative py-16 bg-cover bg-center" style="background-image: url('{% static 'images/hero_hospital_2.jpg' %}');">
+    <div class="absolute inset-0 bg-gray-900/60"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">{% trans "Chiffres clés" %}</h2>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 max-w-6xl mx-auto">
             <div class="text-center">
-                <div class="text-4xl md:text-5xl font-bold text-primary-60 mb-2">5K+</div>
-                <div class="text-base text-sm md:text-base">{% trans "Patients par an" %}</div>
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">+1000</div>
+                <div class="text-white text-sm md:text-white">{% trans "Patients" %}</div>
             </div>
             <div class="text-center">
-                <div class="text-4xl md:text-5xl font-bold text-green-60 mb-2">100</div>
-                <div class="text-base text-sm md:text-base">{% trans "Lits disponibles" %}</div>
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">+60</div>
+                <div class="text-white text-sm md:text-white">{% trans "Années d'expérience" %}</div>
             </div>
             <div class="text-center">
-                <div class="text-4xl md:text-5xl font-bold text-primary-60 mb-2">15</div>
-                <div class="text-base text-sm md:text-base">{% trans "Spécialités" %}</div>
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">13</div>
+                <div class="text-white text-sm md:text-white">{% trans "Spécialités" %}</div>
             </div>
             <div class="text-center">
-                <div class="text-4xl md:text-5xl font-bold text-green-60 mb-2">80+</div>
-                <div class="text-base text-sm md:text-base">{% trans "Personnel médical" %}</div>
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">+50</div>
+                <div class="text-white text-sm md:text-white">{% trans "Lits" %}</div>
+            </div>
+            <div class="text-center col-span-2 md:col-span-1">
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">+100</div>
+                <div class="text-white text-sm md:text-white">{% trans "Personnel" %}</div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Soins complets -->
 <section class="py-16 bg-white">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">{% trans "Nos services principaux" %}</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <div class="bg-green-10 border-l-4 border-green-60 rounded-lg p-6 md:p-8 hover:shadow-lg transition">
-                <h3 class="text-xl md:text-2xl font-bold mb-3 text-green-60">{% trans "Consultations" %}</h3>
-                <p class="text-gray-700 text-sm md:text-base">{% trans "Consultations médicales générales et spécialisées avec nos médecins experts." %}</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">{% trans "Des soins complets pour" %} <span class="font-black">{% trans "toutes la famille" %}</span></h2>
+        
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12">
+            <!-- Card 1 -->
+            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'images/hero_hospital_1.jpg' %}" alt="Médecine Générale" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Médecine Générale" %}</h3>
+                    </div>
+                </div>
+                <div class="bg-base p-6 text-center">
+                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
+                        {% trans "En savoir plus" %}
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
-            <div class="bg-primary-10 border-l-4 border-primary-60 rounded-lg p-6 md:p-8 hover:shadow-lg transition">
-                <h3 class="text-xl md:text-2xl font-bold mb-3 text-primary-60">{% trans "Urgences" %}</h3>
-                <p class="text-gray-700 text-sm md:text-base">{% trans "Service d'urgences disponible 24h/24 et 7j/7 pour vos besoins médicaux urgents." %}</p>
+            
+            <!-- Card 2 -->
+            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'images/hero_hospital_1.jpg' %}" alt="Pédiatrie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Pédiatrie" %}</h3>
+                    </div>
+                </div>
+                <div class="bg-base p-6 text-center">
+                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
+                        {% trans "En savoir plus" %}
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
-            <div class="bg-green-10 border-l-4 border-green-60 rounded-lg p-6 md:p-8 hover:shadow-lg transition sm:col-span-2 lg:col-span-1">
-                <h3 class="text-xl md:text-2xl font-bold mb-3 text-green-60">{% trans "Laboratoire" %}</h3>
-                <p class="text-gray-700 text-sm md:text-base">{% trans "Analyses médicales complètes avec équipements de pointe et résultats rapides." %}</p>
+            
+            <!-- Card 3 -->
+            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'images/hero_hospital_1.jpg' %}" alt="Gynécologie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Gynécologie/ Maternité" %}</h3>
+                    </div>
+                </div>
+                <div class="bg-base p-6 text-center">
+                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
+                        {% trans "En savoir plus" %}
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
+            
+            <!-- Card 4 -->
+            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'images/hero_hospital_1.jpg' %}" alt="Chirurgie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Chirurgie" %}</h3>
+                    </div>
+                </div>
+                <div class="bg-base p-6 text-center">
+                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
+                        {% trans "En savoir plus" %}
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Card 5 -->
+            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'images/hero_hospital_1.jpg' %}" alt="Imagerie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Imagerie médicale" %}</h3>
+                    </div>
+                </div>
+                <div class="bg-base p-6 text-center">
+                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
+                        {% trans "En savoir plus" %}
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Card 6 - Can be commented out -->
+            {% comment %}
+            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'images/hero_hospital_1.jpg' %}" alt="Urgences" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Urgences" %}</h3>
+                    </div>
+                </div>
+                <div class="bg-base p-6 text-center">
+                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
+                        {% trans "En savoir plus" %}
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            {% endcomment %}
         </div>
     </div>
 </section>
 
-<section class="py-16 bg-gray-50">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">{% trans "Dernières actualités" %}</h2>
+<!-- Actualités et campagnes -->
+<section class="relative py-16 bg-cover bg-center" style="background-image: url('{% static 'images/hero_hospital_2.jpg' %}');">
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-green-900/90"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">{% trans "Actualité et campagne de santé" %}</h2>
+        
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {% for article in articles %}
-            <div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition">
+            {% for article in articles|slice:":3" %}
+            <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
                 {% if article.featured_image %}
-                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-48 object-cover">
+                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-56 object-cover">
                 {% else %}
-                <div class="w-full h-48 bg-primary-10"></div>
+                <div class="w-full h-56 bg-gray-200"></div>
                 {% endif %}
                 <div class="p-6">
-                    <div class="text-sm text-gray-500 mb-2">{{ article.published_at|date:"d M Y" }}</div>
-                    <h3 class="font-bold text-lg mb-2">{{ article.title }}</h3>
-                    <p class="text-gray-600 text-sm mb-4">{{ article.excerpt|truncatewords:15 }}</p>
-                    <a href="{% url 'news_detail' article.id %}" class="text-primary-60 font-semibold hover:underline">{% trans "Lire la suite" %} →</a>
+                    <h3 class="font-bold text-xl mb-3">{% trans "Lorem ipsum dolor sit" %}</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ article.excerpt|default:"amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"|truncatewords:20 }}</p>
+                    <a href="{% url 'news_detail' article.id %}" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition">{% trans "En savoir plus" %}</a>
                 </div>
             </div>
             {% empty %}
-            <div class="col-span-full text-center text-gray-500">{% trans "Aucune actualité disponible" %}</div>
+            <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                <div class="w-full h-56 bg-gray-200"></div>
+                <div class="p-6">
+                    <h3 class="font-bold text-xl mb-3">{% trans "Lorem ipsum dolor sit" %}</h3>
+                    <p class="text-gray-600 text-sm mb-4">{% trans "amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." %}</p>
+                    <a href="#" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold">{% trans "En savoir plus" %}</a>
+                </div>
+            </div>
+            <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                <div class="w-full h-56 bg-gray-200"></div>
+                <div class="p-6">
+                    <h3 class="font-bold text-xl mb-3">{% trans "Lorem ipsum dolor sit" %}</h3>
+                    <p class="text-gray-600 text-sm mb-4">{% trans "amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." %}</p>
+                    <a href="#" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold">{% trans "En savoir plus" %}</a>
+                </div>
+            </div>
+            <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                <div class="w-full h-56 bg-gray-200"></div>
+                <div class="p-6">
+                    <h3 class="font-bold text-xl mb-3">{% trans "Lorem ipsum dolor sit" %}</h3>
+                    <p class="text-gray-600 text-sm mb-4">{% trans "amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." %}</p>
+                    <a href="#" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold">{% trans "En savoir plus" %}</a>
+                </div>
+            </div>
             {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'news' %}" class="inline-flex items-center gap-3 bg-base text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+                {% trans "Voir toutes les actualités" %}
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Témoignages -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">{% trans "Témoignages Clients" %}</h2>
+        
+        <div class="grid sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition">
+                <div class="flex items-start gap-4">
+                    <img src="{% static 'images/avatar1.jpg' %}" alt="Client" class="w-16 h-16 rounded-full object-cover flex-shrink-0"
+                        onerror="this.onerror=this.src='https://example.com/default_avatar.jpg';">
+                    <div class="flex-1">
+                        <h4 class="font-bold mb-1">Mamadou B., 46 ans – Chirurgie mineure</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">"J'avais beaucoup d'appréhension avant l'intervention, mais l'équipe a su me mettre en confiance. L'opération s'est bien passée et le suivi a été irréprochable. Merci à toute l'équipe !"</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition">
+                <div class="flex items-start gap-4">
+                    <img src="{% static 'images/avatar2.jpg' %}" alt="Client" class="w-16 h-16 rounded-full object-cover flex-shrink-0">
+                    <div class="flex-1">
+                        <h4 class="font-bold mb-1">Aline T., 29 ans – Suivi de grossesse</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">"Durant mes 9 mois de grossesse, j'ai été suivie ici avec une attention exceptionnelle. L'écoute, les conseils, la bienveillance... tout était parfait. Mon accouchement s'est passé dans les meilleures conditions."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition">
+                <div class="flex items-start gap-4">
+                    <img src="{% static 'images/avatar3.jpg' %}" alt="Client" class="w-16 h-16 rounded-full object-cover flex-shrink-0">
+                    <div class="flex-1">
+                        <h4 class="font-bold mb-1">Sophie M., 34 ans – Consultation générale</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">"J'ai été agréablement surprise par la qualité de l'accueil et l'écoute du médecin. Tout m'a été expliqué avec clarté, et je me suis sentie rassurée du début à la fin. Je recommande vivement cette clinique."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition">
+                <div class="flex items-start gap-4">
+                    <img src="{% static 'images/avatar4.jpg' %}" alt="Client" class="w-16 h-16 rounded-full object-cover flex-shrink-0">
+                    <div class="flex-1">
+                        <h4 class="font-bold mb-1">Stéphane D., 7 ans (témoignage de sa maman)</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">"Mon fils avait peur des médecins, mais ici tout a été fait pour le rassurer. Les infirmiers ont été doux et patients. Il est même reparti avec un sourire et un petit autocollant !"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="#" class="inline-flex items-center gap-3 bg-base text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+                {% trans "Voir tout les témoignages" %}
+                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"></svg>
+                    <path d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+            </a>
         </div>
     </div>
 </section>
