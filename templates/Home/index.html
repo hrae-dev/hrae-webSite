@@ -4,25 +4,21 @@
 {% block content %}
 <style>
    .hero-fog-overlay {
-    position: absolute;
-    top: 0;
-    left: -80%;
-    width: 180%;
-    height: 100%;
-    
-    /* This is your design's gradient, translated:
-      - '270deg' (to left) solid at 50.78%  -> 'to right' solid at 49.22%
-      - '270deg' (to left) transparent at 37.52% -> 'to right' transparent at 62.48%
-      - We use rgba(243, 244, 246, ...) to match your page's 'bg-gray-100'.
-    */
-    background: linear-gradient(to right, 
-        rgba(243, 244, 246, 1) 49.22%, 
-        rgba(243, 244, 246, 0) 62.48%
-    );
-    
-    pointer-events: none;
-    z-index: 1;
-}
+        position: absolute;
+        top: 0;
+        left: -80%;
+        width: 180%;
+        height: 100%;
+        
+        
+        background: linear-gradient(to right, 
+            rgba(243, 244, 246, 1) 49.22%, 
+            rgba(243, 244, 246, 0) 62.48%
+        );
+        
+        pointer-events: none;
+        z-index: 1;
+    }
     
     .carousel-img {
         transition: opacity 1.5s ease-in-out;
@@ -317,8 +313,8 @@
         <div class="text-center mt-12">
             <a href="{% url 'news' %}" class="inline-flex items-center gap-3 bg-base text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition">
                 {% trans "Voir toutes les actualités" %}
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                 <svg class="w-5 h-5 md:w-6 md:h-6 text-white transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(-45deg);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
             </a>
         </div>
@@ -376,8 +372,8 @@
         <div class="text-center mt-12">
             <a href="#" class="inline-flex items-center gap-3 bg-base text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition">
                 {% trans "Voir tout les témoignages" %}
-                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"></svg>
-                    <path d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                <svg class="w-5 h-5 md:w-6 md:h-6 text-white transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(-45deg);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
             </a>
         </div>
