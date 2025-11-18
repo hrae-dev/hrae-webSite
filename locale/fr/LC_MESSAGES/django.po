@@ -1,27 +1,139 @@
-# FRENCH TRANSLATION FILE FOR HRAE
-# Copyright (C) 2025
-# This file is distributed under the same license as the HRAE project.
-#
+# HRAE Hospital Website Translations
+# French translations for hospital website
 msgid ""
 msgstr ""
-"Project-Id-Version: HRAE 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-14 12:00+0000\n"
-"PO-Revision-Date: 2025-01-14 12:00+0000\n"
-"Last-Translator: \n"
-"Language-Team: French\n"
-"Language: fr\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr\n"
 
-msgid "Hôpital Régional Annexe d'Edea"
-msgstr "Hôpital Régional Annexe d'Edea"
+# Hero Section
+msgid "Bienvenue à"
+msgstr "Bienvenue à"
 
-msgid "Hôpital Régional Annexe d'Edea - Votre santé, notre priorité"
-msgstr "Hôpital Régional Annexe d'Edea - Votre santé, notre priorité"
+msgid "Bienvenue à l'Hôpital Régional Annexe d'Edea"
+msgstr "Bienvenue à l'Hôpital Régional Annexe d'Edea"
 
+msgid "L'Hôpital Régional Annexe d'Édéa a pour vocation d'offrir à la population de la Sanaga Maritime au Cameroun et des localités environnantes, des soins de santé de qualité accessibles à tous. Grâce à une équipe médicale dévouée, des équipements de pointe et un environnement de confiance, notre hôpital se veut dédié à votre bien-être et à votre rétablissement."
+msgstr "L'Hôpital Régional Annexe d'Édéa a pour vocation d'offrir à la population de la Sanaga Maritime au Cameroun et des localités environnantes, des soins de santé de qualité accessibles à tous. Grâce à une équipe médicale dévouée, des équipements de pointe et un environnement de confiance, notre hôpital se veut dédié à votre bien-être et à votre rétablissement."
+
+msgid "Notre mission :"
+msgstr "Notre mission :"
+
+msgid "Promouvoir la prévention, le diagnostic, le traitement et la réadaptation, afin d'assurer une prise en charge complète et continue. Fournir des soins de santé de qualité, personnalisés et centrés sur le patient, à notre communauté. Nous sommes là pour prendre soin de vous."
+msgstr "Promouvoir la prévention, le diagnostic, le traitement et la réadaptation, afin d'assurer une prise en charge complète et continue. Fournir des soins de santé de qualité, personnalisés et centrés sur le patient, à notre communauté. Nous sommes là pour prendre soin de vous."
+
+msgid "N'hésitez pas à parcourir notre site pour trouver l'information dont vous avez besoin."
+msgstr "N'hésitez pas à parcourir notre site pour trouver l'information dont vous avez besoin."
+
+msgid "Nos valeurs"
+msgstr "Nos valeurs"
+
+msgid "Un engagement fort pour un système de santé durable, performant et accessible, en phase avec les priorités sanitaires du Cameroun. Humanité, Professionnalisme, Esprit d'équipe, Intégrité, Innovation, Engagement communautaire."
+msgstr "Un engagement fort pour un système de santé durable, performant et accessible, en phase avec les priorités sanitaires du Cameroun. Humanité, Professionnalisme, Esprit d'équipe, Intégrité, Innovation, Engagement communautaire."
+
+msgid "Notre devise : HUMANISATION ET QUALITE DES SOINS"
+msgstr "Notre devise : HUMANISATION ET QUALITE DES SOINS"
+
+msgid "Notre vision :"
+msgstr "Notre vision :"
+
+msgid "Devenir un centre hospitalier de référence, tant au niveau régional que national, reconnu pour son excellence et son impact positif sur la santé des populations. Ceci grâce à :"
+msgstr "Devenir un centre hospitalier de référence, tant au niveau régional que national, reconnu pour son excellence et son impact positif sur la santé des populations. Ceci grâce à :"
+
+msgid "La qualité irréprochable de nos services médicaux et chirurgicaux, axés sur la sécurité et le bien-être du patient."
+msgstr "La qualité irréprochable de nos services médicaux et chirurgicaux, axés sur la sécurité et le bien-être du patient."
+
+msgid "Un accueil humain, professionnel et respectueux, qui place la dignité du patient au cœur de chaque intervention."
+msgstr "Un accueil humain, professionnel et respectueux, qui place la dignité du patient au cœur de chaque intervention."
+
+msgid "L'utilisation responsable et innovante des technologies médicales modernes, pour améliorer la précision des diagnostics et l'efficacité des traitements."
+msgstr "L'utilisation responsable et innovante des technologies médicales modernes, pour améliorer la précision des diagnostics et l'efficacité des traitements."
+
+msgid "Un engagement fort pour un système de santé durable, performant et accessible, en phase avec les priorités sanitaires du Cameroun."
+msgstr "Un engagement fort pour un système de santé durable, performant et accessible, en phase avec les priorités sanitaires du Cameroun."
+
+msgid "Meilleur Hôpital Régional du Cameroun 2025"
+msgstr "Meilleur Hôpital Régional du Cameroun 2025"
+
+msgid "Prix d'Excellence managériale 2025"
+msgstr "Prix d'Excellence managériale 2025"
+
+msgid "Ce site est une extension de notre engagement envers vous, votre guide essentiel pour accéder à nos services et trouver des informations nécessaires concernant votre santé."
+msgstr "Ce site est une extension de notre engagement envers vous, votre guide essentiel pour accéder à nos services et trouver des informations nécessaires concernant votre santé."
+
+msgid "Découvrez nos différentes spécialités, nos équipes médicales et les équipements à votre disposition. Prenez rendez-vous en ligne, accédez aux informations pratiques."
+msgstr "Découvrez nos différentes spécialités, nos équipes médicales et les équipements à votre disposition. Prenez rendez-vous en ligne, accédez aux informations pratiques."
+
+msgid "Prendre rendez-vous"
+msgstr "Prendre rendez-vous"
+
+# Chiffres clés
+msgid "Chiffres clés"
+msgstr "Chiffres clés"
+
+msgid "Patients"
+msgstr "Patients"
+
+msgid "Années d'expérience"
+msgstr "Années d'expérience"
+
+msgid "Spécialités"
+msgstr "Spécialités"
+
+msgid "Lits"
+msgstr "Lits"
+
+msgid "Personnel"
+msgstr "Personnel"
+
+# Services
+msgid "Des soins complets pour"
+msgstr "Des soins complets pour"
+
+msgid "toutes la famille"
+msgstr "toutes la famille"
+
+msgid "Médecine Générale"
+msgstr "Médecine Générale"
+
+msgid "Pédiatrie"
+msgstr "Pédiatrie"
+
+msgid "Gynécologie/ Maternité"
+msgstr "Gynécologie/ Maternité"
+
+msgid "Chirurgie"
+msgstr "Chirurgie"
+
+msgid "Imagerie médicale"
+msgstr "Imagerie médicale"
+
+msgid "Urgences"
+msgstr "Urgences"
+
+msgid "En savoir plus"
+msgstr "En savoir plus"
+
+# News Section
+msgid "Actualité et campagne de santé"
+msgstr "Actualité et campagne de santé"
+
+msgid "Lorem ipsum dolor sit"
+msgstr "Lorem ipsum dolor sit"
+
+msgid "amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+msgstr "amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+msgid "Voir toutes les actualités"
+msgstr "Voir toutes les actualités"
+
+# Testimonials
+msgid "Témoignages Clients"
+msgstr "Témoignages Clients"
+
+msgid "Voir tout les témoignages"
+msgstr "Voir tout les témoignages"
+
+# Navigation (from base.html)
 msgid "Accueil"
 msgstr "Accueil"
 
@@ -43,23 +155,24 @@ msgstr "Infos pratiques"
 msgid "Contacts"
 msgstr "Contacts"
 
+# Footer
 msgid "Votre santé, notre priorité"
 msgstr "Votre santé, notre priorité"
 
 msgid "Navigation"
 msgstr "Navigation"
 
-msgid "Services"
-msgstr "Services"
-
 msgid "Contact"
 msgstr "Contact"
 
-msgid "Urgences"
-msgstr "Urgences"
-
 msgid "Horaires"
 msgstr "Horaires"
+
+msgid "Services"
+msgstr "Services"
+
+msgid "Équipe"
+msgstr "Équipe"
 
 msgid "Lun - Ven"
 msgstr "Lun - Ven"
@@ -67,174 +180,5 @@ msgstr "Lun - Ven"
 msgid "Samedi"
 msgstr "Samedi"
 
-msgid "Tous droits réservés"
-msgstr "Tous droits réservés"
-
-msgid "Bienvenue à"
-msgstr "Bienvenue à"
-
-msgid "L'Hopital"
-msgstr "L'Hopital"
-
-msgid "Régional d'Édéa"
-msgstr "Régional d'Édéa"
-
-msgid "Prendre rendez-vous"
-msgstr "Prendre rendez-vous"
-
-msgid "Urgences 24/7"
-msgstr "Urgences 24/7"
-
-msgid "Recherche"
-msgstr "Recherche"
-
-msgid "Plan d'accès"
-msgstr "Plan d'accès"
-
-msgid "Bienvenue à l'HRAE"
-msgstr "Bienvenue à l'HRAE"
-
-msgid "Établissement de référence en santé publique, l'Hôpital Régional Annexe d'Edea offre des soins de qualité dans un environnement moderne et humain. Notre mission est d'assurer votre bien-être avec professionnalisme et compassion."
-msgstr "Établissement de référence en santé publique, l'Hôpital Régional Annexe d'Edea offre des soins de qualité dans un environnement moderne et humain. Notre mission est d'assurer votre bien-être avec professionnalisme et compassion."
-
-msgid "Nos chiffres clés"
-msgstr "Nos chiffres clés"
-
-msgid "Patients par an"
-msgstr "Patients par an"
-
-msgid "Lits disponibles"
-msgstr "Lits disponibles"
-
-msgid "Spécialités"
-msgstr "Spécialités"
-
-msgid "Personnel médical"
-msgstr "Personnel médical"
-
-msgid "Nos services principaux"
-msgstr "Nos services principaux"
-
-msgid "Consultations"
-msgstr "Consultations"
-
-msgid "Consultations médicales générales et spécialisées avec nos médecins experts."
-msgstr "Consultations médicales générales et spécialisées avec nos médecins experts."
-
-msgid "Service d'urgences disponible 24h/24 et 7j/7 pour vos besoins médicaux urgents."
-msgstr "Service d'urgences disponible 24h/24 et 7j/7 pour vos besoins médicaux urgents."
-
-msgid "Laboratoire"
-msgstr "Laboratoire"
-
-msgid "Analyses médicales complètes avec équipements de pointe et résultats rapides."
-msgstr "Analyses médicales complètes avec équipements de pointe et résultats rapides."
-
-msgid "Voir tous nos services"
-msgstr "Voir tous nos services"
-
-msgid "Dernières actualités"
-msgstr "Dernières actualités"
-
-msgid "Lire la suite"
-msgstr "Lire la suite"
-
-msgid "Aucune actualité disponible"
-msgstr "Aucune actualité disponible"
-
-msgid "Toutes les actualités"
-msgstr "Toutes les actualités"
-
-msgid "Besoin d'une consultation ?"
-msgstr "Besoin d'une consultation ?"
-
-msgid "Prenez rendez-vous en ligne et profitez de nos services médicaux de qualité."
-msgstr "Prenez rendez-vous en ligne et profitez de nos services médicaux de qualité."
-
-msgid "Prendre rendez-vous maintenant"
-msgstr "Prendre rendez-vous maintenant"
-
-msgid "Témoignages de nos patients"
-msgstr "Témoignages de nos patients"
-
-msgid "Nos partenaires"
-msgstr "Nos partenaires"
-
-msgid "Voir tous nos partenaires"
-msgstr "Voir tous nos partenaires"
-
-msgid "À propos"
-msgstr "À propos"
-
-msgid "À propos de l'HRAE"
-msgstr "À propos de l'HRAE"
-
-msgid "Notre histoire, notre mission"
-msgstr "Notre histoire, notre mission"
-
-msgid "Notre Mission"
-msgstr "Notre Mission"
-
-msgid "L'Hôpital Régional Annexe d'Edea a pour mission de fournir des soins de santé de qualité, accessibles à tous, dans un environnement sûr et respectueux de la dignité humaine."
-msgstr "L'Hôpital Régional Annexe d'Edea a pour mission de fournir des soins de santé de qualité, accessibles à tous, dans un environnement sûr et respectueux de la dignité humaine."
-
-msgid "Nous nous engageons à servir notre communauté avec professionnalisme, compassion et excellence."
-msgstr "Nous nous engageons à servir notre communauté avec professionnalisme, compassion et excellence."
-
-msgid "Notre Vision"
-msgstr "Notre Vision"
-
-msgid "Devenir un établissement de référence en matière de soins de santé dans la région, reconnu pour son expertise médicale et son engagement envers l'innovation."
-msgstr "Devenir un établissement de référence en matière de soins de santé dans la région, reconnu pour son expertise médicale et son engagement envers l'innovation."
-
-msgid "Chiffres & Statistiques"
-msgstr "Chiffres & Statistiques"
-
-msgid "Patients traités/an"
-msgstr "Patients traités/an"
-
-msgid "Taux de réussite"
-msgstr "Taux de réussite"
-
-msgid "Nos Valeurs"
-msgstr "Nos Valeurs"
-
-msgid "Compassion"
-msgstr "Compassion"
-
-msgid "Empathie envers nos patients"
-msgstr "Empathie envers nos patients"
-
-msgid "Excellence"
-msgstr "Excellence"
-
-msgid "Qualité des soins"
-msgstr "Qualité des soins"
-
-msgid "Innovation"
-msgstr "Innovation"
-
-msgid "Technologies modernes"
-msgstr "Technologies modernes"
-
-msgid "Respect"
-msgstr "Respect"
-
-msgid "Dignité humaine"
-msgstr "Dignité humaine"
-
-msgid "Notre Histoire"
-msgstr "Notre Histoire"
-
-msgid "Fondé en 1985, l'Hôpital Régional Annexe d'Edea a évolué pour devenir un établissement de soins complet, offrant une gamme complète de services médicaux."
-msgstr "Fondé en 1985, l'Hôpital Régional Annexe d'Edea a évolué pour devenir un établissement de soins complet, offrant une gamme complète de services médicaux."
-
-msgid "Certifications"
-msgstr "Certifications"
-
-msgid "Notre établissement respecte les standards nationaux et internationaux de qualité en matière de soins de santé."
-msgstr "Notre établissement respecte les standards nationaux et internationaux de qualité en matière de soins de santé."
-
-msgid "Équipe de Direction"
-msgstr "Équipe de Direction"
-
+msgid "Infos"
+msgstr "Infos"
