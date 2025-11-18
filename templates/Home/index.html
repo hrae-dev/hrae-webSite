@@ -3,16 +3,26 @@
 
 {% block content %}
 <style>
-    .hero-gradient-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 40%;
-        height: 100%;
-        background: linear-gradient(to right, rgba(243, 244, 246, 1) 0%, rgba(243, 244, 246, 0.8) 50%, rgba(243, 244, 246, 0) 100%);
-        pointer-events: none;
-        z-index: 1;
-    }
+   .hero-fog-overlay {
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 180%;
+    height: 100%;
+    
+    /* This is your design's gradient, translated:
+      - '270deg' (to left) solid at 50.78%  -> 'to right' solid at 49.22%
+      - '270deg' (to left) transparent at 37.52% -> 'to right' transparent at 62.48%
+      - We use rgba(243, 244, 246, ...) to match your page's 'bg-gray-100'.
+    */
+    background: linear-gradient(to right, 
+        rgba(243, 244, 246, 1) 49.22%, 
+        rgba(243, 244, 246, 0) 62.48%
+    );
+    
+    pointer-events: none;
+    z-index: 1;
+}
     
     .carousel-img {
         transition: opacity 1.5s ease-in-out;
@@ -59,7 +69,7 @@
     <div class="container mx-auto px-4 max-w-7xl">
         <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
-            <div class="space-y-6 will-animate animate-fade-in-up">
+            <div class="space-y-6 will-animate animate-fade-in-up relative z-10">
                 <h1>
                     <span class="block text-gray-800 text-2xl md:text-3xl font-normal mb-2">{% trans "Bienvenue à" %}</span>
                     <span class="block text-primary-60 text-4xl md:text-5xl lg:text-6xl font-black leading-tight">{% trans "L'Hopital Régional" %}</span>
@@ -81,16 +91,19 @@
             </div>
             
             <div class="will-animate animate-fade-in-right relative">
-                <div class="relative overflow-hidden shadow-2xl" style="border-radius: 0 50px 50px 0;">
+
+                <div class="hero-fog-overlay"></div>
+
+                <div class="relative overflow-hidden shadow-2xl z-5" style="border-radius: 0 50px 50px 0;">
                     <img id="img-0" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img">
-                    <img id="img-1" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
-                    <img id="img-2" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
+                    <img id="img-1" src="{% static 'images/hero_hospital_1.jpg' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
+                    <img id="img-2" src="{% static 'images/hero_hospital_2.jpg' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
                     <img id="img-3" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
                     <img id="img-4" src="{% static 'images/hero_hospital.png' %}" alt="Hospital" class="w-full h-auto carousel-img hidden">
-                    <div class="hero-gradient-overlay"></div>
-                </div>
+                    
+                    </div>
                 
-                <div class="mt-6 space-y-3">
+                <div class="mt-6 space-y-3 relative z-20">
                     <div class="flex justify-center gap-2">
                         <button onclick="goToSlide(0)" class="dot transition-all duration-500 rounded-full bg-base" style="width: 32px; height: 12px;"></button>
                         <button onclick="goToSlide(1)" class="dot transition-all duration-500 rounded-full bg-gray-300" style="width: 12px; height: 12px;"></button>
@@ -98,13 +111,12 @@
                         <button onclick="goToSlide(3)" class="dot transition-all duration-500 rounded-full bg-gray-300" style="width: 12px; height: 12px;"></button>
                         <button onclick="goToSlide(4)" class="dot transition-all duration-500 rounded-full bg-gray-300" style="width: 12px; height: 12px;"></button>
                     </div>
-                    
                 </div>
             </div>
+
         </div>
     </div>
 </section>
-
 <!-- Chiffres clés -->
 <section class="relative py-16 bg-cover bg-center" style="background-image: url('{% static 'images/hero_hospital_2.jpg' %}');">
     <div class="absolute inset-0 bg-gray-900/60"></div>
