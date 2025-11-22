@@ -19,6 +19,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 # Application definition
 INSTALLED_APPS = [
+    'jazzmin',  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,7 +49,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # tu pourras y mettre tes templates
+        'DIRS': [BASE_DIR / 'templates'],  
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -56,6 +57,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'Home.context_processors.site_settings',  
+
             ],
         },
     },
@@ -117,3 +120,105 @@ INTERNAL_IPS = [
     'localhost',
     '72.61.101.174'
 ]
+
+JAZZMIN_SETTINGS = {
+    # Titre et branding
+    "site_title": "HRAE Admin",
+    "site_header": "HRAE",
+    "site_brand": "HRAE Admin",
+    "site_logo": "",  # dans static/
+    "login_logo": "",
+    "site_icon": "i",
+    "welcome_sign": "Bienvenue sur le panneau d'administration",
+    "copyright": "HRAE © 2025",
+
+    # Utilisateur
+    "user_avatar": None,
+
+    # Menu latéral
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    
+    # Organisation du menu
+    "order_with_respect_to": [
+        "Home",
+        "auth",
+    ],
+
+    # Icônes des modèles (Font Awesome)
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "Home.SiteSettings": "fas fa-cog",
+        "Home.Page": "fas fa-file-alt",
+        "Home.Service": "fas fa-hospital",
+        "Home.Staff": "fas fa-user-md",
+        "Home.Article": "fas fa-newspaper",
+        "Home.Category": "fas fa-tags",
+        "Home.Campaign": "fas fa-bullhorn",
+        "Home.CampaignRegistration": "fas fa-clipboard-list",
+        "Home.Partner": "fas fa-handshake",
+        "Home.Appointment": "fas fa-calendar-check",
+        "Home.ContactMessage": "fas fa-envelope",
+        "Home.Testimonial": "fas fa-comment-dots",
+        "Home.DirectionMember": "fas fa-user-tie",
+    },
+    "default_icon_parents": "fas fa-folder",
+    "default_icon_children": "fas fa-circle",
+
+    # Menu personnalisé (optionnel)
+    "custom_links": {
+        "Home": [{
+            "name": "Voir le site",
+            "url": "/",
+            "icon": "fas fa-globe",
+            "new_window": True,
+        }]
+    },
+
+    # Interface
+    "related_modal_active": True,
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+
+    # Boutons en haut
+    "topmenu_links": [
+        {"name": "Accueil", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Voir le site", "url": "/", "new_window": True},
+    ],
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-success",
+    "accent": "accent-primary",
+    "navbar": "navbar-dark navbar-primary",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}

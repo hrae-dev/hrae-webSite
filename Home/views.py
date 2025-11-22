@@ -153,7 +153,7 @@ def health_campaigns(request):
     settings = SiteSettings.get_settings()
     today = timezone.now().date()
     
-    # Calculer automatiquement le statut basé sur les dates
+    # Calculer automatiquement le statut basé sur les datesn
     campaigns_ongoing = Campaign.objects.filter(
         start_date__lte=today,
         end_date__gte=today
