@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import (
-    ArticleImage, SiteSettings, Page, Service, Staff, Category, Article,
-    Campaign, Partner, Appointment, ContactMessage, Testimonial, DirectionMember
+    SiteSettings, Page, Service, Staff, Category, Article, ArticleImage,
+    Campaign, CampaignImage, CampaignRegistration, Partner, Appointment, 
+    ContactMessage, Testimonial, DirectionMember
 )
 
 
@@ -26,16 +27,14 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             'fields': ('patients_per_year', 'beds_count', 'specialties_count', 'staff_count', 'success_rate')
         }),
         ('À propos', {
-            'fields': ('organization_chart',)
+            'fields': ('organization_chart', 'certifications')
         }),
     )
     
     def has_add_permission(self, request):
-        # Ne permettre qu'une seule instance
         return not SiteSettings.objects.exists()
     
     def has_delete_permission(self, request, obj=None):
-        # Empêcher la suppression
         return False
 
 
@@ -137,7 +136,7 @@ class StaffAdmin(admin.ModelAdmin):
 
 
 # ========================================
-# ACTUALITÉS
+# CATÉGORIES
 # ========================================
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -148,10 +147,19 @@ class CategoryAdmin(admin.ModelAdmin):
         return obj.article_set.count()
     article_count.short_description = 'Articles'
 
+
+# ========================================
+# IMAGES D'ARTICLES (Inline)
+# ========================================
 class ArticleImageInline(admin.TabularInline):
     model = ArticleImage
     extra = 1
     fields = ('image', 'caption', 'display_order')
+
+
+# ========================================
+# ACTUALITÉS
+# ========================================
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'author', 'status', 'published_at', 'views_count')
@@ -160,9 +168,10 @@ class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'published_at'
     list_editable = ('status',)
+    inlines = [ArticleImageInline]
     
     fieldsets = (
-        ('Contenu', {
+        ('Contenu principal', {
             'fields': ('title', 'slug', 'excerpt', 'content', 'featured_image')
         }),
         ('Classification', {
@@ -185,19 +194,43 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 # ========================================
+# IMAGES DE CAMPAGNES (Inline)
+# ========================================
+class CampaignImageInline(admin.TabularInline):
+    model = CampaignImage
+    extra = 1
+    fields = ('image', 'caption', 'display_order')
+
+
+# ========================================
+# INSCRIPTIONS AUX CAMPAGNES (Inline)
+# ========================================
+class CampaignRegistrationInline(admin.TabularInline):
+    model = CampaignRegistration
+    extra = 0
+    readonly_fields = ('full_name', 'email', 'phone', 'age', 'reason', 'registered_at')
+    can_delete = False
+    
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+# ========================================
 # CAMPAGNES DE SANTÉ
 # ========================================
 @admin.register(Campaign)
 class CampaignAdmin(admin.ModelAdmin):
-    list_display = ('title', 'start_date', 'end_date', 'location', 'status', 'registration_enabled')
-    list_filter = ('status', 'start_date')
+    list_display = ('title', 'start_date', 'end_date', 'location', 'status', 
+                   'registration_enabled', 'registrations_count')
+    list_filter = ('status', 'start_date', 'registration_enabled')
     search_fields = ('title', 'location')
     prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'start_date'
     list_editable = ('status', 'registration_enabled')
+    inlines = [CampaignImageInline, CampaignRegistrationInline]
     
     fieldsets = (
-        ('Informations de base', {
+        ('Contenu principal', {
             'fields': ('title', 'slug', 'banner_image', 'short_description')
         }),
         ('Description complète', {
@@ -218,6 +251,10 @@ class CampaignAdmin(admin.ModelAdmin):
             'fields': ('registration_enabled', 'status')
         }),
     )
+    
+    def registrations_count(self, obj):
+        return obj.registrations.count()
+    registrations_count.short_description = 'Inscriptions'
 
 
 # ========================================
@@ -282,17 +319,17 @@ class AppointmentAdmin(admin.ModelAdmin):
     
     actions = ['mark_as_confirmed', 'mark_as_completed', 'mark_as_cancelled']
     
+    @admin.action(description="Marquer comme Confirmé")
     def mark_as_confirmed(self, request, queryset):
         queryset.update(status='confirmed')
-    mark_as_confirmed.short_description = "Marquer comme Confirmé"
     
+    @admin.action(description="Marquer comme Honoré")
     def mark_as_completed(self, request, queryset):
         queryset.update(status='completed')
-    mark_as_completed.short_description = "Marquer comme Honoré"
     
+    @admin.action(description="Marquer comme Annulé")
     def mark_as_cancelled(self, request, queryset):
         queryset.update(status='cancelled')
-    mark_as_cancelled.short_description = "Marquer comme Annulé"
 
 
 # ========================================
@@ -321,13 +358,13 @@ class ContactMessageAdmin(admin.ModelAdmin):
     
     actions = ['mark_as_read', 'mark_as_replied']
     
+    @admin.action(description="Marquer comme Lu")
     def mark_as_read(self, request, queryset):
         queryset.update(status='read')
-    mark_as_read.short_description = "Marquer comme Lu"
     
+    @admin.action(description="Marquer comme Répondu")
     def mark_as_replied(self, request, queryset):
         queryset.update(status='replied')
-    mark_as_replied.short_description = "Marquer comme Répondu"
 
 
 # ========================================
@@ -385,6 +422,18 @@ class DirectionMemberAdmin(admin.ModelAdmin):
                              obj.photo.url)
         return '-'
     photo_thumbnail.short_description = 'Photo'
+
+
+# ========================================
+# INSCRIPTIONS AUX CAMPAGNES (Vue séparée)
+# ========================================
+@admin.register(CampaignRegistration)
+class CampaignRegistrationAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'campaign', 'email', 'phone', 'registered_at')
+    list_filter = ('campaign', 'registered_at')
+    search_fields = ('full_name', 'email', 'phone')
+    readonly_fields = ('registered_at',)
+    date_hierarchy = 'registered_at'
 
 
 # Personnalisation de l'admin

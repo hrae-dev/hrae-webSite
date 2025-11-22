@@ -339,49 +339,43 @@
 
 
 <!-- Actualités et campagnes -->
+<!-- Actualités et campagnes -->
 <section class="relative py-16 bg-cover bg-center" style="background-image: url('{% static 'images/hero_hospital_2.jpg' %}');">
     <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-green-900/90"></div>
     <div class="container mx-auto px-4 relative z-10">
         <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">{% trans "Actualité et campagne de santé" %}</h2>
         
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {% for article in articles|slice:":3" %}
+            {% for item in publications %}
             <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                {% if article.featured_image %}
-                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-56 object-cover">
+                {% if item.featured_image %}
+                <img src="{{ item.featured_image.url }}" alt="{{ item.title }}" class="w-full h-56 object-cover">
+                {% elif item.banner_image %}
+                <img src="{{ item.banner_image.url }}" alt="{{ item.title }}" class="w-full h-56 object-cover">
                 {% else %}
                 <div class="w-full h-56 bg-gray-200"></div>
                 {% endif %}
                 <div class="p-6">
-                    <h3 class="font-bold text-xl mb-3">{% trans "Lorem ipsum dolor sit" %}</h3>
-                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ article.excerpt|default:"amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"|truncatewords:20 }}</p>
-                    <a href="{% url 'news_detail' article.id %}" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition">{% trans "En savoir plus" %}</a>
+                    <h3 class="font-bold text-xl mb-3">{{ item.title }}</h3>
+                    {% if item.excerpt %}
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.excerpt|truncatewords:20 }}</p>
+                    {% elif item.short_description %}
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.short_description|truncatewords:20 }}</p>
+                    {% elif item.content %}
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.content|truncatewords:20 }}</p>
+                    {% elif item.full_description %}
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.full_description|truncatewords:20 }}</p>
+                    {% endif %}
+                    {% if item.featured_image %}
+                    <a href="{% url 'news_detail' item.id %}" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition">{% trans "En savoir plus" %}</a>
+                    {% else %}
+                    <a href="{% url 'campaign_detail' item.id %}" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition">{% trans "En savoir plus" %}</a>
+                    {% endif %}
                 </div>
             </div>
             {% empty %}
-            <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
-                <div class="w-full h-56 bg-gray-200"></div>
-                <div class="p-6">
-                    <h3 class="font-bold text-xl mb-3">{% trans "Lorem ipsum dolor sit" %}</h3>
-                    <p class="text-gray-600 text-sm mb-4">{% trans "amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." %}</p>
-                    <a href="#" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold">{% trans "En savoir plus" %}</a>
-                </div>
-            </div>
-            <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
-                <div class="w-full h-56 bg-gray-200"></div>
-                <div class="p-6">
-                    <h3 class="font-bold text-xl mb-3">{% trans "Lorem ipsum dolor sit" %}</h3>
-                    <p class="text-gray-600 text-sm mb-4">{% trans "amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." %}</p>
-                    <a href="#" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold">{% trans "En savoir plus" %}</a>
-                </div>
-            </div>
-            <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
-                <div class="w-full h-56 bg-gray-200"></div>
-                <div class="p-6">
-                    <h3 class="font-bold text-xl mb-3">{% trans "Lorem ipsum dolor sit" %}</h3>
-                    <p class="text-gray-600 text-sm mb-4">{% trans "amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." %}</p>
-                    <a href="#" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold">{% trans "En savoir plus" %}</a>
-                </div>
+            <div class="col-span-3 text-center py-12">
+                <p class="text-white text-lg">{% trans "Aucune actualité disponible pour le moment." %}</p>
             </div>
             {% endfor %}
         </div>
@@ -389,7 +383,7 @@
         <div class="text-center mt-12">
             <a href="{% url 'news' %}" class="inline-flex items-center gap-3 bg-base text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition">
                 {% trans "Voir toutes les actualités" %}
-                 <svg class="w-5 h-5 md:w-6 md:h-6 text-white transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(-45deg);">
+                <svg class="w-5 h-5 md:w-6 md:h-6 text-white transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(-45deg);">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
             </a>
