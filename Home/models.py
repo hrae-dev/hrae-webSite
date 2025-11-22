@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
 
+
 # ========================================
 # PARAMÈTRES GÉNÉRAUX DU SITE
 # ========================================
@@ -40,7 +41,6 @@ class SiteSettings(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    
     class Meta:
         verbose_name = "Paramètres du site"
         verbose_name_plural = "Paramètres du site"
@@ -49,7 +49,6 @@ class SiteSettings(models.Model):
         return self.site_name
     
     def save(self, *args, **kwargs):
-        # Assurer qu'il n'y a qu'une seule instance
         self.pk = 1
         super().save(*args, **kwargs)
     
@@ -184,12 +183,12 @@ class Staff(models.Model):
 
 
 # ========================================
-# ACTUALITÉS
+# CATÉGORIES D'ARTICLES
 # ========================================
 class Category(models.Model):
-    """Catégories d'actualités"""
+    """Catégories pour les actualités"""
     name = models.CharField("Nom", max_length=100)
-    slug = models.SlugField("URL", unique=True, blank=True)
+    slug = models.SlugField("URL", unique=True)
     
     class Meta:
         verbose_name = "Catégorie"
@@ -197,15 +196,13 @@ class Category(models.Model):
     
     def __str__(self):
         return self.name
-    
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
 
 
+# ========================================
+# ACTUALITÉS (ARTICLES)
+# ========================================
 class Article(models.Model):
-    """Articles d'actualités"""
+    """Articles d'actualité"""
     STATUS_CHOICES = [
         ('draft', 'Brouillon'),
         ('published', 'Publié'),
@@ -214,21 +211,18 @@ class Article(models.Model):
     
     title = models.CharField("Titre", max_length=255)
     slug = models.SlugField("URL", unique=True, blank=True)
-    excerpt = models.CharField("Extrait", max_length=255,
-                              help_text="Résumé en 150 caractères")
-    content = models.TextField("Contenu complet")
+    excerpt = models.TextField("Extrait", blank=True)
+    content = models.TextField("Contenu")
     featured_image = models.ImageField("Image principale", upload_to='articles/')
     
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, 
-                                 null=True, verbose_name="Catégorie")
+                                null=True, verbose_name="Catégorie")
     author = models.ForeignKey('auth.User', on_delete=models.SET_NULL,
                               null=True, verbose_name="Auteur")
     
     status = models.CharField("Statut", max_length=10, 
                              choices=STATUS_CHOICES, default='draft')
     published_at = models.DateTimeField("Date de publication", null=True, blank=True)
-    
-    # SEO
     meta_description = models.CharField("Description SEO", max_length=160, blank=True)
     
     views_count = models.IntegerField("Nombre de vues", default=0)
@@ -248,6 +242,10 @@ class Article(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+
+# ========================================
+# IMAGES DES ARTICLES (GALERIE)
+# ========================================
 class ArticleImage(models.Model):
     """Images de galerie pour articles"""
     article = models.ForeignKey(Article, on_delete=models.CASCADE, 
@@ -257,10 +255,14 @@ class ArticleImage(models.Model):
     display_order = models.IntegerField("Ordre", default=0)
     
     class Meta:
+        verbose_name = "Image d'article"
+        verbose_name_plural = "Images d'articles"
         ordering = ['display_order']
     
     def __str__(self):
         return f"{self.article.title} - Image {self.display_order}"
+
+
 # ========================================
 # CAMPAGNES DE SANTÉ
 # ========================================
@@ -287,7 +289,7 @@ class Campaign(models.Model):
                                help_text="Ex: 8h-16h")
     
     # Détails
-    services_offered = models.TextField("Services offerts",
+    services_offered = models.TextField("Services offerts", blank=True,
                                        help_text="Un par ligne. Ex: Dépistage gratuit, Vaccination")
     target_audience = models.CharField("Public cible", max_length=255, blank=True)
     objectives = models.TextField("Objectifs de la campagne", blank=True)
@@ -314,6 +316,30 @@ class Campaign(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+
+# ========================================
+# IMAGES DES CAMPAGNES
+# ========================================
+class CampaignImage(models.Model):
+    """Images de galerie pour campagnes"""
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE,
+                                related_name='gallery_images')
+    image = models.ImageField("Image", upload_to='campaigns/gallery/')
+    caption = models.CharField("Légende", max_length=255, blank=True)
+    display_order = models.IntegerField("Ordre", default=0)
+    
+    class Meta:
+        verbose_name = "Image de campagne"
+        verbose_name_plural = "Images de campagnes"
+        ordering = ['display_order']
+    
+    def __str__(self):
+        return f"{self.campaign.title} - Image {self.display_order}"
+
+
+# ========================================
+# INSCRIPTIONS AUX CAMPAGNES
+# ========================================
 class CampaignRegistration(models.Model):
     """Inscriptions aux campagnes"""
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE,
@@ -326,10 +352,14 @@ class CampaignRegistration(models.Model):
     registered_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
+        verbose_name = "Inscription à une campagne"
+        verbose_name_plural = "Inscriptions aux campagnes"
         ordering = ['-registered_at']
     
     def __str__(self):
         return f"{self.full_name} - {self.campaign.title}"
+
+
 # ========================================
 # PARTENAIRES
 # ========================================
@@ -384,7 +414,7 @@ class Appointment(models.Model):
     
     # RDV
     service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name="Service")
-    staff = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True,
+    staff = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True, blank=True,
                              verbose_name="Médecin", related_name='appointments')
     appointment_date = models.DateTimeField("Date et heure du RDV")
     duration = models.IntegerField("Durée (minutes)", default=30)

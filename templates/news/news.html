@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Actualités et Campagnes - HRAE{% endblock %}
+
+{% block content %}
+<div class="bg-orange-600 text-white py-16 sm:py-20 md:py-24 mt-16 lg:mt-20">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">Actualités et Campagnes</h1>
+        <p class="mt-2 text-orange-100 text-base">Les dernières nouvelles et initiatives de l'hôpital</p>
+    </div>
+</div>
+
+<!-- Filtres -->
+<div class="bg-white border-b">
+    <div class="container mx-auto px-4 py-6">
+        <form method="get" class="flex flex-wrap gap-4">
+            <select name="type" class="px-4 py-2 border rounded">
+                <option value="" {% if not request.GET.type %}selected{% endif %}>Tout afficher</option>
+                <option value="article" {% if request.GET.type == 'article' %}selected{% endif %}>Actualités</option>
+                <option value="campaign" {% if request.GET.type == 'campaign' %}selected{% endif %}>Campagnes</option>
+            </select>
+            
+            <select name="category" class="px-4 py-2 border rounded">
+                <option value="">Toutes les catégories</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"i" %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            
+            <input type="text" name="search" placeholder="Rechercher..." 
+                   class="px-4 py-2 border rounded flex-1" value="{{ request.GET.search }}">
+            
+            <button type="submit" class="bg-orange-600 text-white px-6 py-2 rounded hover:bg-orange-700">
+                Rechercher
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Liste -->
+<div class="container mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-3 gap-6">
+        {% for item in publications %}
+        <div class="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+            {% if item.featured_image %}
+            <img src="{{ item.featured_image.url }}" alt="{{ item.title }}" class="w-full h-48 object-cover">
+            {% elif item.banner_image %}
+            <img src="{{ item.banner_image.url }}" alt="{{ item.title }}" class="w-full h-48 object-cover">
+            {% else %}
+            <div class="w-full h-48 bg-gray-200 flex items-center justify-center text-4xl">
+                {% if item.featured_image is not None %}📰{% else %}🏥{% endif %}
+            </div>
+            {% endif %}
+            <div class="p-6">
+                {% if item.category %}
+                <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">{{ item.category.name }}</span>
+                {% elif item.banner_image is not None %}
+                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Campagne</span>
+                {% endif %}
+                
+                <div class="text-sm text-gray-500 mt-2 mb-2">
+                    {% if item.published_at %}
+                    {{ item.published_at|date:"d M Y" }}
+                    {% elif item.start_date %}
+                    Du {{ item.start_date|date:"d/m/Y" }} au {{ item.end_date|date:"d/m/Y" }}
+                    {% endif %}
+                </div>
+                
+                <h3 class="font-bold text-lg mb-2">{{ item.title }}</h3>
+                
+                {% if item.excerpt %}
+                <p class="text-gray-600 mb-4">{{ item.excerpt|truncatewords:20 }}</p>
+                {% elif item.short_description %}
+                <p class="text-gray-600 mb-4">{{ item.short_description|truncatewords:20 }}</p>
+                {% endif %}
+                
+                {% if item.featured_image is not None %}
+                <a href="{% url 'news_detail' item.id %}" class="text-orange-600 hover:underline font-semibold">
+                    Lire la suite →
+                </a>
+                {% else %}
+                <a href="{% url 'campaign_detail' item.id %}" class="text-green-600 hover:underline font-semibold">
+                    Voir les détails →
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-3 text-center py-12 text-gray-500">
+            Aucune actualité ou campagne disponible
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if publications.has_other_pages %}
+    <div class="flex justify-center mt-8 gap-2">
+        {% if publications.has_previous %}
+        <a href="?page={{ publications.previous_page_number }}&type={{ request.GET.type }}&category={{ request.GET.category }}&search={{ request.GET.search }}" class="px-4 py-2 border rounded hover:bg-gray-100">Précédent</a>
+        {% endif %}
+        
+        <span class="px-4 py-2">Page {{ publications.number }} sur {{ publications.paginator.num_pages }}</span>
+        
+        {% if publications.has_next %}
+        <a href="?page={{ publications.next_page_number }}&type={{ request.GET.type }}&category={{ request.GET.category }}&search={{ request.GET.search }}" class="px-4 py-2 border rounded hover:bg-gray-100">Suivant</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

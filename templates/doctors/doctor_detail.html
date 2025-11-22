@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}{{ staff.get_grade_display }} {{ staff.full_name }} - HRAE{% endblock %}
+
+{% block content %}
+<div class="bg-purple-600 text-white py-16 sm:py-20 md:py-24 mt-16 lg:mt-20">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">{{ staff.get_grade_display }} {{ staff.full_name }}</h1>
+        <p class="mt-2 text-purple-100">{{ staff.speciality }}</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-3 gap-8">
+        <!-- Sidebar avec photo et infos rapides -->
+        <div>
+            <div class="bg-white p-6 rounded-lg shadow sticky top-4">
+                {% if staff.photo %}
+                <img src="{{ staff.photo.url }}" alt="{{ staff.full_name }}" 
+                     class="w-48 h-48 rounded-full mx-auto mb-6 object-cover border-4 border-purple-100">
+                {% else %}
+                <div class="w-48 h-48 rounded-full bg-gray-200 mx-auto mb-6 flex items-center justify-center text-6xl">
+                    👤
+                </div>
+                {% endif %}
+                
+                <h2 class="text-xl font-bold text-center mb-2">{{ staff.get_grade_display }} {{ staff.full_name }}</h2>
+                <p class="text-purple-600 text-center mb-4">{{ staff.speciality }}</p>
+                
+                <!-- Services -->
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700 mb-2">🏥 Services</p>
+                    <div class="flex flex-wrap gap-2">
+                        {% for service in staff.services.all %}
+                        <a href="{% url 'service_detail' service.id %}" 
+                           class="bg-purple-100 text-purple-700 text-xs px-3 py-1 rounded-full hover:bg-purple-200">
+                            {{ service.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Langues -->
+                {% if staff.languages %}
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700 mb-2">🌍 Langues</p>
+                    <p class="text-gray-600">{{ staff.languages }}</p>
+                </div>
+                {% endif %}
+                
+                <!-- Contact -->
+                {% if staff.email or staff.phone %}
+                <div class="mb-4 pt-4 border-t">
+                    <p class="font-semibold text-gray-700 mb-2">📞 Contact</p>
+                    {% if staff.email %}
+                    <p class="text-gray-600 text-sm">{{ staff.email }}</p>
+                    {% endif %}
+                    {% if staff.phone %}
+                    <p class="text-gray-600 text-sm">{{ staff.phone }}</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                <!-- Bouton RDV -->
+                {% if staff.accepts_appointments %}
+                <a href="{% url 'appointment_create' %}?staff={{ staff.id }}" 
+                   class="block w-full bg-purple-600 text-white text-center py-3 rounded-lg font-bold hover:bg-purple-700 mt-4">
+                    Prendre RDV
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Contenu principal -->
+        <div class="md:col-span-2 space-y-6">
+            <!-- Diplômes -->
+            {% if staff.diplomas %}
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-2xl font-bold mb-4">🎓 Diplômes et formations</h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                    {% for diploma in staff.diplomas.splitlines %}
+                    {% if diploma.strip %}
+                    <li>{{ diploma }}</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <!-- Parcours professionnel -->
+            {% if staff.experience %}
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-2xl font-bold mb-4">💼 Parcours professionnel</h3>
+                <div class="text-gray-600 leading-relaxed">
+                    {{ staff.experience|linebreaks }}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Domaines d'expertise -->
+            {% if staff.expertise %}
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-2xl font-bold mb-4">⭐ Domaines d'expertise</h3>
+                <div class="text-gray-600 leading-relaxed">
+                    {{ staff.expertise|linebreaks }}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Horaires de consultation -->
+            {% if staff.consultation_hours %}
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-2xl font-bold mb-4">🕐 Horaires de consultation</h3>
+                <div class="text-gray-600">
+                    {{ staff.consultation_hours|linebreaks }}
+                </div>
+                {% if staff.consultation_duration %}
+                <p class="text-sm text-gray-500 mt-4">
+                    Durée moyenne d'une consultation : {{ staff.consultation_duration }} minutes
+                </p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Bouton retour -->
+    <div class="mt-8">
+        <a href="{% url 'team' %}" class="inline-block bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300">
+            ← Retour à l'équipe
+        </a>
+    </div>
+</div>
+{% endblock %}
