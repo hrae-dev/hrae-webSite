@@ -78,223 +78,166 @@
             </span>{% trans "ampagnes de santé" %}
         </h2>
         
+        {% if campaigns %}
         <!-- First Row: Large Card + 2 Stacked Rectangular Cards -->
         <div class="grid lg:grid-cols-3 gap-6 mb-6">
             <!-- Large Featured Campaign Card -->
+            {% with campaigns.0 as campaign %}
             <div class="lg:col-span-1 relative rounded-3xl overflow-hidden shadow-lg group h-96">
-                <img src="{% static 'images/campaign1.jpg' %}" alt="Campaign" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                {% if campaign.banner_image %}
+                <img src="{{ campaign.banner_image.url }}" alt="{{ campaign.title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                {% else %}
+                <div class="w-full h-full bg-gray-300"></div>
+                {% endif %}
                 <div class="absolute inset-0 card-overlay-gradient"></div>
                 
-                <!-- Date Badge - Top -->
                 <div class="absolute top-6 left-6 flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg font-semibold">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
-                    <span class="text-sm">17 au 24 Nov</span>
+                    <span class="text-sm">{{ campaign.start_date|date:"d" }} au {{ campaign.end_date|date:"d M" }}</span>
                 </div>
                 
-                <!-- Share Button - Bottom Right -->
-                <button class="absolute bottom-6 right-6 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition">
+                <a href="{% url 'campaign_detail' campaign.id %}" class="absolute bottom-6 right-6 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
-                </button>
+                </a>
                 
-                <!-- Content - Bottom Left -->
                 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 class="text-2xl font-black mb-2">CAMPAGNE DE CHI...</h3>
-                    <p class="text-sm mb-1">Chirurgie des hernies ;</p>
-                    <p class="text-sm mb-1">Chirurgie des miomes et hystérectomies</p>
-                    <p class="text-sm mb-3">Chirurgie de la cataracte</p>
-                    <p class="text-xs text-gray-300">Dr Jean Mbarga</p>
+                    <h3 class="text-2xl font-black mb-2">{{ campaign.title|upper|truncatechars:20 }}</h3>
+                    <p class="text-sm mb-3">{{ campaign.short_description|truncatewords:15 }}</p>
+                    {% if campaign.contact_name %}
+                    <p class="text-xs text-gray-300">{{ campaign.contact_name }}</p>
+                    {% endif %}
                 </div>
             </div>
+            {% endwith %}
             
-            <!-- Two Stacked Rectangular Cards on Right -->
+            <!-- Two Stacked Rectangular Cards -->
             <div class="lg:col-span-2 space-y-6">
-                <!-- Rectangular Campaign Card 1 -->
+                {% for campaign in campaigns|slice:"1:3" %}
                 <div class="relative rounded-3xl overflow-hidden shadow-lg group h-44">
-                    <img src="{% static 'images/campaign2.jpg' %}" alt="Campaign" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% if campaign.banner_image %}
+                    <img src="{{ campaign.banner_image.url }}" alt="{{ campaign.title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gray-300"></div>
+                    {% endif %}
                     <div class="absolute inset-0 card-overlay-gradient"></div>
                     
-                    <!-- Share Button -->
-                    <button class="absolute bottom-4 right-4 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition">
+                    <a href="{% url 'campaign_detail' campaign.id %}" class="absolute bottom-4 right-4 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition">
                         <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
-                    </button>
+                    </a>
                     
                     <div class="absolute top-4 left-4">
                         <span class="inline-flex items-center gap-1 bg-orange-500 text-white px-2 py-1 rounded-lg text-xs font-bold">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                             </svg>
-                            Campagne de vaccination
+                            Campagne
                         </span>
                     </div>
                     
                     <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-                        <h3 class="text-sm font-bold mb-1 line-clamp-2">Rejoignez notre campagne de vaccination gratuite et protégez-vous ...</h3>
-                        <p class="text-xs line-clamp-1">Comment limiter les risques de prostates ....</p>
+                        <h3 class="text-sm font-bold mb-1 line-clamp-2">{{ campaign.title }}</h3>
+                        <p class="text-xs line-clamp-1">{{ campaign.short_description|truncatewords:10 }}</p>
                     </div>
                 </div>
-                
-                <!-- Rectangular Campaign Card 2 -->
-                <div class="relative rounded-3xl overflow-hidden shadow-lg group h-44">
-                    <img src="{% static 'images/campaign3.jpg' %}" alt="Campaign" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 card-overlay-gradient"></div>
-                    
-                    <!-- Share Button -->
-                    <button class="absolute bottom-4 right-4 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-                        </svg>
-                    </button>
-                    
-                    <div class="absolute top-4 left-4">
-                        <span class="inline-flex items-center gap-1 bg-orange-500 text-white px-2 py-1 rounded-lg text-xs font-bold">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                            </svg>
-                            Campagne de vaccination
-                        </span>
-                    </div>
-                    
-                    <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-                        <h3 class="text-sm font-bold mb-1 line-clamp-2">Rejoignez notre campagne de vaccination gratuite et protégez-vous ...</h3>
-                        <p class="text-xs line-clamp-1">Comment limiter les risques de prostates ....</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
         
-        <!-- Second Row: Large Card + 3 Rectangular Cards with Dividers + Large Card -->
+        <!-- Second Row -->
         <div class="grid lg:grid-cols-12 gap-6">
-            <!-- Left Large Card -->
+            {% for campaign in campaigns|slice:"3:9" %}
+            {% if forloop.counter == 1 or forloop.counter == 6 %}
+            <!-- Large Card -->
             <div class="lg:col-span-3 relative rounded-3xl overflow-hidden shadow-lg group h-96">
-                <img src="{% static 'images/campaign4.jpg' %}" alt="Campaign" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                {% if campaign.banner_image %}
+                <img src="{{ campaign.banner_image.url }}" alt="{{ campaign.title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                {% else %}
+                <div class="w-full h-full bg-gray-300"></div>
+                {% endif %}
                 <div class="absolute inset-0 card-overlay-gradient"></div>
                 
                 <div class="absolute top-6 left-6 flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg font-semibold">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
-                    <span class="text-sm">1er au 30 Nov</span>
+                    <span class="text-sm">{{ campaign.start_date|date:"d M Y" }}</span>
                 </div>
                 
-                <button class="absolute bottom-6 right-6 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition">
+                <a href="{% url 'campaign_detail' campaign.id %}" class="absolute bottom-6 right-6 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
-                </button>
+                </a>
                 
                 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 class="text-xl font-black mb-2">NOVEMBRE BLEU...</h3>
-                    <p class="text-sm mb-3 line-clamp-2">Pour le mois dédié à la santé masculine, l'Hôpital...</p>
-                    <p class="text-xs text-gray-300">Dr Jean Mbarga</p>
+                    <h3 class="text-xl font-black mb-2">{{ campaign.title|truncatewords:3 }}</h3>
+                    <p class="text-sm mb-3 line-clamp-2">{{ campaign.short_description|truncatewords:10 }}</p>
+                    {% if campaign.contact_name %}
+                    <p class="text-xs text-gray-300">{{ campaign.contact_name }}</p>
+                    {% endif %}
                 </div>
             </div>
-            
-            <!-- Middle 3 Rectangular Cards with Dividers -->
+            {% elif forloop.counter == 2 %}
+            <!-- Middle 3 Cards -->
             <div class="lg:col-span-6 flex flex-col justify-center space-y-4">
-                <!-- Card 1 -->
-                <div class="flex items-center gap-4 bg-white rounded-2xl p-4 shadow hover:shadow-lg transition">
-                    <img src="{% static 'images/campaign-thumb1.jpg' %}" alt="Campaign" class="w-24 h-24 rounded-xl object-cover flex-shrink-0">
-                    <div class="flex-1 min-w-0">
-                        <span class="inline-flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded text-xs font-bold mb-2">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                            </svg>
-                            Campagne de vaccination
-                        </span>
-                        <h4 class="font-bold text-sm mb-1 line-clamp-2">Rejoignez notre campagne de vaccination gratuite et protégez-vous ...</h4>
-                    </div>
-                    <button class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition flex-shrink-0">
-                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="border-t border-gray-200"></div>
-                
-                <!-- Card 2 -->
-                <div class="flex items-center gap-4 bg-white rounded-2xl p-4 shadow hover:shadow-lg transition">
-                    <img src="{% static 'images/campaign-thumb2.jpg' %}" alt="Campaign" class="w-24 h-24 rounded-xl object-cover flex-shrink-0">
-                    <div class="flex-1 min-w-0">
-                        <span class="inline-flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded text-xs font-bold mb-2">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                            </svg>
-                            Campagne de consultation dentaire
-                        </span>
-                        <h4 class="font-bold text-sm mb-1 line-clamp-2">Bénéficiez d'une consultation médicale gratuite par nos spécialistes...</h4>
-                    </div>
-                    <button class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition flex-shrink-0">
-                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="border-t border-gray-200"></div>
-                
-                <!-- Card 3 -->
-                <div class="flex items-center gap-4 bg-white rounded-2xl p-4 shadow hover:shadow-lg transition">
-                    <img src="{% static 'images/campaign-thumb3.jpg' %}" alt="Campaign" class="w-24 h-24 rounded-xl object-cover flex-shrink-0">
-                    <div class="flex-1 min-w-0">
-                        <span class="inline-flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded text-xs font-bold mb-2">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                            </svg>
-                            Campagne de vaccination
-                        </span>
-                        <h4 class="font-bold text-sm mb-1 line-clamp-2">Rejoignez notre campagne de vaccination gratuite et protégez-vous ...</h4>
-                    </div>
-                    <button class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition flex-shrink-0">
-                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
+            {% endif %}
             
-            <!-- Right Large Card -->
-            <div class="lg:col-span-3 relative rounded-3xl overflow-hidden shadow-lg group h-96">
-                <img src="{% static 'images/campaign5.jpg' %}" alt="Campaign" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 card-overlay-gradient"></div>
-                
-                <div class="absolute top-6 left-6 flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg font-semibold">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    <span class="text-sm">14 Nov 2025</span>
+            {% if forloop.counter >= 2 and forloop.counter <= 4 %}
+                <div class="flex items-center gap-4 bg-white rounded-2xl p-4 shadow hover:shadow-lg transition">
+                    {% if campaign.banner_image %}
+                    <img src="{{ campaign.banner_image.url }}" alt="{{ campaign.title }}" class="w-24 h-24 rounded-xl object-cover flex-shrink-0">
+                    {% else %}
+                    <div class="w-24 h-24 rounded-xl bg-gray-300 flex-shrink-0"></div>
+                    {% endif %}
+                    <div class="flex-1 min-w-0">
+                        <span class="inline-flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded text-xs font-bold mb-2">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                            Campagne
+                        </span>
+                        <h4 class="font-bold text-sm mb-1 line-clamp-2">{{ campaign.title }}</h4>
+                    </div>
+                    <a href="{% url 'campaign_detail' campaign.id %}" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition flex-shrink-0">
+                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
                 </div>
-                
-                <button class="absolute bottom-6 right-6 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-                    </svg>
-                </button>
-                
-                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 class="text-xl font-black mb-2">JOURNÉE MONDIALE...</h3>
-                    <p class="text-sm mb-3 line-clamp-2">L'Hôpital Régional Annexe d'Édéa organise une campagne...</p>
-                    <p class="text-xs text-gray-300">Ntolo Gérard</p>
-                </div>
+                {% if forloop.counter < 4 %}
+                <div class="border-t border-gray-200"></div>
+                {% endif %}
+            {% endif %}
+            
+            {% if forloop.counter == 4 %}
             </div>
+            {% endif %}
+            {% endfor %}
         </div>
         
-        <!-- Pagination for Campaigns -->
+        <!-- Pagination Campagnes -->
+        {% if campaigns.has_other_pages %}
         <div class="flex justify-center items-center gap-6 mt-12">
-            <button class="inline-flex items-center gap-2 bg-base text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
+            {% if campaigns.has_next %}
+            <a href="?campaigns_page={{ campaigns.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="inline-flex items-center gap-2 bg-base text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
                 Page suivante
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
-            </button>
-            <span class="text-gray-600 font-semibold">Page 1 à 3</span>
+            </a>
+            {% endif %}
+            <span class="text-gray-600 font-semibold">Page {{ campaigns.number }} sur {{ campaigns.paginator.num_pages }}</span>
         </div>
+        {% endif %}
+        {% else %}
+        <p class="text-center text-gray-500 py-12">Aucune campagne disponible</p>
+        {% endif %}
     </div>
 </section>
 
@@ -308,111 +251,108 @@
             </span>{% trans "rticles officiels" %}
         </h2>
         
+        {% if articles %}
         <!-- Articles Grid: 2-1-2 pattern -->
         <div class="grid lg:grid-cols-3 gap-6 mb-6">
-            <!-- Left Column: 2 cards stacked -->
+            <!-- Left Column: 2 cards -->
             <div class="space-y-6">
-                <!-- Article Card 1 -->
-                <div class="relative rounded-3xl overflow-hidden shadow-lg group h-64">
-                    <img src="{% static 'images/article1.jpg' %}" alt="Article" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                {% for article in articles|slice:":2" %}
+                <a href="{% url 'news_detail' article.id %}" class="block relative rounded-3xl overflow-hidden shadow-lg group h-64">
+                    {% if article.featured_image %}
+                    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gray-300"></div>
+                    {% endif %}
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     
                     <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        {% if article.category %}
                         <span class="inline-block bg-orange-500 text-white px-3 py-1 rounded-lg text-xs font-bold mb-3">
-                            Chirurgie plastique
+                            {{ article.category.name }}
                         </span>
-                        <p class="text-sm mb-2 line-clamp-2">Pour le mois dédié à la santé masculine, l'Hôpital Régional Annexe d'Édéa organise la campagne « Derrière chaque moustache il y a un message ! »</p>
+                        {% endif %}
+                        <p class="text-sm mb-2 line-clamp-2">{{ article.excerpt|default:article.content|truncatewords:20 }}</p>
                         <div class="flex justify-between items-center text-xs">
-                            <span>Ntolo Gérard</span>
-                            <span>1er au 30 Nov</span>
+                            <span>{{ article.author.get_full_name|default:article.author.username|default:"HRAE" }}</span>
+                            <span>{{ article.published_at|date:"d M Y" }}</span>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Article Card 2 -->
-                <div class="relative rounded-3xl overflow-hidden shadow-lg group h-64">
-                    <img src="{% static 'images/article2.jpg' %}" alt="Article" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                    
-                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-                        <span class="inline-block bg-orange-500 text-white px-3 py-1 rounded-lg text-xs font-bold mb-3">
-                            Médecine dentaire
-                        </span>
-                        <p class="text-sm mb-2 line-clamp-2">Pour le mois dédié à la santé masculine, l'Hôpital Régional Annexe d'Édéa organise la campagne « Derrière chaque moustache il y a un message ! »</p>
-                        <div class="flex justify-between items-center text-xs">
-                            <span>Ntolo Gérard</span>
-                            <span>1er au 30 Nov</span>
-                        </div>
-                    </div>
-                </div>
+                </a>
+                {% endfor %}
             </div>
             
             <!-- Center: Large Card -->
-            <div class="relative rounded-3xl overflow-hidden shadow-lg group h-full min-h-[34rem]">
-                <img src="{% static 'images/article3.jpg' %}" alt="Article" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            {% with articles.2 as article %}
+            {% if article %}
+            <a href="{% url 'news_detail' article.id %}" class="block relative rounded-3xl overflow-hidden shadow-lg group h-full min-h-[34rem]">
+                {% if article.featured_image %}
+                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                {% else %}
+                <div class="w-full h-full bg-gray-300"></div>
+                {% endif %}
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
                 
                 <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                    {% if article.category %}
                     <span class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-bold mb-4">
-                        Chirurgie plastique
+                        {{ article.category.name }}
                     </span>
-                    <p class="text-base mb-4 line-clamp-3">Pour le mois dédié à la santé masculine, l'Hôpital Régional Annexe d'Édéa organise la campagne « Derrière chaque moustache il y a un message ! »</p>
+                    {% endif %}
+                    <p class="text-base mb-4 line-clamp-3">{{ article.excerpt|default:article.content|truncatewords:30 }}</p>
                     <div class="flex justify-between items-center text-sm">
-                        <span>Ntolo Gérard</span>
-                        <span>1er au 30 Nov</span>
+                        <span>{{ article.author.get_full_name|default:article.author.username|default:"HRAE" }}</span>
+                        <span>{{ article.published_at|date:"d M Y" }}</span>
                     </div>
                 </div>
-            </div>
+            </a>
+            {% endif %}
+            {% endwith %}
             
-            <!-- Right Column: 2 cards stacked -->
+            <!-- Right Column: 2 cards -->
             <div class="space-y-6">
-                <!-- Article Card 4 -->
-                <div class="relative rounded-3xl overflow-hidden shadow-lg group h-64">
-                    <img src="{% static 'images/article4.jpg' %}" alt="Article" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                {% for article in articles|slice:"3:5" %}
+                <a href="{% url 'news_detail' article.id %}" class="block relative rounded-3xl overflow-hidden shadow-lg group h-64">
+                    {% if article.featured_image %}
+                    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gray-300"></div>
+                    {% endif %}
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     
                     <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        {% if article.category %}
                         <span class="inline-block bg-orange-500 text-white px-3 py-1 rounded-lg text-xs font-bold mb-3">
-                            Cancer du sein
+                            {{ article.category.name }}
                         </span>
-                        <p class="text-sm mb-2 line-clamp-2">Pour le mois dédié à la santé masculine, l'Hôpital Régional Annexe d'Édéa organise la campagne « Derrière chaque moustache il y a un message ! »</p>
+                        {% endif %}
+                        <p class="text-sm mb-2 line-clamp-2">{{ article.excerpt|default:article.content|truncatewords:20 }}</p>
                         <div class="flex justify-between items-center text-xs">
-                            <span>Ntolo Gérard</span>
-                            <span>1er au 30 Nov</span>
+                            <span>{{ article.author.get_full_name|default:article.author.username|default:"HRAE" }}</span>
+                            <span>{{ article.published_at|date:"d M Y" }}</span>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Article Card 5 -->
-                <div class="relative rounded-3xl overflow-hidden shadow-lg group h-64">
-                    <img src="{% static 'images/article5.jpg' %}" alt="Article" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                    
-                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-                        <span class="inline-block bg-orange-500 text-white px-3 py-1 rounded-lg text-xs font-bold mb-3">
-                            Dermatologie
-                        </span>
-                        <p class="text-sm mb-2 line-clamp-2">Pour le mois dédié à la santé masculine, l'Hôpital Régional Annexe d'Édéa organise la campagne « Derrière chaque moustache il y a un message ! »</p>
-                        <div class="flex justify-between items-center text-xs">
-                            <span>Ntolo Gérard</span>
-                            <span>1er au 30 Nov</span>
-                        </div>
-                    </div>
-                </div>
+                </a>
+                {% endfor %}
             </div>
         </div>
         
-        <!-- Pagination for Articles -->
+        <!-- Pagination Articles -->
+        {% if articles.has_other_pages %}
         <div class="flex justify-center items-center gap-6 mt-12">
-            <button class="inline-flex items-center gap-2 bg-base text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
+            {% if articles.has_next %}
+            <a href="?articles_page={{ articles.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="inline-flex items-center gap-2 bg-base text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
                 Page suivante
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
-            </button>
-            <span class="text-gray-600 font-semibold">Page 1 à 3</span>
+            </a>
+            {% endif %}
+            <span class="text-gray-600 font-semibold">Page {{ articles.number }} sur {{ articles.paginator.num_pages }}</span>
         </div>
+        {% endif %}
+        {% else %}
+        <p class="text-center text-gray-500 py-12">Aucun article disponible</p>
+        {% endif %}
     </div>
 </section>
-
 {% endblock %}

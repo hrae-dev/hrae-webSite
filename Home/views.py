@@ -100,50 +100,37 @@ def news(request):
     today = timezone.now().date()
     
     # Filtres
-    type_filter = request.GET.get('type')
     category_id = request.GET.get('category')
     search = request.GET.get('search')
     
-    articles_list = []
-    campaigns_list = []
+    # Campagnes
+    campaigns_qs = Campaign.objects.all().order_by('-start_date')
+    if search:
+        campaigns_qs = campaigns_qs.filter(Q(title__icontains=search) | Q(full_description__icontains=search))
     
     # Articles
-    if type_filter != 'campaign':
-        articles_qs = Article.objects.filter(status='published').order_by('-published_at')
-        if category_id:
-            articles_qs = articles_qs.filter(category_id=category_id)
-        if search:
-            articles_qs = articles_qs.filter(Q(title__icontains=search) | Q(content__icontains=search))
-        articles_list = list(articles_qs)
+    articles_qs = Article.objects.filter(status='published').order_by('-published_at')
+    if category_id:
+        articles_qs = articles_qs.filter(category_id=category_id)
+    if search:
+        articles_qs = articles_qs.filter(Q(title__icontains=search) | Q(content__icontains=search))
     
-    # Campagnes
-    if type_filter != 'article':
-        campaigns_qs = Campaign.objects.all().order_by('-start_date')
-        if search:
-            campaigns_qs = campaigns_qs.filter(Q(title__icontains=search) | Q(full_description__icontains=search))
-        campaigns_list = list(campaigns_qs)
+    # Pagination séparée
+    campaigns_paginator = Paginator(campaigns_qs, 9)
+    articles_paginator = Paginator(articles_qs, 5)
     
-    # Combiner et trier
-    def get_date(item):
-        if hasattr(item, 'published_at') and item.published_at:
-            return item.published_at.date() if hasattr(item.published_at, 'date') else item.published_at
-        elif hasattr(item, 'start_date') and item.start_date:
-            return item.start_date
-        return today
+    campaigns_page = request.GET.get('campaigns_page', 1)
+    articles_page = request.GET.get('articles_page', 1)
     
-    publications_list = articles_list + campaigns_list
-    publications_list = sorted(publications_list, key=get_date, reverse=True)
-    
-    # Pagination
-    paginator = Paginator(publications_list, 9)
-    page_number = request.GET.get('page')
-    publications = paginator.get_page(page_number)
+    campaigns = campaigns_paginator.get_page(campaigns_page)
+    articles = articles_paginator.get_page(articles_page)
     
     categories = Category.objects.all()
     
     context = {
         'settings': settings,
-        'publications': publications,
+        'campaigns': campaigns,
+        'articles': articles,
         'categories': categories,
     }
     return render(request, 'news/news.html', context)
