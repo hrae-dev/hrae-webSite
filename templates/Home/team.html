@@ -1,78 +1,669 @@
 {% extends "base.html" %}
+{% load static i18n %}
 
-{% block title %}Notre Équipe - HRAE{% endblock %}
+{% block title %}{% trans "Notre Équipe Médicale - HRAE" %}{% endblock %}
 
 {% block content %}
-<div class="bg-purple-600 text-white py-16 sm:py-20 md:py-24 mt-16 lg:mt-20">
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold">Notre Équipe Médicale</h1>
-        <p class="mt-2 text-purple-100">Des professionnels qualifiés à votre service</p>
+<style>
+    .chief-image-stack {
+        position: relative;
+        height: 400px;
+        display: flex;
+        align-items: flex-end;
+        gap: 1rem;
+        overflow: hidden;
+    }
+    
+    @media (max-width: 768px) {
+        .chief-image-stack {
+            height: 300px;
+            gap: 0.5rem;
+        }
+    }
+    
+    .chief-img-small {
+        width: 180px;
+        height: 180px;
+        opacity: 0.6;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .chief-img-medium {
+        width: 240px;
+        height: 240px;
+        opacity: 0.8;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .chief-img-large {
+        width: 320px;
+        height: 320px;
+        opacity: 1;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    
+    @media (max-width: 1024px) {
+        .chief-img-small { width: 140px; height: 140px; }
+        .chief-img-medium { width: 190px; height: 190px; }
+        .chief-img-large { width: 260px; height: 260px; }
+    }
+    
+    @media (max-width: 768px) {
+        .chief-img-small { width: 100px; height: 100px; }
+        .chief-img-medium { width: 140px; height: 140px; }
+        .chief-img-large { width: 180px; height: 180px; }
+    }
+    
+    /* Slide animations */
+    .slide-left-enter {
+        animation: slideLeftIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .slide-left-exit {
+        animation: slideLeftOut 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .slide-right-enter {
+        animation: slideRightIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .slide-right-exit {
+        animation: slideRightOut 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes slideLeftIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideLeftOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes slideRightIn {
+        from {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideRightOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+    
+    /* Text fade animation */
+    .fade-in {
+        animation: fadeIn 0.3s ease-in forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+    }
+    
+    .fade-out {
+        animation: fadeOut 0.2s ease-out forwards;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        animation: fadeIn 0.3s ease;
+        padding: 1rem;
+    }
+    
+    .modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal-content {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 2rem;
+        max-width: 600px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: slideUp 0.3s ease;
+    }
+    
+    @media (max-width: 640px) {
+        .modal-content {
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+        }
+    }
+    
+    @keyframes slideUp {
+        from { transform: translateY(50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+</style>
+
+<!-- Hero Header -->
+<div class="bg-purple-600 text-white py-16 md:py-44">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-black uppercase mb-4">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "N" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-white"></span>
+            </span>{% trans "OTRE ÉQUIPE MÉDICALE" %}
+        </h1>
+        <p class="text-base md:text-lg text-purple-50 max-w-3xl">
+            {% trans "Notre actualité est ponctuée de campagnes de santé et autes évenements, toute l'année." %}
+        </p>
     </div>
 </div>
 
-<!-- Filtres -->
-<div class="bg-white border-b">
-    <div class="container mx-auto px-4 py-6">
-        <form method="get" class="flex flex-wrap gap-4">
-            <select name="service" class="px-4 py-2 border rounded">
-                <option value="">Tous les services</option>
-                {% for service in services %}
-                <option value="{{ service.id }}">{{ service.name }}</option>
-                {% endfor %}
-            </select>
+<!-- Search & Filter Section -->
+<div class="bg-white shadow-sm sticky top-0 z-20 border-b">
+    <div class="container mx-auto px-4 py-6 max-w-7xl">
+        <form method="get" class="flex flex-col sm:flex-row gap-4">
+            <button type="button" class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                </svg>
+                <span class="font-semibold">{% trans "Toutes les catégories" %}</span>
+            </button>
             
-            <select name="grade" class="px-4 py-2 border rounded">
-                <option value="">Tous les grades</option>
-                {% for value, label in grades %}
-                <option value="{{ value }}">{{ label }}</option>
-                {% endfor %}
-            </select>
+            <div class="flex-1 relative">
+                <input type="text" 
+                       name="search" 
+                       placeholder="Search" 
+                       class="w-full pl-12 pr-6 py-3 bg-gray-100 border-0 rounded-lg focus:ring-2 focus:ring-purple-500 focus:bg-white transition"
+                       value="{{ request.GET.search }}">
+                <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+            </div>
             
-            <input type="text" name="search" placeholder="Rechercher..." 
-                   class="px-4 py-2 border rounded flex-1">
-            
-            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
-                Rechercher
+            <button type="submit" class="bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-600 transition shadow-lg">
+                {% trans "Rechercher" %}
             </button>
         </form>
     </div>
 </div>
 
-<!-- Liste du personnel -->
-<div class="container mx-auto px-4 py-12">
-    <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {% for staff in staff_list %}
-        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center">
-            {% if staff.photo %}
-            <img src="{{ staff.photo.url }}" alt="{{ staff.full_name }}" 
-                 class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
-            {% else %}
-            <div class="w-32 h-32 rounded-full bg-gray-200 mx-auto mb-4 flex items-center justify-center text-4xl">
-                👤
+<!-- Nos chefs services Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-black mb-12">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "N" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+            </span>{% trans "os chefs services" %}
+        </h2>
+        
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+            <!-- Left: Image Stack (75% width) -->
+            <div class="w-full lg:w-3/4 relative">
+                <div class="chief-image-stack relative">
+                    <div class="absolute -left-8 top-8">
+                        <svg class="w-12 h-12 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
+                    
+                    <img id="chief-img-1" src="{% static 'images/doctor1.jpg' %}" alt="Chief 1" 
+                         class="chief-img-small rounded-t-full object-cover">
+                    <img id="chief-img-2" src="{% static 'images/doctor2.jpg' %}" alt="Chief 2" 
+                         class="chief-img-medium rounded-t-full object-cover">
+                    <img id="chief-img-3" src="{% static 'images/doctor3.jpg' %}" alt="Chief 3" 
+                         class="chief-img-large rounded-t-full object-cover">
+                    
+                    <div class="absolute top-16 right-8">
+                        <svg class="w-8 h-8 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="4"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute bottom-12 left-1/2">
+                        <svg class="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 19h20L12 2z"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
-            {% endif %}
             
-            <h3 class="font-bold text-lg">{{ staff.get_grade_display }} {{ staff.full_name }}</h3>
-            <p class="text-gray-600 mb-2">{{ staff.speciality }}</p>
-            
-            <div class="text-sm text-gray-500 mb-4">
-                {% for service in staff.services.all %}
-                <span class="inline-block bg-gray-100 px-2 py-1 rounded mr-1 mb-1">
-                    {{ service.name }}
-                </span>
-                {% endfor %}
+            <!-- Right: Chief Info (25% width) -->
+            <div class="w-full lg:w-1/4 relative">
+                <div class="absolute -right-12 top-0 hidden xl:block">
+                    <svg class="w-16 h-16 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7 10l5 5 5-5z"/>
+                    </svg>
+                </div>
+                
+                <div id="chief-info" class="transition-opacity duration-300">
+                    <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">M. TABI FAUSTIN</h3>
+                    <p class="text-lg lg:text-xl text-gray-700 mb-4">Chef du service des urgences</p>
+                    <p class="text-gray-600 mb-6">20 ans d'expérience – Passionnée par la médecine communautaire.</p>
+                    
+                    <button onclick="openDoctorModal(0)" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+                        <span>Voir le profil</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Arrows - Below everything -->
+        <div class="flex justify-center gap-4 mt-12">
+            <button onclick="previousChief()" class="w-14 h-14 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition">
+                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <button onclick="nextChief()" class="w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center hover:bg-gray-800 transition">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Personnel médical Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-black mb-12">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "P" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+            </span>{% trans "ersonnels médical" %}
+        </h2>
+        
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <!-- Staff Card 1 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(0)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor1.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
             </div>
             
-            <a href="{% url 'staff_detail' staff.id %}" 
-               class="inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
-                Voir profil
-            </a>
+            <!-- Staff Card 2 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(1)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor2.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
+            </div>
+            
+            <!-- Staff Card 3 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(2)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor3.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
+            </div>
+            
+            <!-- Staff Card 4 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(3)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor1.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
+            </div>
+            
+            <!-- Staff Card 5 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(4)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor2.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
+            </div>
+            
+            <!-- Staff Card 6 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(5)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor3.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
+            </div>
+            
+            <!-- Staff Card 7 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(6)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor1.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
+            </div>
+            
+            <!-- Staff Card 8 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(7)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor2.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
+            </div>
+            
+            <!-- Staff Card 9 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(8)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor3.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
+            </div>
+            
+            <!-- Staff Card 10 -->
+            <div class="group cursor-pointer" onclick="openDoctorModal(9)">
+                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    <img src="{% static 'images/doctor1.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
+                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                </div>
+            </div>
         </div>
-        {% empty %}
-        <div class="col-span-4 text-center py-12 text-gray-500">
-            Aucun membre trouvé
+        
+        <!-- Pagination -->
+        <div class="flex justify-center items-center gap-6 mt-12">
+            <button class="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
+                Page suivante
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+            </button>
+            <span class="text-gray-600 font-semibold">Page 1 à 3</span>
         </div>
-        {% endfor %}
+    </div>
+</section>
+
+<!-- Doctor Profile Modal -->
+<div id="doctorModal" class="modal">
+    <div class="modal-content">
+        <!-- Back and Share Buttons -->
+        <div class="flex justify-end gap-3 mb-6">
+            <button onclick="closeDoctorModal()" class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition">
+                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+            </button>
+            <button class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition">
+                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Doctor Info -->
+        <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mb-8">
+            <img src="{% static 'images/doctor1.jpg' %}" alt="Doctor" class="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover shadow-lg flex-shrink-0">
+            
+            <div class="hidden sm:flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                <svg class="w-8 sm:w-12 h-8 sm:h-12 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg class="w-8 sm:w-12 h-8 sm:h-12 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </div>
+            
+            <div class="text-center sm:text-left">
+                <h3 class="text-xl sm:text-2xl font-black text-orange-500 mb-2">M. TABI FAUSTIN</h3>
+                <p class="text-base sm:text-lg text-gray-700">Chef du service des urgences</p>
+            </div>
+        </div>
+        
+        <div class="border-t border-gray-200 mb-6 sm:mb-8"></div>
+        
+        <!-- Contact & Actions -->
+        <div class="bg-orange-50 rounded-2xl px-4 sm:px-6 py-2 sm:py-3 inline-block mb-4 sm:mb-6">
+            <h4 class="text-base sm:text-lg font-bold text-orange-500">Contact & Actions</h4>
+        </div>
+        
+        <!-- Consultation Hours -->
+        <div class="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <svg class="w-6 sm:w-8 h-6 sm:h-8 text-purple-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/>
+            </svg>
+            <div>
+                <h5 class="font-bold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">Horaires de consultation :</h5>
+                <p class="text-gray-700 text-sm sm:text-base">Lun – Ven: 8h-12h</p>
+                <p class="text-gray-700 text-sm sm:text-base">Samedi: 8h-10h</p>
+            </div>
+        </div>
+        
+        <!-- Email -->
+        <div class="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <svg class="w-6 sm:w-8 h-6 sm:h-8 text-purple-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+            <div class="min-w-0">
+                <h5 class="font-bold text-gray-900 mb-1 text-sm sm:text-base">Email :</h5>
+                <a href="mailto:saintmartin@gmail.com" class="text-blue-600 hover:underline text-sm sm:text-base break-all">saintmartin@gmail.com</a>
+            </div>
+        </div>
+        
+        <!-- Phone -->
+        <div class="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <svg class="w-6 sm:w-8 h-6 sm:h-8 text-purple-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+            <div>
+                <p class="text-lg sm:text-xl font-bold text-gray-900">+237 654 259 325</p>
+            </div>
+        </div>
+        
+        <!-- Appointment Button -->
+        <button class="w-full inline-flex items-center justify-center gap-3 bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-gray-800 transition text-sm sm:text-base">
+            <span>Prendre rendez-vous</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+        </button>
     </div>
 </div>
+
+<script>
+// Chief carousel data
+const chiefs = [
+    {
+        name: "M. TABI FAUSTIN",
+        title: "Chef du service des urgences",
+        description: "20 ans d'expérience – Passionnée par la médecine communautaire.",
+        image: "{% static 'images/doctor1.jpg' %}"
+    },
+    {
+        name: "DR. MARIE DUPONT",
+        title: "Chef du service de pédiatrie",
+        description: "15 ans d'expérience – Spécialiste en soins infantiles.",
+        image: "{% static 'images/doctor2.jpg' %}"
+    },
+    {
+        name: "DR. JEAN MBARGA",
+        title: "Chef du service de chirurgie",
+        description: "25 ans d'expérience – Expert en chirurgie générale.",
+        image: "{% static 'images/doctor3.jpg' %}"
+    }
+];
+
+let currentChiefIndex = 0;
+let isAnimating = false;
+
+function updateChiefDisplay(direction = 'next') {
+    if (isAnimating) return;
+    isAnimating = true;
+    
+    const chiefInfo = document.getElementById('chief-info');
+    const img1 = document.getElementById('chief-img-1');
+    const img2 = document.getElementById('chief-img-2');
+    const img3 = document.getElementById('chief-img-3');
+    
+    // Step 1: Fade out text
+    chiefInfo.classList.add('fade-out');
+    
+    // Step 2: Slide images
+    const slideClass = direction === 'next' ? 'slide-left' : 'slide-right';
+    img1.classList.add(`${slideClass}-exit`);
+    img2.classList.add(`${slideClass}-exit`);
+    img3.classList.add(`${slideClass}-exit`);
+    
+    // Step 3: Wait for animation, then update content
+    setTimeout(() => {
+        const prevIndex = (currentChiefIndex - 1 + chiefs.length) % chiefs.length;
+        const nextIndex = (currentChiefIndex + 1) % chiefs.length;
+        
+        // Update images
+        img1.src = chiefs[prevIndex].image;
+        img2.src = chiefs[currentChiefIndex].image;
+        img3.src = chiefs[nextIndex].image;
+        
+        // Remove exit classes
+        img1.classList.remove(`${slideClass}-exit`);
+        img2.classList.remove(`${slideClass}-exit`);
+        img3.classList.remove(`${slideClass}-exit`);
+        
+        // Add enter classes
+        img1.classList.add(`${slideClass}-enter`);
+        img2.classList.add(`${slideClass}-enter`);
+        img3.classList.add(`${slideClass}-enter`);
+        
+        // Update text content
+        const chief = chiefs[nextIndex];
+        chiefInfo.classList.remove('fade-out');
+        chiefInfo.innerHTML = `
+            <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">${chief.name}</h3>
+            <p class="text-lg lg:text-xl text-gray-700 mb-4">${chief.title}</p>
+            <p class="text-gray-600 mb-6">${chief.description}</p>
+            
+            <button onclick="openDoctorModal(${nextIndex})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+                <span>Voir le profil</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </button>
+        `;
+        chiefInfo.classList.add('fade-in');
+        
+        // Clean up animation classes
+        setTimeout(() => {
+            img1.classList.remove(`${slideClass}-enter`);
+            img2.classList.remove(`${slideClass}-enter`);
+            img3.classList.remove(`${slideClass}-enter`);
+            chiefInfo.classList.remove('fade-in');
+            isAnimating = false;
+        }, 500);
+    }, 200);
+}
+
+function nextChief() {
+    currentChiefIndex = (currentChiefIndex + 1) % chiefs.length;
+    updateChiefDisplay('next');
+}
+
+function previousChief() {
+    currentChiefIndex = (currentChiefIndex - 1 + chiefs.length) % chiefs.length;
+    updateChiefDisplay('prev');
+}
+
+function openDoctorModal(index) {
+    document.getElementById('doctorModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeDoctorModal() {
+    document.getElementById('doctorModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside
+document.getElementById('doctorModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeDoctorModal();
+    }
+});
+
+// Initialize display
+window.addEventListener('DOMContentLoaded', function() {
+    const prevIndex = (currentChiefIndex - 1 + chiefs.length) % chiefs.length;
+    const nextIndex = (currentChiefIndex + 1) % chiefs.length;
+    
+    document.getElementById('chief-img-1').src = chiefs[prevIndex].image;
+    document.getElementById('chief-img-2').src = chiefs[currentChiefIndex].image;
+    document.getElementById('chief-img-3').src = chiefs[nextIndex].image;
+});
+</script>
 {% endblock %}

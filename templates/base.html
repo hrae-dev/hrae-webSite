@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ settings.site_name|default:"HRAE" }}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'icons/favicon.ico' %}">
 
     {% tailwind_css %}
     <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
@@ -12,23 +13,43 @@
 <body class="bg-white min-w-[270px]">
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
         <div class="container mx-auto my-2 px-2 sm:px-4 max-w-7xl">
+            <!-- Desktop Navigation -->
             <div class="hidden lg:block">
-                <div class="py-4">
-                    <ul class="flex justify-center items-center space-x-1 text-sm xl:text-base">
-                        <li><a href="{% url 'home' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'home' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Accueil" %}</a></li>
-                        <li><a href="{% url 'about' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'about' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "À propos" %}</a></li>
-                        <li><a href="{% url 'services' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'services' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Services et spécialités" %}</a></li>
-                        <li><a href="{% url 'team' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'team' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Notre équipe" %}</a></li>
-                        <li><a href="{% url 'news' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'news' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Actualités" %}</a></li>
-                        <li><a href="{% url 'practical_info' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'practical_info' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Infos pratiques" %}</a></li>
-                        <li><a href="{% url 'contact' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'contact' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Contacts" %}</a></li>
-                    </ul>
+                <div class="flex items-center justify-between py-4">
+                    <!-- Logo and Site Name on Left -->
+                    <a href="{% url 'home' %}" class="flex items-center gap-3 hover:opacity-80 transition flex-shrink-0">
+                        <img src="{% static 'logo-hrae.png' %}" alt="{{ settings.site_name|default:'HRAE' }}" class="h-12 w-auto">
+                        <div>
+                            <h1 class="text-lg font-black text-primary-60">{{ settings.site_name|default:"HRAE" }}</h1>
+                            <p class="text-xs text-gray-600">{{ settings.site_tagline|default:"Humanisation et qualité des soins"|capfirst }}</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Navigation Links in Center -->
+                    <div class="flex-1 flex justify-center">
+                        <ul class="flex items-center space-x-1 text-sm xl:text-base">
+                            <li><a href="{% url 'home' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'home' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Accueil" %}</a></li>
+                            <li><a href="{% url 'about' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'about' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "À propos" %}</a></li>
+                            <li><a href="{% url 'services' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'services' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Services et spécialités" %}</a></li>
+                            <li><a href="{% url 'team' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'team' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Notre équipe" %}</a></li>
+                            <li><a href="{% url 'news' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'news' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Actualités" %}</a></li>
+                            <li><a href="{% url 'practical_info' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'practical_info' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Infos pratiques" %}</a></li>
+                            <li><a href="{% url 'contact' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'contact' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Contacts" %}</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Empty space on right for balance -->
+                    <div class="flex-shrink-0 w-32"></div>
                 </div>
             </div>
             
+            <!-- Mobile Navigation -->
             <div class="lg:hidden py-3">
                 <div class="flex justify-between items-center">
-                    <a href="{% url 'home' %}" class="text-lg font-bold text-primary-60">{{ settings.site_name|default:"HRAE" }}</a>
+                    <a href="{% url 'home' %}" class="flex items-center gap-2">
+                        <img src="{% static 'logo-hrae.png' %}" alt="{{ settings.site_name|default:'HRAE' }}" class="h-10 w-auto">
+                        <span class="text-base font-bold text-primary-60">{{ settings.site_name|default:"HRAE" }}</span>
+                    </a>
                     <button onclick="toggleMenu()" class="p-2">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -69,28 +90,33 @@
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="font-bold text-2xl mb-4">{{ settings.site_name|default:"HRAE" }}</h3>
-                    <p>{{ settings.site_tagline|default:"Votre santé, notre priorité" }}</p>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="{% static 'logo-hrae.png' %}" alt="{{ settings.site_name|default:'HRAE' }}" class="h-12 w-auto brightness-0 invert">
+                        <div>
+                            <h3 class="font-bold text-xl">{{ settings.site_name|default:"HRAE" }}</h3>
+                        </div>
+                    </div>
+                    <p class="text-sm">{{ settings.site_tagline|default:"Votre santé, notre priorité" }}</p>
                     
                     <!-- Réseaux sociaux -->
                     <div class="flex space-x-4 mt-4">
                         {% if settings.facebook_url %}
-                        <a href="{{ settings.facebook_url }}" target="_blank" class="hover:text-orange-400">
+                        <a href="{{ settings.facebook_url }}" target="_blank" class="hover:text-orange-400 transition">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V.5h-4.33C10.24.5,9.5,3.44,9.5,5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4Z"/></svg>
                         </a>
                         {% endif %}
                         {% if settings.twitter_url %}
-                        <a href="{{ settings.twitter_url }}" target="_blank" class="hover:text-orange-400">
+                        <a href="{{ settings.twitter_url }}" target="_blank" class="hover:text-orange-400 transition">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.44,4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96,1.32-2.02-.88.52-1.86.9-2.9,1.1-.82-.88-2-1.43-3.3-1.43-2.5,0-4.55,2.04-4.55,4.54,0,.36.03.7.1,1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6,1.45-.6,2.3,0,1.56.8,2.95,2,3.77-.74-.03-1.44-.23-2.05-.57v.06c0,2.2,1.56,4.03,3.64,4.44-.67.2-1.37.2-2.06.08.58,1.8,2.26,3.12,4.25,3.16C5.78,18.1,3.37,18.74,1,18.46c2,1.3,4.4,2.04,6.97,2.04,8.35,0,12.92-6.92,12.92-12.93,0-.2,0-.4-.02-.6.9-.63,1.96-1.22,2.56-2.14Z"/></svg>
                         </a>
                         {% endif %}
                         {% if settings.linkedin_url %}
-                        <a href="{{ settings.linkedin_url }}" target="_blank" class="hover:text-orange-400">
+                        <a href="{{ settings.linkedin_url }}" target="_blank" class="hover:text-orange-400 transition">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45,20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85,0-2.14,1.45-2.14,2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9,1.64-1.85,3.37-1.85,3.6,0,4.27,2.37,4.27,5.46v6.28ZM5.34,7.43c-1.14,0-2.07-.93-2.07-2.07s.93-2.07,2.07-2.07,2.07.93,2.07,2.07-.93,2.07-2.07,2.07Zm1.78,13.02h-3.56V9h3.56v11.45ZM22.23,0H1.77C.79,0,0,.77,0,1.73v20.54c0,.96.79,1.73,1.77,1.73h20.45c.98,0,1.78-.77,1.78-1.73V1.73c0-.96-.8-1.73-1.78-1.73Z"/></svg>
                         </a>
                         {% endif %}
                         {% if settings.instagram_url %}
-                        <a href="{{ settings.instagram_url }}" target="_blank" class="hover:text-orange-400">
+                        <a href="{{ settings.instagram_url }}" target="_blank" class="hover:text-orange-400 transition">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2.16c3.2,0,3.58.01,4.85.07,1.17.05,1.8.25,2.23.41.56.22.96.48,1.38.9s.68.82.9,1.38c.16.42.36,1.06.41,2.23.06,1.27.07,1.65.07,4.85s-.01,3.58-.07,4.85c-.05,1.17-.25,1.8-.41,2.23-.22.56-.48.96-.9,1.38s-.82.68-1.38.9c-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9s-.68-.82-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38s.82-.68,1.38-.9c.42-.16,1.06-.36,2.23-.41,1.27-.06,1.65-.07,4.85-.07M12,0C8.74,0,8.33.01,7.05.07,5.78.13,4.9.33,4.14.63c-.78.3-1.44.71-2.1,1.37S.93,3.36.63,4.14c-.3.76-.5,1.64-.56,2.91C.01,8.33,0,8.74,0,12s.01,3.67.07,4.95c.06,1.27.26,2.15.56,2.91.3.78.71,1.44,1.37,2.1s1.32,1.07,2.1,1.37c.76.3,1.64.5,2.91.56,1.28.06,1.69.07,4.95.07s3.67-.01,4.95-.07c1.27-.06,2.15-.26,2.91-.56.78-.3,1.44-.71,2.1-1.37s1.07-1.32,1.37-2.1c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.78-.71-1.44-1.37-2.1s-1.32-1.07-2.1-1.37c-.76-.3-1.64-.5-2.91-.56C15.67.01,15.26,0,12,0Zm0,5.84c-3.4,0-6.16,2.76-6.16,6.16s2.76,6.16,6.16,6.16,6.16-2.76,6.16-6.16-2.76-6.16-6.16-6.16Zm0,10.16c-2.21,0-4-1.79-4-4s1.79-4,4-4,4,1.79,4,4-1.79,4-4,4Zm7.85-10.4c0,.79-.64,1.44-1.44,1.44s-1.44-.64-1.44-1.44.64-1.44,1.44-1.44,1.44.64,1.44,1.44Z"/></svg>
                         </a>
                         {% endif %}
@@ -98,16 +124,16 @@
                 </div>
                 <div>
                     <h4 class="font-bold mb-4">{% trans "Navigation" %}</h4>
-                    <ul class="space-y-2">
-                        <li><a href="{% url 'about' %}">{% trans "À propos" %}</a></li>
-                        <li><a href="{% url 'services' %}">{% trans "Services" %}</a></li>
-                        <li><a href="{% url 'team' %}">{% trans "Équipe" %}</a></li>
-                        <li><a href="{% url 'news' %}">{% trans "Actualités" %}</a></li>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="{% url 'about' %}" class="hover:text-orange-400 transition">{% trans "À propos" %}</a></li>
+                        <li><a href="{% url 'services' %}" class="hover:text-orange-400 transition">{% trans "Services" %}</a></li>
+                        <li><a href="{% url 'team' %}" class="hover:text-orange-400 transition">{% trans "Équipe" %}</a></li>
+                        <li><a href="{% url 'news' %}" class="hover:text-orange-400 transition">{% trans "Actualités" %}</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-bold mb-4">{% trans "Contact" %}</h4>
-                    <ul class="space-y-2">
+                    <ul class="space-y-2 text-sm">
                         <li>{{ settings.address|default:"BP 100 Edea" }}</li>
                         <li>📞 {{ settings.phone|default:"233 4642 32" }}</li>
                         <li>🚨 {{ settings.emergency_phone|default:"119" }}</li>
@@ -116,14 +142,14 @@
                 </div>
                 <div>
                     <h4 class="font-bold mb-4">{% trans "Horaires" %}</h4>
-                    <ul class="space-y-2">
+                    <ul class="space-y-2 text-sm">
                         <li>{% trans "Lun - Ven" %}: 8h - 17h</li>
                         <li>{% trans "Samedi" %}: 8h - 13h</li>
                         <li>{% trans "Urgences" %}: 24/7</li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-700 mt-8 pt-6 text-center">© 2025 {{ settings.site_name|default:"HRAE" }}</div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm">© 2025 {{ settings.site_name|default:"HRAE" }}</div>
         </div>
     </footer>
     
