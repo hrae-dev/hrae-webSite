@@ -202,7 +202,7 @@
             </span>{% trans "OTRE ÉQUIPE MÉDICALE" %}
         </h1>
         <p class="text-base md:text-lg text-purple-50 max-w-3xl">
-            {% trans "Notre actualité est ponctuée de campagnes de santé et autes évenements, toute l'année." %}
+            {% trans "Une équipe de professionnels dévoués à votre service pour assurer votre bien-être et votre santé." %}
         </p>
     </div>
 </div>
@@ -211,17 +211,17 @@
 <div class="bg-white shadow-sm sticky top-0 z-20 border-b">
     <div class="container mx-auto px-4 py-6 max-w-7xl">
         <form method="get" class="flex flex-col sm:flex-row gap-4">
-            <button type="button" class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
-                </svg>
-                <span class="font-semibold">{% trans "Toutes les catégories" %}</span>
-            </button>
+            <select name="service" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                <option value="">{% trans "Tous les services" %}</option>
+                {% for service in services %}
+                <option value="{{ service.id }}" {% if request.GET.service == service.id|stringformat:"i" %}selected{% endif %}>{{ service.name }}</option>
+                {% endfor %}
+            </select>
             
             <div class="flex-1 relative">
                 <input type="text" 
                        name="search" 
-                       placeholder="Search" 
+                       placeholder="Rechercher un médecin..." 
                        class="w-full pl-12 pr-6 py-3 bg-gray-100 border-0 rounded-lg focus:ring-2 focus:ring-purple-500 focus:bg-white transition"
                        value="{{ request.GET.search }}">
                 <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,6 +237,7 @@
 </div>
 
 <!-- Nos chefs services Section -->
+{% if chiefs %}
 <section class="py-16 bg-white">
     <div class="container mx-auto px-4 max-w-7xl">
         <h2 class="text-3xl md:text-4xl font-black mb-12">
@@ -286,9 +287,9 @@
                 </div>
                 
                 <div id="chief-info" class="transition-opacity duration-300">
-                    <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">M. TABI FAUSTIN</h3>
-                    <p class="text-lg lg:text-xl text-gray-700 mb-4">Chef du service des urgences</p>
-                    <p class="text-gray-600 mb-6">20 ans d'expérience – Passionnée par la médecine communautaire.</p>
+                    <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">{{ chiefs.0.get_full_name }}</h3>
+                    <p class="text-lg lg:text-xl text-gray-700 mb-4">{{ chiefs.0.speciality }}</p>
+                    <p class="text-gray-600 mb-6">{{ chiefs.0.bio|default:"Membre expérimenté de notre équipe médicale."|truncatewords:15 }}</p>
                     
                     <button onclick="openDoctorModal(0)" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
                         <span>Voir le profil</span>
@@ -315,6 +316,7 @@
         </div>
     </div>
 </section>
+{% endif %}
 
 <!-- Personnel médical Section -->
 <section class="py-16 bg-gray-50">
@@ -327,127 +329,45 @@
         </h2>
         
         <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            <!-- Staff Card 1 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(0)">
+            {% for member in staff %}
+            <div class="group cursor-pointer" onclick="openDoctorModal({{ forloop.counter0|add:chiefs|length }})">
                 <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor1.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% if member.photo %}
+                    <img src="{{ member.photo.url }}" alt="{{ member.get_full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
+                        <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
+                    <h3 class="text-lg font-bold text-orange-500 mb-1">{{ member.get_full_name }}</h3>
+                    <p class="text-sm text-gray-700">{{ member.speciality }}</p>
                 </div>
             </div>
-            
-            <!-- Staff Card 2 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(1)">
-                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor2.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
-                </div>
+            {% empty %}
+            <div class="col-span-5 text-center py-12 text-gray-500">
+                {% trans "Aucun personnel disponible" %}
             </div>
-            
-            <!-- Staff Card 3 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(2)">
-                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor3.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
-                </div>
-            </div>
-            
-            <!-- Staff Card 4 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(3)">
-                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor1.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
-                </div>
-            </div>
-            
-            <!-- Staff Card 5 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(4)">
-                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor2.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
-                </div>
-            </div>
-            
-            <!-- Staff Card 6 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(5)">
-                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor3.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
-                </div>
-            </div>
-            
-            <!-- Staff Card 7 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(6)">
-                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor1.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
-                </div>
-            </div>
-            
-            <!-- Staff Card 8 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(7)">
-                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor2.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
-                </div>
-            </div>
-            
-            <!-- Staff Card 9 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(8)">
-                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor3.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
-                </div>
-            </div>
-            
-            <!-- Staff Card 10 -->
-            <div class="group cursor-pointer" onclick="openDoctorModal(9)">
-                <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
-                    <img src="{% static 'images/doctor1.jpg' %}" alt="Staff" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-orange-500 mb-1">M. TABI FAUSTIN</h3>
-                    <p class="text-sm text-gray-700">Chef du service des urgences</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         
         <!-- Pagination -->
+        {% if staff.has_other_pages %}
         <div class="flex justify-center items-center gap-6 mt-12">
-            <button class="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
+            {% if staff.has_next %}
+            <a href="?page={{ staff.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.service %}&service={{ request.GET.service }}{% endif %}{% if request.GET.grade %}&grade={{ request.GET.grade }}{% endif %}" class="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
                 Page suivante
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
-            </button>
-            <span class="text-gray-600 font-semibold">Page 1 à 3</span>
+            </a>
+            {% endif %}
+            <span class="text-gray-600 font-semibold">Page {{ staff.number }} sur {{ staff.paginator.num_pages }}</span>
         </div>
+        {% endif %}
     </div>
 </section>
 
@@ -470,7 +390,7 @@
         
         <!-- Doctor Info -->
         <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mb-8">
-            <img src="{% static 'images/doctor1.jpg' %}" alt="Doctor" class="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover shadow-lg flex-shrink-0">
+            <img id="modal-doctor-photo" src="{% static 'images/doctor1.jpg' %}" alt="Doctor" class="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover shadow-lg flex-shrink-0">
             
             <div class="hidden sm:flex items-center gap-2 sm:gap-4 flex-shrink-0">
                 <svg class="w-8 sm:w-12 h-8 sm:h-12 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
@@ -482,8 +402,8 @@
             </div>
             
             <div class="text-center sm:text-left">
-                <h3 class="text-xl sm:text-2xl font-black text-orange-500 mb-2">M. TABI FAUSTIN</h3>
-                <p class="text-base sm:text-lg text-gray-700">Chef du service des urgences</p>
+                <h3 id="modal-doctor-name" class="text-xl sm:text-2xl font-black text-orange-500 mb-2">Doctor Name</h3>
+                <p id="modal-doctor-title" class="text-base sm:text-lg text-gray-700">Specialty</p>
             </div>
         </div>
         
@@ -501,8 +421,7 @@
             </svg>
             <div>
                 <h5 class="font-bold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">Horaires de consultation :</h5>
-                <p class="text-gray-700 text-sm sm:text-base">Lun – Ven: 8h-12h</p>
-                <p class="text-gray-700 text-sm sm:text-base">Samedi: 8h-10h</p>
+                <p id="modal-doctor-schedule" class="text-gray-700 text-sm sm:text-base">Lun – Ven: 8h-12h</p>
             </div>
         </div>
         
@@ -513,7 +432,7 @@
             </svg>
             <div class="min-w-0">
                 <h5 class="font-bold text-gray-900 mb-1 text-sm sm:text-base">Email :</h5>
-                <a href="mailto:saintmartin@gmail.com" class="text-blue-600 hover:underline text-sm sm:text-base break-all">saintmartin@gmail.com</a>
+                <a id="modal-doctor-email" href="mailto:" class="text-blue-600 hover:underline text-sm sm:text-base break-all">email@hrae.cm</a>
             </div>
         </div>
         
@@ -523,48 +442,68 @@
                 <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
             </svg>
             <div>
-                <p class="text-lg sm:text-xl font-bold text-gray-900">+237 654 259 325</p>
+                <p id="modal-doctor-phone" class="text-lg sm:text-xl font-bold text-gray-900">+237 XXX XXX XXX</p>
             </div>
         </div>
         
         <!-- Appointment Button -->
-        <button class="w-full inline-flex items-center justify-center gap-3 bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-gray-800 transition text-sm sm:text-base">
+        <a href="{% url 'appointment_create' %}" class="block w-full text-center inline-flex items-center justify-center gap-3 bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-gray-800 transition text-sm sm:text-base">
             <span>Prendre rendez-vous</span>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
-        </button>
+        </a>
     </div>
 </div>
 
 <script>
 // Chief carousel data
 const chiefs = [
+    {% for chief in chiefs %}
     {
-        name: "M. TABI FAUSTIN",
-        title: "Chef du service des urgences",
-        description: "20 ans d'expérience – Passionnée par la médecine communautaire.",
-        image: "{% static 'images/doctor1.jpg' %}"
-    },
+        name: "{{ chief.get_full_name }}",
+        title: "{{ chief.get_grade_display }} - {{ chief.speciality }}",
+        description: "{{ chief.bio|default:'Membre expérimenté de notre équipe médicale.'|escapejs|truncatewords:15 }}",
+        image: "{% if chief.photo %}{{ chief.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
+        email: "{{ chief.email|default:'' }}",
+        phone: "{{ chief.phone|default:'' }}",
+        schedule: "{{ chief.consultation_hours|default:'Lun - Ven: 8h-12h' }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+
+// All doctors data for modal (includes chiefs and staff)
+const allDoctors = [
+    {% for chief in chiefs %}
     {
-        name: "DR. MARIE DUPONT",
-        title: "Chef du service de pédiatrie",
-        description: "15 ans d'expérience – Spécialiste en soins infantiles.",
-        image: "{% static 'images/doctor2.jpg' %}"
-    },
+        name: "{{ chief.get_full_name }}",
+        title: "{{ chief.get_grade_display }} - {{ chief.speciality }}",
+        image: "{% if chief.photo %}{{ chief.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
+        email: "{{ chief.email|default:'' }}",
+        phone: "{{ chief.phone|default:'' }}",
+        schedule: "{{ chief.consultation_hours|default:'Lun - Ven: 8h-12h' }}",
+        bio: "{{ chief.bio|default:'Membre expérimenté de notre équipe médicale.'|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    {% if chiefs and staff %},{% endif %}
+    {% for member in staff %}
     {
-        name: "DR. JEAN MBARGA",
-        title: "Chef du service de chirurgie",
-        description: "25 ans d'expérience – Expert en chirurgie générale.",
-        image: "{% static 'images/doctor3.jpg' %}"
-    }
+        name: "{{ member.get_full_name }}",
+        title: "{{ member.get_grade_display }} - {{ member.speciality }}",
+        image: "{% if member.photo %}{{ member.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
+        email: "{{ member.email|default:'' }}",
+        phone: "{{ member.phone|default:'' }}",
+        schedule: "{{ member.consultation_hours|default:'Lun - Ven: 8h-12h' }}",
+        bio: "{{ member.bio|default:'Membre de notre équipe médicale.'|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
 ];
 
 let currentChiefIndex = 0;
 let isAnimating = false;
 
 function updateChiefDisplay(direction = 'next') {
-    if (isAnimating) return;
+    if (isAnimating || chiefs.length === 0) return;
     isAnimating = true;
     
     const chiefInfo = document.getElementById('chief-info');
@@ -572,36 +511,29 @@ function updateChiefDisplay(direction = 'next') {
     const img2 = document.getElementById('chief-img-2');
     const img3 = document.getElementById('chief-img-3');
     
-    // Step 1: Fade out text
     chiefInfo.classList.add('fade-out');
     
-    // Step 2: Slide images
     const slideClass = direction === 'next' ? 'slide-left' : 'slide-right';
     img1.classList.add(`${slideClass}-exit`);
     img2.classList.add(`${slideClass}-exit`);
     img3.classList.add(`${slideClass}-exit`);
     
-    // Step 3: Wait for animation, then update content
     setTimeout(() => {
         const prevIndex = (currentChiefIndex - 1 + chiefs.length) % chiefs.length;
         const nextIndex = (currentChiefIndex + 1) % chiefs.length;
         
-        // Update images
         img1.src = chiefs[prevIndex].image;
         img2.src = chiefs[currentChiefIndex].image;
         img3.src = chiefs[nextIndex].image;
         
-        // Remove exit classes
         img1.classList.remove(`${slideClass}-exit`);
         img2.classList.remove(`${slideClass}-exit`);
         img3.classList.remove(`${slideClass}-exit`);
         
-        // Add enter classes
         img1.classList.add(`${slideClass}-enter`);
         img2.classList.add(`${slideClass}-enter`);
         img3.classList.add(`${slideClass}-enter`);
         
-        // Update text content
         const chief = chiefs[nextIndex];
         chiefInfo.classList.remove('fade-out');
         chiefInfo.innerHTML = `
@@ -618,7 +550,6 @@ function updateChiefDisplay(direction = 'next') {
         `;
         chiefInfo.classList.add('fade-in');
         
-        // Clean up animation classes
         setTimeout(() => {
             img1.classList.remove(`${slideClass}-enter`);
             img2.classList.remove(`${slideClass}-enter`);
@@ -640,7 +571,33 @@ function previousChief() {
 }
 
 function openDoctorModal(index) {
-    document.getElementById('doctorModal').classList.add('active');
+    if (index >= allDoctors.length) return;
+    
+    const doctor = allDoctors[index];
+    const modal = document.getElementById('doctorModal');
+    
+    // Update modal content
+    document.getElementById('modal-doctor-photo').src = doctor.image;
+    document.getElementById('modal-doctor-name').textContent = doctor.name;
+    document.getElementById('modal-doctor-title').textContent = doctor.title;
+    document.getElementById('modal-doctor-schedule').textContent = doctor.schedule;
+    
+    const emailLink = document.getElementById('modal-doctor-email');
+    if (doctor.email) {
+        emailLink.href = `mailto:${doctor.email}`;
+        emailLink.textContent = doctor.email;
+    } else {
+        emailLink.parentElement.style.display = 'none';
+    }
+    
+    const phoneText = document.getElementById('modal-doctor-phone');
+    if (doctor.phone) {
+        phoneText.textContent = doctor.phone;
+    } else {
+        phoneText.textContent = 'Non disponible';
+    }
+    
+    modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 
@@ -658,12 +615,14 @@ document.getElementById('doctorModal').addEventListener('click', function(e) {
 
 // Initialize display
 window.addEventListener('DOMContentLoaded', function() {
-    const prevIndex = (currentChiefIndex - 1 + chiefs.length) % chiefs.length;
-    const nextIndex = (currentChiefIndex + 1) % chiefs.length;
-    
-    document.getElementById('chief-img-1').src = chiefs[prevIndex].image;
-    document.getElementById('chief-img-2').src = chiefs[currentChiefIndex].image;
-    document.getElementById('chief-img-3').src = chiefs[nextIndex].image;
+    if (chiefs.length > 0) {
+        const prevIndex = (currentChiefIndex - 1 + chiefs.length) % chiefs.length;
+        const nextIndex = (currentChiefIndex + 1) % chiefs.length;
+        
+        document.getElementById('chief-img-1').src = chiefs[prevIndex].image;
+        document.getElementById('chief-img-2').src = chiefs[currentChiefIndex].image;
+        document.getElementById('chief-img-3').src = chiefs[nextIndex].image;
+    }
 });
 </script>
 {% endblock %}

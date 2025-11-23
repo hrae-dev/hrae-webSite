@@ -68,6 +68,8 @@ def our_services(request):
     return render(request, 'Home/services.html', context)
 
 
+from django.core.paginator import Paginator
+
 def our_team(request):
     """Liste du personnel médical"""
     settings = SiteSettings.get_settings()
@@ -75,19 +77,36 @@ def our_team(request):
     # Filtres
     service_id = request.GET.get('service')
     grade = request.GET.get('grade')
+    search = request.GET.get('search')
     
-    staff_list = Staff.objects.filter(is_visible=True)
+    # Chefs de service (pour le carousel)
+    chiefs = Staff.objects.filter(is_visible=True, is_chief=True)[:3]
+    
+    # Personnel médical (excluant les chefs)
+    staff_list = Staff.objects.filter(is_visible=True, is_chief=False).order_by('last_name')
     
     if service_id:
         staff_list = staff_list.filter(services__id=service_id)
     if grade:
         staff_list = staff_list.filter(grade=grade)
+    if search:
+        staff_list = staff_list.filter(
+            Q(first_name__icontains=search) | 
+            Q(last_name__icontains=search) | 
+            Q(speciality__icontains=search)
+        )
+    
+    # Pagination
+    paginator = Paginator(staff_list, 10)
+    page_number = request.GET.get('page', 1)
+    staff = paginator.get_page(page_number)
     
     services = Service.objects.filter(is_active=True)
     
     context = {
         'settings': settings,
-        'staff_list': staff_list,
+        'chiefs': chiefs,
+        'staff': staff,
         'services': services,
         'grades': Staff.GRADE_CHOICES,
     }

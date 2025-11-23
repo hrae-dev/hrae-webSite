@@ -120,16 +120,15 @@ INTERNAL_IPS = [
     'localhost',
     '72.61.101.174'
 ]
-
 JAZZMIN_SETTINGS = {
     # Titre et branding
     "site_title": "HRAE Admin",
     "site_header": "HRAE",
-    "site_brand": "HRAE Admin",
-    "site_logo": "",  # dans static/
-    "login_logo": "",
-    "site_icon": "i",
-    "welcome_sign": "Bienvenue sur le panneau d'administration",
+    "site_brand": "Hôpital Régional Annexe d'Edea",
+    "site_logo": "logo-hrae.png",
+    "login_logo": "logo-hrae.png",
+    "site_icon": None,
+    "welcome_sign": "Bienvenue sur le panneau d'administration HRAE",
     "copyright": "HRAE © 2025",
 
     # Utilisateur
@@ -169,7 +168,7 @@ JAZZMIN_SETTINGS = {
     "default_icon_parents": "fas fa-folder",
     "default_icon_children": "fas fa-circle",
 
-    # Menu personnalisé (optionnel)
+    # Menu personnalisé
     "custom_links": {
         "Home": [{
             "name": "Voir le site",
@@ -196,15 +195,15 @@ JAZZMIN_UI_TWEAKS = {
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-success",
-    "accent": "accent-primary",
-    "navbar": "navbar-dark navbar-primary",
+    "brand_colour": "navbar-orange",
+    "accent": "accent-orange",
+    "navbar": "navbar-dark navbar-orange",
     "no_navbar_border": False,
     "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": False,
     "sidebar_fixed": True,
-    "sidebar": "sidebar-dark-primary",
+    "sidebar": "sidebar-dark-orange",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": True,
@@ -214,11 +213,12 @@ JAZZMIN_UI_TWEAKS = {
     "theme": "default",
     "dark_mode_theme": None,
     "button_classes": {
-        "primary": "btn-primary",
+        "primary": "btn-orange",
         "secondary": "btn-secondary",
         "info": "btn-info",
         "warning": "btn-warning",
         "danger": "btn-danger",
         "success": "btn-success"
-    }
+    },
+    "actions_sticky_top": False
 }

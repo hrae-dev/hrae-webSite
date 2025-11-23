@@ -100,19 +100,18 @@ class ServiceAdmin(admin.ModelAdmin):
 # ========================================
 @admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
-    list_display = ('photo_thumbnail', 'full_name', 'grade', 'speciality', 
-                   'accepts_appointments', 'is_visible')
-    list_filter = ('grade', 'accepts_appointments', 'is_visible', 'services')
+    list_display = ('full_name', 'grade', 'speciality', 'is_chief', 'is_visible', 'accepts_appointments')
+    list_filter = ('grade', 'is_chief', 'is_visible', 'accepts_appointments', 'services')
     search_fields = ('first_name', 'last_name', 'speciality')
     filter_horizontal = ('services',)
     list_editable = ('accepts_appointments', 'is_visible')
     
     fieldsets = (
         ('Identité', {
-            'fields': ('first_name', 'last_name', 'photo', 'grade')
+            'fields': ('first_name', 'last_name', 'photo')
         }),
-        ('Informations professionnelles', {
-            'fields': ('speciality', 'services', 'diplomas', 'experience', 'expertise', 'languages')
+        ('Informations personnelles', {
+            'fields': ('grade', 'speciality', 'is_chief')
         }),
         ('Rendez-vous', {
             'fields': ('accepts_appointments', 'consultation_duration', 'consultation_hours'),

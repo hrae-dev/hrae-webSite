@@ -143,7 +143,8 @@ class Staff(models.Model):
     last_name = models.CharField("Nom", max_length=100)
     photo = models.ImageField("Photo professionnelle", upload_to='staff/')
     grade = models.CharField("Grade", max_length=10, choices=GRADE_CHOICES)
-    
+    is_chief = models.BooleanField("Chef de service", default=False)
+
     # Informations professionnelles
     speciality = models.CharField("Spécialité", max_length=255)
     services = models.ManyToManyField(Service, verbose_name="Services affectés", 
