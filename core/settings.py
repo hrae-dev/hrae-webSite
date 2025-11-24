@@ -126,35 +126,39 @@ INTERNAL_IPS = [
 # 🔒 DJANGO SECURITY
 # ======================
 
-# Force SSL (si ton site est en HTTPS derrière Nginx)
-SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'True') == 'True'
+if not DEBUG:
+    # Force SSL (si ton site est en HTTPS derrière Nginx)
+    SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'True') == 'True'
 
-# Active HSTS (renforce l’usage du HTTPS)
-SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', 31536000))  # 1 an
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+    # Active HSTS (renforce l’usage du HTTPS)
+    SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', 31536000))  # 1 an
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
-# Cookies sécurisés
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+    # Cookies sécurisés
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
-# Protection XSS
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
+    # Protection XSS
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
 
-# Cliquezjacking
-X_FRAME_OPTIONS = 'DENY'  # ou 'SAMEORIGIN' si tu utilises iframe légitimement
+    # Cliquezjacking
+    X_FRAME_OPTIONS = 'DENY'
 
-# Cookies HTTP only
-SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_HTTPONLY = False  # doit rester False pour CSRF, Django gère déjà
+    # Cookies HTTP only
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = False  # doit rester False pour CSRF, Django gère déjà
 
-# Referrer policy
-SECURE_REFERRER_POLICY = 'strict-origin'
+    # Referrer policy
+    SECURE_REFERRER_POLICY = 'strict-origin'
 
-# Optionnel, mais conseillé si tu es derrière un proxy HTTPS (ex: Nginx)
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # Si derrière un proxy HTTPS (ex: Nginx)
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+else:
+    # En développement, certains paramètres peuvent gêner
+    SECURE_SSL_REDIRECT = False
 
 JAZZMIN_SETTINGS = {
     # Titre et branding

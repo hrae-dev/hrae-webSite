@@ -53,7 +53,7 @@ def about_us(request):
         'page': page,
         'direction_members': direction_members,
     }
-    return render(request, 'Home/about.html', context)
+    return render(request, 'Home/about_us.html', context)
 
 
 def our_services(request):

@@ -1,148 +1,207 @@
 {% extends "base.html" %}
 {% load static i18n %}
 
-{% block title %}{% trans "À propos" %} - HRAE{% endblock %}
+{% block title %}{% trans "À propos - HRAE" %}{% endblock %}
 
 {% block content %}
+<style>
+    .stats-card {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        animation: pulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+    }
+</style>
+
 <!-- Hero Header -->
-<section class="bg-gradient-blue-light text-white py-16 sm:py-20 md:py-24 mt-16 lg:mt-20">
-    <div class="container mx-auto px-3 sm:px-4 text-center">
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">{% trans "À propos de l'HRAE" %}</h1>
-        <p class="text-base sm:text-lg md:text-xl text-white/90">{% trans "Notre histoire, notre mission" %}</p>
+<div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white py-16 md:py-44">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-black uppercase mb-4">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "À" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-white"></span>
+            </span> {% trans "PROPOS DE L'HRAE" %}
+        </h1>
+        <p class="text-base md:text-lg text-orange-50 max-w-3xl">
+            {{ settings.site_tagline|default:"Votre santé, notre priorité depuis plusieurs années au service de la population." }}
+        </p>
+    </div>
+</div>
+
+<!-- Notre Histoire Section -->
+{% if page %}
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-black mb-8">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "N" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+            </span>{% trans "otre Histoire" %}
+        </h2>
+        
+        <div class="prose prose-lg max-w-none">
+            {{ page.content|safe }}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Chiffres Clés Section -->
+<section class="py-16 bg-gradient-to-br from-purple-600 to-purple-700 text-white">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-black mb-12 text-center">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "C" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-white"></span>
+            </span>{% trans "hiffres Clés" %}
+        </h2>
+        
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Stat Card 1 -->
+            <div class="stats-card bg-white/10 backdrop-blur-sm rounded-3xl p-8 text-center">
+                <div class="text-5xl font-black mb-4">{{ settings.patients_per_year|default:"10 000" }}+</div>
+                <p class="text-lg font-semibold">{% trans "Patients par an" %}</p>
+            </div>
+            
+            <!-- Stat Card 2 -->
+            <div class="stats-card bg-white/10 backdrop-blur-sm rounded-3xl p-8 text-center">
+                <div class="text-5xl font-black mb-4">{{ settings.beds_count|default:"100" }}</div>
+                <p class="text-lg font-semibold">{% trans "Lits d'hospitalisation" %}</p>
+            </div>
+            
+            <!-- Stat Card 3 -->
+            <div class="stats-card bg-white/10 backdrop-blur-sm rounded-3xl p-8 text-center">
+                <div class="text-5xl font-black mb-4">{{ settings.specialties_count|default:"15" }}</div>
+                <p class="text-lg font-semibold">{% trans "Spécialités médicales" %}</p>
+            </div>
+            
+            <!-- Stat Card 4 -->
+            <div class="stats-card bg-white/10 backdrop-blur-sm rounded-3xl p-8 text-center">
+                <div class="text-5xl font-black mb-4">{{ settings.staff_count|default:"150" }}+</div>
+                <p class="text-lg font-semibold">{% trans "Personnel soignant" %}</p>
+            </div>
+        </div>
     </div>
 </section>
 
-<div class="container mx-auto px-3 sm:px-4 py-8 sm:py-12 md:py-16">
-    <!-- Mission & Vision -->
-    <div class="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 mb-12 sm:mb-16">
-        <div class="bg-primary-10 border-l-4 border-primary-60 rounded-lg p-4 sm:p-6 md:p-8">
-            <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-primary-60">{% trans "Notre Mission" %}</h2>
-            {% if page %}
-                <div class="text-gray-700 text-sm sm:text-base">{{ page.mission|safe|linebreaks }}</div>
-            {% else %}
-                <p class="text-gray-700 mb-3 sm:mb-4 text-sm sm:text-base">
-                    {% trans "L'Hôpital Régional Annexe d'Edea a pour mission de fournir des soins de santé de qualité, accessibles à tous, dans un environnement sûr et respectueux de la dignité humaine." %}
-                </p>
-                <p class="text-gray-700 text-sm sm:text-base">
-                    {% trans "Nous nous engageons à servir notre communauté avec professionnalisme, compassion et excellence." %}
-                </p>
-            {% endif %}
-        </div>
+<!-- Direction Section -->
+{% if direction_members %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-black mb-12">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "N" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+            </span>{% trans "otre Direction" %}
+        </h2>
         
-        <div class="bg-green-10 border-l-4 border-green-60 rounded-lg p-4 sm:p-6 md:p-8">
-            <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-green-60">{% trans "Notre Vision" %}</h2>
-            {% if page %}
-                <div class="text-gray-700 text-sm sm:text-base">{{ page.vision|safe|linebreaks }}</div>
-            {% else %}
-                <p class="text-gray-700 text-sm sm:text-base">
-                    {% trans "Devenir un établissement de référence en matière de soins de santé dans la région, reconnu pour son expertise médicale et son engagement envers l'innovation." %}
-                </p>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- Chiffres & Statistiques -->
-    <section class="bg-primary-10 rounded-xl p-6 sm:p-8 md:p-10 mb-12 sm:mb-16">
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-base">{% trans "Chiffres & Statistiques" %}</h2>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-6">
-            <div class="text-center">
-                <div class="text-3xl sm:text-4xl font-bold text-primary-60 mb-1 sm:mb-2">5000+</div>
-                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Patients traités/an" %}</div>
-            </div>
-            <div class="text-center">
-                <div class="text-3xl sm:text-4xl font-bold text-green-60 mb-1 sm:mb-2">100</div>
-                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Lits disponibles" %}</div>
-            </div>
-            <div class="text-center">
-                <div class="text-3xl sm:text-4xl font-bold text-primary-60 mb-1 sm:mb-2">15</div>
-                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Spécialités" %}</div>
-            </div>
-            <div class="text-center">
-                <div class="text-3xl sm:text-4xl font-bold text-green-60 mb-1 sm:mb-2">80+</div>
-                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Personnel médical" %}</div>
-            </div>
-            <div class="text-center col-span-2 md:col-span-1">
-                <div class="text-3xl sm:text-4xl font-bold text-primary-60 mb-1 sm:mb-2">95%</div>
-                <div class="text-gray-700 text-xs sm:text-sm">{% trans "Taux de réussite" %}</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Nos Valeurs -->
-    <section class="mb-12 sm:mb-16">
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-base">{% trans "Nos Valeurs" %}</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <div class="bg-white border-2 border-primary-60 rounded-lg p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-primary-10 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                    <span class="text-2xl sm:text-3xl font-bold text-primary-60">C</span>
-                </div>
-                <h3 class="font-bold text-base sm:text-lg mb-2 text-base">{% trans "Compassion" %}</h3>
-                <p class="text-xs sm:text-sm text-gray-600">{% trans "Empathie envers nos patients" %}</p>
-            </div>
-            <div class="bg-white border-2 border-green-60 rounded-lg p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-10 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                    <span class="text-2xl sm:text-3xl font-bold text-green-60">E</span>
-                </div>
-                <h3 class="font-bold text-base sm:text-lg mb-2 text-base">{% trans "Excellence" %}</h3>
-                <p class="text-xs sm:text-sm text-gray-600">{% trans "Qualité des soins" %}</p>
-            </div>
-            <div class="bg-white border-2 border-primary-60 rounded-lg p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-primary-10 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                    <span class="text-2xl sm:text-3xl font-bold text-primary-60">I</span>
-                </div>
-                <h3 class="font-bold text-base sm:text-lg mb-2 text-base">{% trans "Innovation" %}</h3>
-                <p class="text-xs sm:text-sm text-gray-600">{% trans "Technologies modernes" %}</p>
-            </div>
-            <div class="bg-white border-2 border-green-60 rounded-lg p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-10 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                    <span class="text-2xl sm:text-3xl font-bold text-green-60">R</span>
-                </div>
-                <h3 class="font-bold text-base sm:text-lg mb-2 text-base">{% trans "Respect" %}</h3>
-                <p class="text-xs sm:text-sm text-gray-600">{% trans "Dignité humaine" %}</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Histoire & Certifications -->
-    <div class="grid md:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-16">
-        <div class="bg-white border-l-4 border-primary-60 rounded-lg p-4 sm:p-6 shadow">
-            <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-primary-60">{% trans "Notre Histoire" %}</h3>
-            <p class="text-gray-700 text-sm sm:text-base">
-                {% trans "Fondé en 1985, l'Hôpital Régional Annexe d'Edea a évolué pour devenir un établissement de soins complet, offrant une gamme complète de services médicaux." %}
-            </p>
-        </div>
-        <div class="bg-white border-l-4 border-green-60 rounded-lg p-4 sm:p-6 shadow">
-            <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-green-60">{% trans "Certifications" %}</h3>
-            <p class="text-gray-700 text-sm sm:text-base">
-                {% trans "Notre établissement respecte les standards nationaux et internationaux de qualité en matière de soins de santé." %}
-            </p>
-        </div>
-    </div>
-
-    <!-- Équipe de direction -->
-    {% if direction_members %}
-    <section>
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center text-base">{% trans "Équipe de Direction" %}</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for member in direction_members %}
-            <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 sm:p-6 text-center">
+            <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
                 {% if member.photo %}
-                <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" 
-                     class="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full mx-auto mb-3 sm:mb-4 object-cover border-4 border-primary-10">
+                <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" class="w-full h-64 object-cover">
                 {% else %}
-                <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full bg-primary-10 mx-auto mb-3 sm:mb-4 flex items-center justify-center border-4 border-primary-60">
-                    <span class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-60">{{ member.full_name|slice:":1" }}</span>
+                <div class="w-full h-64 bg-gradient-to-br from-orange-200 to-purple-200 flex items-center justify-center">
+                    <svg class="w-24 h-24 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
                 </div>
                 {% endif %}
-                <h3 class="font-bold text-base sm:text-lg text-base">{{ member.full_name }}</h3>
-                <p class="text-primary-60 mb-2 sm:mb-3 text-sm sm:text-base">{{ member.position }}</p>
-                {% if member.bio %}
-                <p class="text-xs sm:text-sm text-gray-600">{{ member.bio|truncatewords:20 }}</p>
-                {% endif %}
+                <div class="p-6">
+                    <h3 class="text-xl font-black text-orange-500 mb-2">{{ member.full_name }}</h3>
+                    <p class="text-gray-700 font-semibold mb-4">{{ member.position }}</p>
+                    {% if member.bio %}
+                    <p class="text-gray-600 text-sm">{{ member.bio|truncatewords:20 }}</p>
+                    {% endif %}
+                </div>
             </div>
             {% endfor %}
         </div>
-    </section>
-    {% endif %}
-</div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Organigramme Section -->
+{% if settings.organization_chart %}
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-black mb-12">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "O" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+            </span>{% trans "rganigramme" %}
+        </h2>
+        
+        <div class="bg-gray-100 rounded-3xl p-8">
+            <img src="{{ settings.organization_chart.url }}" alt="Organigramme HRAE" class="w-full h-auto rounded-2xl shadow-lg">
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Certifications Section -->
+{% if settings.certifications %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-black mb-12">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "C" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+            </span>{% trans "ertifications & Accréditations" %}
+        </h2>
+        
+        <div class="bg-white rounded-3xl p-8 shadow-lg">
+            <ul class="space-y-4">
+                {% for cert in settings.certifications.splitlines %}
+                <li class="flex items-start gap-4">
+                    <svg class="w-6 h-6 text-orange-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                    </svg>
+                    <span class="text-gray-700 text-lg">{{ cert }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="py-16 bg-gradient-to-br from-orange-500 to-orange-600 text-white">
+    <div class="container mx-auto px-4 max-w-7xl text-center">
+        <h2 class="text-3xl md:text-4xl font-black mb-6">{% trans "Besoin de nos services ?" %}</h2>
+        <p class="text-lg mb-8 max-w-2xl mx-auto">
+            {% trans "Notre équipe est à votre disposition pour répondre à tous vos besoins de santé." %}
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'appointment_create' %}" class="inline-flex items-center gap-3 bg-white text-orange-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition shadow-lg">
+                <span>{% trans "Prendre rendez-vous" %}</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </a>
+            <a href="{% url 'contact_us' %}" class="inline-flex items-center gap-3 bg-gray-900 text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition shadow-lg">
+                <span>{% trans "Nous contacter" %}</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
