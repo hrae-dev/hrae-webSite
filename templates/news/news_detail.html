@@ -4,25 +4,10 @@
 {% block title %}{{ article.title }} - HRAE{% endblock %}
 
 {% block content %}
-<style>
-    .hero-margin {
-        margin-top: 80px;  /* Mobile */
-    }
-    @media (min-width: 768px) {
-        .hero-margin {
-            margin-top: 96px;  /* Tablet */
-        }
-    }
-    @media (min-width: 1024px) {
-        .hero-margin {
-            margin-top: 128px;  /* Desktop */
-        }
-    }
-</style>
 <!-- Featured Image with Back and Share Buttons -->
-<div class="relative w-full h-64 md:h-80 lg:h-96 bg-gray-900 hero-margin">
+<div class="relative w-full h-64 md:h-80 lg:h-96 bg-gray-900 mt-10 md:mt-14">
     {% if article.featured_image %}
-    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-contain">
+    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-cover">
     {% else %}
     <div class="w-full h-full bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center">
         <svg class="w-24 h-24 md:w-32 md:h-32 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
