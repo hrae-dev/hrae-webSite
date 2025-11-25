@@ -4,8 +4,23 @@
 {% block title %}{{ article.title }} - HRAE{% endblock %}
 
 {% block content %}
+<style>
+    .hero-margin {
+        margin-top: 80px;  /* Mobile */
+    }
+    @media (min-width: 768px) {
+        .hero-margin {
+            margin-top: 96px;  /* Tablet */
+        }
+    }
+    @media (min-width: 1024px) {
+        .hero-margin {
+            margin-top: 128px;  /* Desktop */
+        }
+    }
+</style>
 <!-- Featured Image with Back and Share Buttons -->
-<div class="relative w-full h-64 md:h-80 lg:h-96 bg-gray-900 mt-16 md:mt-20 lg:mt-24">
+<div class="relative w-full h-64 md:h-80 lg:h-96 bg-gray-900 hero-margin">
     {% if article.featured_image %}
     <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-contain">
     {% else %}
