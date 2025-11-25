@@ -5,7 +5,7 @@
 
 {% block content %}
 <!-- Featured Image with Back and Share Buttons -->
-<div class="relative w-full h-64 md:h-80 lg:h-96 bg-gray-900 mt-5 md:mt-10">
+<div class="relative w-full h-64 md:h-80 lg:h-96 bg-gray-900 mt-10 md:mt-20">
     {% if article.featured_image %}
     <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-contain">
     {% else %}
