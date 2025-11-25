@@ -5,9 +5,9 @@
 
 {% block content %}
 <!-- Featured Image with Back and Share Buttons -->
-<div class="relative w-full h-64 md:h-80 lg:h-96 bg-gray-900">
+<div class="relative w-full h-64 md:h-80 lg:h-96 bg-gray-900 mt-5 md:mt-10">
     {% if article.featured_image %}
-    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-cover">
+    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-contain">
     {% else %}
     <div class="w-full h-full bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center">
         <svg class="w-24 h-24 md:w-32 md:h-32 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
