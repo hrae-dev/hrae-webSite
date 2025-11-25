@@ -263,10 +263,10 @@ def contact_us(request):
 # ========================================
 # DETAIL PAGES
 # ========================================
-def service_detail(request, service_id):
+def service_detail(request, service_slug):
     """Détail d'un service"""
     settings = SiteSettings.get_settings()
-    service = get_object_or_404(Service, id=service_id, is_active=True)
+    service = get_object_or_404(Service, slug=service_slug, is_active=True)
     staff_members = service.staff_members.filter(is_visible=True)
     
     context = {
@@ -275,7 +275,6 @@ def service_detail(request, service_id):
         'staff_members': staff_members,
     }
     return render(request, 'services/service_detail.html', context)
-
 
 def doctor_detail(request, doctor_id):
     """Fiche détaillée d'un membre du personnel"""
