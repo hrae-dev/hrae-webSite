@@ -1,37 +1,223 @@
 {% extends "base.html" %}
+{% load static i18n %}
 
-{% block title %}Prendre Rendez-vous - HRAE{% endblock %}
+{% block title %}{% trans "Prendre Rendez-vous - HRAE" %}{% endblock %}
 
 {% block content %}
-<div class="bg-red-600 text-white py-16 sm:py-20 md:py-24 mt-16 lg:mt-20">
+<style>
+    /* Step transition animations */
+    .step-content {
+        display: none;
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .step-content.active {
+        display: block;
+        opacity: 1;
+        transform: translateX(0);
+        animation: slideIn 0.4s ease-out;
+    }
+    
+    .step-content.prev {
+        transform: translateX(-50px);
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    /* Progress bar animation */
+    .progress-fill {
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Input focus animations */
+    input:focus, select:focus, textarea:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+    }
+    
+    /* Button hover effects */
+    button {
+        transition: all 0.3s ease;
+    }
+    
+    button:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Calendar styles */
+    .calendar-day {
+        transition: all 0.2s ease;
+    }
+    
+    .calendar-day:hover:not(.disabled) {
+        transform: scale(1.1);
+    }
+    
+    /* Responsive input styling */
+    input, select, textarea {
+        transition: all 0.3s ease;
+    }
+</style>
+
+<!-- Hero Header -->
+<div class="bg-orange-500 text-white py-16 sm:py-20 md:py-24 mt-8 lg:mt-14">
     <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold">Prendre Rendez-vous</h1>
-        <p class="mt-2 text-white">Réservez votre consultation en ligne</p>
+        <h1 class="text-4xl font-bold">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "P" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-white"></span>
+            </span>{% trans "rendre Rendez-vous" %}
+        </h1>
+        <p class="mt-2 text-white">{% trans "Réservez votre consultation en ligne" %}</p>
     </div>
 </div>
 
-<div class="container mx-auto px-4 py-12">
-    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
-        <form method="post">
-            {% csrf_token %}
+<!-- Multi-step Form Container -->
+<div class="bg-gray-50 py-8 md:py-12">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Progress Indicator -->
+        <div class="bg-white rounded-2xl shadow-md p-4 md:p-8 mb-6">
+            <!-- Desktop Progress (vertical: icon, bar, title) -->
+            <div class="hidden md:flex justify-between items-start">
+                <!-- Step 1 -->
+                <div class="flex flex-col items-start flex-1">
+                    <div id="step-icon-1" class="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center transition-all duration-300 mb-3">
+                        <svg class="w-7 h-7 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    <div class="w-full h-1 bg-gray-200 rounded-full mb-2">
+                        <div id="progress-bar-1" class="h-full bg-orange-500 rounded-full transition-all duration-500" style="width: 100%;"></div>
+                    </div>
+                    <span id="step-label-desktop-1" class="text-sm font-medium text-gray-700">Vos informations</span>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex flex-col items-start flex-1">
+                    <div id="step-icon-2" class="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center transition-all duration-300 mb-3">
+                        <svg class="w-7 h-7 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <div class="w-full h-1 bg-gray-200 rounded-full mb-2">
+                        <div id="progress-bar-2" class="h-full bg-orange-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
+                    </div>
+                    <span id="step-label-desktop-2" class="text-sm font-medium text-gray-700">Détails du rendez-vous</span>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex flex-col items-start flex-1">
+                    <div id="step-icon-3" class="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center transition-all duration-300 mb-3">
+                        <svg class="w-7 h-7 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/>
+                        </svg>
+                    </div>
+                    <div class="w-full h-1 bg-gray-200 rounded-full mb-2">
+                        <div id="progress-bar-3" class="h-full bg-orange-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
+                    </div>
+                    <span id="step-label-desktop-3" class="text-sm font-medium text-gray-700">Choisissez votre date et heure</span>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="flex flex-col items-start flex-1">
+                    <div id="step-icon-4" class="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center transition-all duration-300 mb-3">
+                        <svg class="w-7 h-7 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                    </div>
+                    <div class="w-full h-1 bg-gray-200 rounded-full mb-2">
+                        <div id="progress-bar-4" class="h-full bg-orange-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
+                    </div>
+                    <span id="step-label-desktop-4" class="text-sm font-medium text-gray-700">Informations complémentaires</span>
+                </div>
+            </div>
             
-            <div class="space-y-6">
-                <!-- Informations patient -->
-                <div class="border-b pb-4">
-                    <h2 class="text-2xl font-bold mb-4">Vos informations</h2>
+            <!-- Mobile Progress (horizontal with connecting line) -->
+            <div class="md:hidden">
+                <div class="relative flex justify-between items-start mb-4">
+                    <!-- Connecting Line -->
+                    <div class="absolute top-6 left-0 right-0 h-1 bg-gray-200 -z-0" style="margin: 0 6%;"></div>
+                    <div id="progress-line-mobile" class="absolute top-6 left-0 h-1 bg-orange-500 transition-all duration-500 -z-0" style="width: 0%; margin-left: 6%;"></div>
                     
-                    <div class="space-y-4">
+                    <!-- Icons -->
+                    <div class="flex flex-col items-center flex-1 relative z-10">
+                        <div id="step-icon-mobile-1" class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center transition-all duration-300">
+                            <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center flex-1 relative z-10">
+                        <div id="step-icon-mobile-2" class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center transition-all duration-300">
+                            <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center flex-1 relative z-10">
+                        <div id="step-icon-mobile-3" class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center transition-all duration-300">
+                            <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center flex-1 relative z-10">
+                        <div id="step-icon-mobile-4" class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center transition-all duration-300">
+                            <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Current Step Label (Mobile Only) -->
+                <div id="current-step-label" class="text-center mt-4">
+                    <span class="text-sm font-semibold text-gray-800">Vos informations</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Form Steps -->
+        <div class="bg-white rounded-2xl shadow-md p-6 md:p-10">
+            <form method="post" id="appointment-form">
+                {% csrf_token %}
+                
+                <!-- Step 1: Vos informations -->
+                <div id="step-1" class="step-content active">
+                    <h2 class="text-2xl md:text-3xl font-black mb-8">
+                        <span class="inline-block relative">
+                            <span class="relative z-10">V</span>
+                            <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+                        </span>os informations
+                    </h2>
+                    
+                    <div class="space-y-6">
                         <div>
-                            <label class="block mb-2 font-semibold">{{ form.patient_name.label }}</label>
+                            <label class="block text-sm md:text-base font-semibold mb-2">Nom complet</label>
                             {{ form.patient_name }}
                             {% if form.patient_name.errors %}
                             <p class="text-red-600 text-sm mt-1">{{ form.patient_name.errors.0 }}</p>
                             {% endif %}
                         </div>
                         
-                        <div class="grid md:grid-cols-2 gap-4">
+                        <div class="grid md:grid-cols-2 gap-4 md:gap-6">
                             <div>
-                                <label class="block mb-2 font-semibold">{{ form.patient_email.label }}</label>
+                                <label class="block text-sm md:text-base font-semibold mb-2">Adresse email</label>
                                 {{ form.patient_email }}
                                 {% if form.patient_email.errors %}
                                 <p class="text-red-600 text-sm mt-1">{{ form.patient_email.errors.0 }}</p>
@@ -39,7 +225,7 @@
                             </div>
                             
                             <div>
-                                <label class="block mb-2 font-semibold">{{ form.patient_phone.label }}</label>
+                                <label class="block text-sm md:text-base font-semibold mb-2">Téléphone</label>
                                 {{ form.patient_phone }}
                                 {% if form.patient_phone.errors %}
                                 <p class="text-red-600 text-sm mt-1">{{ form.patient_phone.errors.0 }}</p>
@@ -48,19 +234,27 @@
                         </div>
                         
                         <div>
-                            <label class="block mb-2 font-semibold">{{ form.patient_birthdate.label }}</label>
+                            <label class="block text-sm md:text-base font-semibold mb-2">Date de naissance</label>
                             {{ form.patient_birthdate }}
+                            {% if form.patient_birthdate.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.patient_birthdate.errors.0 }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 
-                <!-- Détails RDV -->
-                <div class="border-b pb-4">
-                    <h2 class="text-2xl font-bold mb-4">Détails du rendez-vous</h2>
+                <!-- Step 2: Détails du rendez-vous -->
+                <div id="step-2" class="step-content">
+                    <h2 class="text-2xl md:text-3xl font-black mb-8">
+                        <span class="inline-block relative">
+                            <span class="relative z-10">D</span>
+                            <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+                        </span>étails du rendez-vous
+                    </h2>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-6">
                         <div>
-                            <label class="block mb-2 font-semibold">{{ form.service.label }}</label>
+                            <label class="block text-sm md:text-base font-semibold mb-2">De quel service médical avez-vous besoin ?</label>
                             {{ form.service }}
                             {% if form.service.errors %}
                             <p class="text-red-600 text-sm mt-1">{{ form.service.errors.0 }}</p>
@@ -68,111 +262,176 @@
                         </div>
                         
                         <div>
-                            <label class="block mb-2 font-semibold">{{ form.staff.label }}</label>
+                            <label class="block text-sm md:text-base font-semibold mb-2">Quel médecin souhaitez-vous ?</label>
                             {{ form.staff }}
-                            <p class="text-gray-500 text-sm">Laissez vide pour le premier médecin disponible</p>
+                            <p class="text-gray-500 text-sm mt-2">Laissez vide pour le premier médecin disponible</p>
+                            {% if form.staff.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.staff.errors.0 }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
-
-                <!-- Section calendrier interactif -->
-                <div class="border-b pb-6">
-                    <h2 class="text-2xl font-bold mb-4">📅 Choisissez votre date et heure</h2>
-                    <p class="text-sm text-gray-600 mb-4">
-                        <span class="inline-block w-3 h-3 bg-green-500 rounded"></span> Disponible
-                        <span class="inline-block w-3 h-3 bg-red-500 rounded ml-4"></span> Occupé
-                    </p>
+                
+                <!-- Step 3: Choisissez votre date et heure -->
+                <div id="step-3" class="step-content">
+                    <h2 class="text-2xl md:text-3xl font-black mb-6">
+                        <span class="inline-block relative">
+                            <span class="relative z-10">C</span>
+                            <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+                        </span>hoisissez votre date et heure
+                    </h2>
                     
-                    <div id="calendar-grid" class="grid grid-cols-7 gap-2 mb-6">
-                        <!-- Généré par JS -->
-                    </div>
-                    
-                    <div id="time-slots" class="hidden">
-                        <h3 class="font-bold mb-3">Créneaux horaires :</h3>
-                        <div id="slots-grid" class="grid grid-cols-4 gap-2">
-                            <!-- Généré par JS -->
+                    <div class="mb-6">
+                        <div class="flex items-center gap-3 md:gap-4 text-xs md:text-sm flex-wrap">
+                            <div class="flex items-center gap-1.5 md:gap-2">
+                                <span class="w-2.5 h-2.5 md:w-3 md:h-3 bg-orange-500 rounded"></span>
+                                <span>Disponible</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 md:gap-2">
+                                <span class="w-2.5 h-2.5 md:w-3 md:h-3 bg-gray-400 rounded"></span>
+                                <span>Occupé</span>
+                            </div>
                         </div>
                     </div>
                     
-                    {{ form.appointment_date }}
-                    {% if form.appointment_date.errors %}
-                    <p class="text-red-600 text-sm mt-2">{{ form.appointment_date.errors.0 }}</p>
-                    {% endif %}
-                </div>
-                
-                <!-- Motif de consultation -->
-                <div class="border-b pb-4">
-                    <div>
-                        <label class="block mb-2 font-semibold">{{ form.reason.label }}</label>
-                        {{ form.reason }}
-                        {% if form.reason.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.reason.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-                </div>
-                
-                <!-- Informations complémentaires -->
-                <div>
-                    <h2 class="text-2xl font-bold mb-4">Informations complémentaires</h2>
-                    
-                    <div class="space-y-4">
+                    <div class="space-y-6">
+                        <!-- Calendar Grid (Responsive) -->
                         <div>
-                            <label class="block mb-2 font-semibold">{{ form.is_first_visit.label }}</label>
+                            <h3 class="font-bold mb-3 text-sm md:text-base">Sélectionnez une date :</h3>
+                            <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 md:gap-2">
+                                <!-- Generated by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Time Slots (Responsive) -->
+                        <div id="time-slots" class="hidden">
+                            <h3 class="font-bold mb-3 text-sm md:text-base">Créneaux horaires disponibles :</h3>
+                            <div id="slots-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 gap-1.5 md:gap-2">
+                                <!-- Generated by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Hidden input to store selected datetime -->
+                        {{ form.appointment_date }}
+                        {% if form.appointment_date.errors %}
+                        <p class="text-red-600 text-sm mt-2">{{ form.appointment_date.errors.0 }}</p>
+                        {% endif %}
+                        
+                        <!-- Motif de consultation -->
+                        <div class="pt-4 border-t">
+                            <label class="block text-sm md:text-base font-semibold mb-2">Motif de consultation</label>
+                            {{ form.reason }}
+                            {% if form.reason.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.reason.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Informations complémentaires -->
+                <div id="step-4" class="step-content">
+                    <h2 class="text-2xl md:text-3xl font-black mb-8">
+                        <span class="inline-block relative">
+                            <span class="relative z-10">I</span>
+                            <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+                        </span>nformations complémentaires
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm md:text-base font-semibold mb-2">Première visite ?</label>
                             {{ form.is_first_visit }}
+                            {% if form.is_first_visit.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.is_first_visit.errors.0 }}</p>
+                            {% endif %}
                         </div>
                         
                         <div>
-                            <label class="block mb-2 font-semibold">{{ form.insurance_number.label }}</label>
+                            <label class="block text-sm md:text-base font-semibold mb-2">Numéro d'assurance</label>
                             {{ form.insurance_number }}
+                            {% if form.insurance_number.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.insurance_number.errors.0 }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="mt-8">
-                <button type="submit" 
-                        class="w-full bg-red-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-red-700">
-                    Envoyer la demande
-                </button>
-            </div>
-            
-            <p class="text-gray-500 text-sm mt-4 text-center">
-                Votre demande sera validée par notre équipe. Vous recevrez une confirmation par email.
-            </p>
-        </form>
+                
+                <!-- Navigation Buttons -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0 mt-10 pt-6 border-t">
+                    <button type="button" id="prev-btn" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-full font-semibold hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition order-2 sm:order-1" disabled>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        <span>{% trans "Précédent" %}</span>
+                    </button>
+                    
+                    <button type="button" id="next-btn" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 bg-gray-900 text-white rounded-full font-semibold hover:bg-gray-800 transition order-1 sm:order-2">
+                        <span>{% trans "Suivant" %}</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    
+                    <button type="submit" id="submit-btn" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 bg-gray-900 text-white rounded-full font-semibold hover:bg-gray-800 transition order-1 sm:order-2">
+                        <span>{% trans "Envoyer la demande" %}</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <p class="text-gray-600 text-sm text-center mt-6 px-4">
+            {% trans "Votre demande sera validée par notre équipe. Vous recevrez une confirmation par email." %}
+        </p>
     </div>
 </div>
 
 <script>
-// Données simulées - à remplacer par vraies données
-const bookedSlots = [
-    '2025-11-15T09:00',
-    '2025-11-15T10:30',
-    '2025-11-16T14:00'
-];
-
+let currentStep = 1;
+const totalSteps = 4;
 let selectedDate = null;
 let selectedSlot = null;
 
-// Générer calendrier (14 prochains jours)
+const stepLabels = [
+    'Vos informations',
+    'Détails du rendez-vous',
+    'Choisissez votre date et heure',
+    'Informations complémentaires'
+];
+
+// Simulated booked slots (replace with real data from backend)
+const bookedSlots = [
+    '2025-11-27T09:00',
+    '2025-11-27T10:30',
+    '2025-11-28T14:00'
+];
+
+// Generate calendar (next 14 days) - Responsive for all screens
 function generateCalendar() {
     const grid = document.getElementById('calendar-grid');
+    if (!grid) return;
+    
     const today = new Date();
     let html = '';
     
-    for(let i = 0; i < 14; i++) {
+    for (let i = 0; i < 14; i++) {
         const date = new Date(today);
         date.setDate(today.getDate() + i);
         const dateStr = date.toISOString().split('T')[0];
         
-        // Vérifier si jour disponible (pas dimanche)
+        // Check if day is available (not Sunday)
         const isAvailable = date.getDay() !== 0;
-        const bgColor = isAvailable ? 'bg-green-50 hover:bg-green-100 cursor-pointer' : 'bg-gray-200';
+        const isSelected = selectedDate === dateStr;
+        const bgColor = !isAvailable ? 'bg-gray-200 cursor-not-allowed' : 
+                       isSelected ? 'bg-orange-500 text-white' : 
+                       'bg-orange-50 hover:bg-orange-100 cursor-pointer';
         
         html += `
-            <div onclick="selectDate('${dateStr}')" 
-                 class="${bgColor} p-3 rounded text-center border ${selectedDate === dateStr ? 'border-blue-500 bg-blue-100' : 'border-gray-300'}">
-                <div class="text-xs">${date.getDate()}</div>
+            <div onclick="${isAvailable ? `selectDate('${dateStr}')` : ''}" 
+                 class="calendar-day ${bgColor} p-2 md:p-3 rounded-lg text-center border-2 ${isSelected ? 'border-orange-500' : 'border-transparent'} transition-all">
+                <div class="text-base md:text-lg font-bold">${date.getDate()}</div>
                 <div class="text-xs">${['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][date.getDay()]}</div>
             </div>
         `;
@@ -180,6 +439,7 @@ function generateCalendar() {
     grid.innerHTML = html;
 }
 
+// Select date and show time slots - Works on all screens
 function selectDate(dateStr) {
     selectedDate = dateStr;
     selectedSlot = null;
@@ -187,32 +447,40 @@ function selectDate(dateStr) {
     showTimeSlots(dateStr);
 }
 
+// Show available time slots - Responsive for all screens
 function showTimeSlots(dateStr) {
     const slotsDiv = document.getElementById('time-slots');
     const slotsGrid = document.getElementById('slots-grid');
+    if (!slotsDiv || !slotsGrid) return;
+    
     slotsDiv.classList.remove('hidden');
     
     let html = '';
-    // Horaires 8h-17h par tranches de 30min
-    for(let h = 8; h < 17; h++) {
-        for(let m of [0, 30]) {
+    // Generate time slots from 8h to 17h (30min intervals)
+    for (let h = 8; h < 17; h++) {
+        for (let m of [0, 30]) {
             const time = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
             const slotStr = `${dateStr}T${time}`;
             const isBooked = bookedSlots.includes(slotStr);
             const isSelected = selectedSlot === slotStr;
             
-            let bgColor = 'bg-green-100 hover:bg-green-200 cursor-pointer';
+            let bgColor, textColor;
             if (isBooked) {
-                bgColor = 'bg-red-200 cursor-not-allowed';
+                bgColor = 'bg-gray-400';
+                textColor = 'text-white';
             } else if (isSelected) {
-                bgColor = 'bg-blue-500 text-white';
+                bgColor = 'bg-orange-500';
+                textColor = 'text-white';
+            } else {
+                bgColor = 'bg-orange-100 hover:bg-orange-200';
+                textColor = 'text-gray-800';
             }
             
             html += `
                 <div onclick="${isBooked ? '' : `selectTime('${slotStr}')`}" 
-                     class="${bgColor} p-3 rounded text-center border border-gray-300 transition">
-                    <div class="font-bold">${time}</div>
-                    <div class="text-xs">${isBooked ? '❌' : isSelected ? '✓' : '✅'}</div>
+                     class="${bgColor} ${textColor} p-2 md:p-3 rounded-lg text-center text-sm md:text-base font-semibold transition-all ${isBooked ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}">
+                    ${time}
+                    <div class="text-xs mt-1">${isBooked ? '❌' : isSelected ? '✓' : '✅'}</div>
                 </div>
             `;
         }
@@ -220,15 +488,184 @@ function showTimeSlots(dateStr) {
     slotsGrid.innerHTML = html;
 }
 
+// Select time slot - Works on all screens
 function selectTime(slotStr) {
     selectedSlot = slotStr;
     document.getElementById('id_appointment_date').value = slotStr;
     showTimeSlots(selectedDate);
 }
 
-// Initialiser au chargement
-document.addEventListener('DOMContentLoaded', function() {
-    generateCalendar();
+// Update UI based on current step
+function updateStep() {
+    // Hide all steps
+    document.querySelectorAll('.step-content').forEach(step => {
+        step.classList.remove('active', 'prev');
+    });
+    
+    // Show current step with animation
+    const currentStepEl = document.getElementById(`step-${currentStep}`);
+    if (currentStepEl) {
+        currentStepEl.classList.add('active');
+    }
+    
+    // Update DESKTOP progress bars (each step has its own bar)
+    for (let i = 1; i <= totalSteps; i++) {
+        const progressBar = document.getElementById(`progress-bar-${i}`);
+        const icon = document.getElementById(`step-icon-${i}`);
+        const svg = icon ? icon.querySelector('svg') : null;
+        
+        if (progressBar) {
+            if (i < currentStep) {
+                // Completed step
+                progressBar.style.width = '100%';
+                if (icon) {
+                    icon.classList.remove('bg-gray-200', 'bg-orange-100');
+                    icon.classList.add('bg-orange-500');
+                }
+                if (svg) {
+                    svg.classList.remove('text-gray-600', 'text-orange-500');
+                    svg.classList.add('text-white');
+                }
+            } else if (i === currentStep) {
+                // Current step
+                progressBar.style.width = '100%';
+                if (icon) {
+                    icon.classList.remove('bg-gray-200', 'bg-orange-500');
+                    icon.classList.add('bg-orange-100');
+                }
+                if (svg) {
+                    svg.classList.remove('text-gray-600', 'text-white');
+                    svg.classList.add('text-orange-500');
+                }
+            } else {
+                // Future step
+                progressBar.style.width = '0%';
+                if (icon) {
+                    icon.classList.remove('bg-orange-500', 'bg-orange-100');
+                    icon.classList.add('bg-gray-200');
+                }
+                if (svg) {
+                    svg.classList.remove('text-orange-500', 'text-white');
+                    svg.classList.add('text-gray-600');
+                }
+            }
+        }
+    }
+    
+    // Update MOBILE progress line and icons
+    const progressLineMobile = document.getElementById('progress-line-mobile');
+    if (progressLineMobile) {
+        const progressPercent = ((currentStep - 1) / (totalSteps - 1)) * 88;
+        progressLineMobile.style.width = progressPercent + '%';
+    }
+    
+    for (let i = 1; i <= totalSteps; i++) {
+        const iconMobile = document.getElementById(`step-icon-mobile-${i}`);
+        const svgMobile = iconMobile ? iconMobile.querySelector('svg') : null;
+        
+        if (iconMobile && svgMobile) {
+            if (i < currentStep) {
+                iconMobile.classList.remove('bg-gray-200', 'bg-orange-100');
+                iconMobile.classList.add('bg-orange-500');
+                svgMobile.classList.remove('text-gray-600', 'text-orange-500');
+                svgMobile.classList.add('text-white');
+            } else if (i === currentStep) {
+                iconMobile.classList.remove('bg-gray-200', 'bg-orange-500');
+                iconMobile.classList.add('bg-orange-100');
+                svgMobile.classList.remove('text-gray-600', 'text-white');
+                svgMobile.classList.add('text-orange-500');
+            } else {
+                iconMobile.classList.remove('bg-orange-500', 'bg-orange-100');
+                iconMobile.classList.add('bg-gray-200');
+                svgMobile.classList.remove('text-orange-500', 'text-white');
+                svgMobile.classList.add('text-gray-600');
+            }
+        }
+    }
+    
+    // Update mobile step label
+    const mobileLabel = document.getElementById('current-step-label');
+    if (mobileLabel) {
+        mobileLabel.innerHTML = `<span class="text-sm font-semibold text-gray-800">${stepLabels[currentStep - 1]}</span>`;
+    }
+    
+    // Update buttons
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    
+    prevBtn.disabled = currentStep === 1;
+    
+    if (currentStep === totalSteps) {
+        nextBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
+    }
+    
+    // Generate calendar when reaching step 3 (all screens)
+    if (currentStep === 3) {
+        generateCalendar();
+    }
+    
+    // Scroll to top of form
+    window.scrollTo({ top: 300, behavior: 'smooth' });
+}
+
+// Next button
+document.getElementById('next-btn').addEventListener('click', () => {
+    if (currentStep < totalSteps) {
+        currentStep++;
+        updateStep();
+    }
+});
+
+// Previous button
+document.getElementById('prev-btn').addEventListener('click', () => {
+    if (currentStep > 1) {
+        document.getElementById(`step-${currentStep}`).classList.add('prev');
+        currentStep--;
+        updateStep();
+    }
+});
+
+// Form submission
+document.getElementById('appointment-form').addEventListener('submit', (e) => {
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+        <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Envoi en cours...</span>
+    `;
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateStep();
+    
+    // Style form inputs
+    const inputs = document.querySelectorAll('input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select, textarea');
+    inputs.forEach(input => {
+        input.classList.add('w-full', 'px-4', 'py-3', 'border', 'border-gray-300', 'rounded-lg', 'focus:ring-2', 'focus:ring-orange-500', 'focus:border-orange-500', 'transition');
+        
+        if (input.tagName === 'SELECT') {
+            input.classList.add('appearance-none', 'bg-white');
+        }
+        
+        if (input.tagName === 'TEXTAREA') {
+            input.classList.add('min-h-32', 'resize-none');
+        }
+    });
+    
+    // Style checkbox/radio
+    const checkboxes = document.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+    checkboxes.forEach(input => {
+        input.classList.add('w-5', 'h-5', 'text-orange-500', 'focus:ring-orange-500', 'border-gray-300', 'rounded');
+    });
 });
 </script>
 {% endblock %}
