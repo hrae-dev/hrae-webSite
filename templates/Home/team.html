@@ -55,26 +55,99 @@
         .chief-img-large { width: 180px; height: 180px; }
     }
     
-    /* Slide animations */
-    .slide-left-enter {
-        animation: slideLeftIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Cascading card animations */
+    .cascade-medium-to-small {
+        animation: cascadeMediumToSmall 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     
-    .slide-left-exit {
-        animation: slideLeftOut 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    .cascade-large-to-medium {
+        animation: cascadeLargeToMedium 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     
-    .slide-right-enter {
-        animation: slideRightIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    .cascade-small-to-medium {
+        animation: cascadeSmallToMedium 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     
-    .slide-right-exit {
-        animation: slideRightOut 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    .cascade-medium-to-large {
+        animation: cascadeMediumToLarge 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     
-    @keyframes slideLeftIn {
+    .slide-in-right {
+        animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    .slide-in-left {
+        animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    .slide-out-left {
+        animation: slideOutLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    .slide-out-right {
+        animation: slideOutRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    /* Medium (240px) scales down to Small (180px) = 0.75x and moves left */
+    @keyframes cascadeMediumToSmall {
         from {
-            transform: translateX(100%);
+            width: 240px;
+            height: 240px;
+            opacity: 0.8;
+        }
+        to {
+            width: 180px;
+            height: 180px;
+            opacity: 0.6;
+        }
+    }
+    
+    /* Large (320px) scales down to Medium (240px) = 0.75x and moves left */
+    @keyframes cascadeLargeToMedium {
+        from {
+            width: 320px;
+            height: 320px;
+            opacity: 1;
+        }
+        to {
+            width: 240px;
+            height: 240px;
+            opacity: 0.8;
+        }
+    }
+    
+    /* Small (180px) scales up to Medium (240px) = 1.33x and moves right */
+    @keyframes cascadeSmallToMedium {
+        from {
+            width: 180px;
+            height: 180px;
+            opacity: 0.6;
+        }
+        to {
+            width: 240px;
+            height: 240px;
+            opacity: 0.8;
+        }
+    }
+    
+    /* Medium (240px) scales up to Large (320px) = 1.33x and moves right */
+    @keyframes cascadeMediumToLarge {
+        from {
+            width: 240px;
+            height: 240px;
+            opacity: 0.8;
+        }
+        to {
+            width: 320px;
+            height: 320px;
+            opacity: 1;
+        }
+    }
+    
+    /* New card slides in from right as large */
+    @keyframes slideInRight {
+        from {
+            transform: translateX(150%);
             opacity: 0;
         }
         to {
@@ -83,36 +156,79 @@
         }
     }
     
-    @keyframes slideLeftOut {
+    /* New card slides in from left as small */
+    @keyframes slideInLeft {
         from {
-            transform: translateX(0);
-            opacity: 1;
+            transform: translateX(-150%);
+            opacity: 0;
         }
         to {
-            transform: translateX(-100%);
+            transform: translateX(0);
+            opacity: 0.6;
+        }
+    }
+    
+    /* Small card slides out to left */
+    @keyframes slideOutLeft {
+        from {
+            transform: translateX(0);
+            opacity: 0.6;
+        }
+        to {
+            transform: translateX(-150%);
             opacity: 0;
         }
     }
     
-    @keyframes slideRightIn {
+    /* Large card slides out to right */
+    @keyframes slideOutRight {
         from {
-            transform: translateX(-100%);
-            opacity: 0;
-        }
-        to {
             transform: translateX(0);
             opacity: 1;
+        }
+        to {
+            transform: translateX(150%);
+            opacity: 0;
         }
     }
     
-    @keyframes slideRightOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
+    /* Responsive adjustments for tablet */
+    @media (max-width: 1024px) {
+        @keyframes cascadeMediumToSmall {
+            from { width: 190px; height: 190px; opacity: 0.8; }
+            to { width: 140px; height: 140px; opacity: 0.6; }
         }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
+        @keyframes cascadeLargeToMedium {
+            from { width: 260px; height: 260px; opacity: 1; }
+            to { width: 190px; height: 190px; opacity: 0.8; }
+        }
+        @keyframes cascadeSmallToMedium {
+            from { width: 140px; height: 140px; opacity: 0.6; }
+            to { width: 190px; height: 190px; opacity: 0.8; }
+        }
+        @keyframes cascadeMediumToLarge {
+            from { width: 190px; height: 190px; opacity: 0.8; }
+            to { width: 260px; height: 260px; opacity: 1; }
+        }
+    }
+    
+    /* Responsive adjustments for mobile */
+    @media (max-width: 768px) {
+        @keyframes cascadeMediumToSmall {
+            from { width: 140px; height: 140px; opacity: 0.8; }
+            to { width: 100px; height: 100px; opacity: 0.6; }
+        }
+        @keyframes cascadeLargeToMedium {
+            from { width: 180px; height: 180px; opacity: 1; }
+            to { width: 140px; height: 140px; opacity: 0.8; }
+        }
+        @keyframes cascadeSmallToMedium {
+            from { width: 100px; height: 100px; opacity: 0.6; }
+            to { width: 140px; height: 140px; opacity: 0.8; }
+        }
+        @keyframes cascadeMediumToLarge {
+            from { width: 140px; height: 140px; opacity: 0.8; }
+            to { width: 180px; height: 180px; opacity: 1; }
         }
     }
     
@@ -448,7 +564,7 @@
         
         <!-- Appointment Button -->
         <a href="{% url 'appointment_create' %}" class="block w-full text-center inline-flex items-center justify-center gap-3 bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-gray-800 transition text-sm sm:text-base">
-            <span>Prendre rendez-vous</span>
+            <span class="text-white">Prendre rendez-vous</span>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
@@ -499,75 +615,144 @@ const allDoctors = [
     {% endfor %}
 ];
 
-let currentChiefIndex = 0;
+// Track which doctor is in which position
+let smallIndex = 0;   // Left position
+let mediumIndex = 1;  // Middle position  
+let largeIndex = 2;   // Right position (featured)
 let isAnimating = false;
 
-function updateChiefDisplay(direction = 'next') {
+function nextChief() {
     if (isAnimating || chiefs.length === 0) return;
     isAnimating = true;
     
-    const chiefInfo = document.getElementById('chief-info');
     const img1 = document.getElementById('chief-img-1');
     const img2 = document.getElementById('chief-img-2');
     const img3 = document.getElementById('chief-img-3');
     
+    // Calculate new indices BEFORE animation
+    const newLargeIndex = largeIndex + 1;
+    const newSmallIndex = mediumIndex;
+    const newMediumIndex = largeIndex;
+    
+    // Apply ALL animations at the SAME time
+    img1.classList.add('slide-out-left');
+    img2.classList.add('cascade-medium-to-small');
+    img3.classList.add('cascade-large-to-medium');
+    
+    // Fade out text simultaneously
+    const chiefInfo = document.getElementById('chief-info');
     chiefInfo.classList.add('fade-out');
     
-    const slideClass = direction === 'next' ? 'slide-left' : 'slide-right';
-    img1.classList.add(`${slideClass}-exit`);
-    img2.classList.add(`${slideClass}-exit`);
-    img3.classList.add(`${slideClass}-exit`);
-    
+    // Wait for all animations to complete, then update everything
     setTimeout(() => {
-        const prevIndex = (currentChiefIndex - 1 + chiefs.length) % chiefs.length;
-        const nextIndex = (currentChiefIndex + 1) % chiefs.length;
+        // Update indices
+        smallIndex = newSmallIndex;
+        mediumIndex = newMediumIndex;
+        largeIndex = newLargeIndex;
         
-        img1.src = chiefs[prevIndex].image;
-        img2.src = chiefs[currentChiefIndex].image;
-        img3.src = chiefs[nextIndex].image;
+        // Remove ALL animation classes
+        img1.classList.remove('slide-out-left');
+        img2.classList.remove('cascade-medium-to-small');
+        img3.classList.remove('cascade-large-to-medium');
         
-        img1.classList.remove(`${slideClass}-exit`);
-        img2.classList.remove(`${slideClass}-exit`);
-        img3.classList.remove(`${slideClass}-exit`);
+        // Update ALL image sources at once
+        img1.src = chiefs[smallIndex % chiefs.length].image;
+        img2.src = chiefs[mediumIndex % chiefs.length].image;
+        img3.src = chiefs[largeIndex % chiefs.length].image;
         
-        img1.classList.add(`${slideClass}-enter`);
-        img2.classList.add(`${slideClass}-enter`);
-        img3.classList.add(`${slideClass}-enter`);
+        // Apply new large image slide-in animation
+        img3.classList.add('slide-in-right');
         
-        const chief = chiefs[nextIndex];
-        chiefInfo.classList.remove('fade-out');
+        // Update text
+        const chief = chiefs[largeIndex % chiefs.length];
         chiefInfo.innerHTML = `
             <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">${chief.name}</h3>
             <p class="text-lg lg:text-xl text-gray-700 mb-4">${chief.title}</p>
             <p class="text-gray-600 mb-6">${chief.description}</p>
             
-            <button onclick="openDoctorModal(${nextIndex})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+            <button onclick="openDoctorModal(${largeIndex % chiefs.length})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
                 <span>Voir le profil</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
             </button>
         `;
+        chiefInfo.classList.remove('fade-out');
         chiefInfo.classList.add('fade-in');
         
         setTimeout(() => {
-            img1.classList.remove(`${slideClass}-enter`);
-            img2.classList.remove(`${slideClass}-enter`);
-            img3.classList.remove(`${slideClass}-enter`);
+            img3.classList.remove('slide-in-right');
             chiefInfo.classList.remove('fade-in');
             isAnimating = false;
-        }, 500);
-    }, 200);
-}
-
-function nextChief() {
-    currentChiefIndex = (currentChiefIndex + 1) % chiefs.length;
-    updateChiefDisplay('next');
+        }, 600);
+    }, 600);
 }
 
 function previousChief() {
-    currentChiefIndex = (currentChiefIndex - 1 + chiefs.length) % chiefs.length;
-    updateChiefDisplay('prev');
+    if (isAnimating || chiefs.length === 0) return;
+    isAnimating = true;
+    
+    const img1 = document.getElementById('chief-img-1');
+    const img2 = document.getElementById('chief-img-2');
+    const img3 = document.getElementById('chief-img-3');
+    
+    // Calculate new indices BEFORE animation
+    const newSmallIndex = smallIndex - 1;
+    const newLargeIndex = mediumIndex;
+    const newMediumIndex = smallIndex;
+    
+    // Apply ALL animations at the SAME time
+    img3.classList.add('slide-out-right');
+    img2.classList.add('cascade-medium-to-large');
+    img1.classList.add('cascade-small-to-medium');
+    
+    // Fade out text simultaneously
+    const chiefInfo = document.getElementById('chief-info');
+    chiefInfo.classList.add('fade-out');
+    
+    // Wait for all animations to complete, then update everything
+    setTimeout(() => {
+        // Update indices
+        smallIndex = newSmallIndex;
+        mediumIndex = newMediumIndex;
+        largeIndex = newLargeIndex;
+        
+        // Remove ALL animation classes
+        img3.classList.remove('slide-out-right');
+        img2.classList.remove('cascade-medium-to-large');
+        img1.classList.remove('cascade-small-to-medium');
+        
+        // Update ALL image sources at once
+        img1.src = chiefs[(smallIndex + chiefs.length) % chiefs.length].image;
+        img2.src = chiefs[mediumIndex % chiefs.length].image;
+        img3.src = chiefs[largeIndex % chiefs.length].image;
+        
+        // Apply new small image slide-in animation
+        img1.classList.add('slide-in-left');
+        
+        // Update text
+        const chief = chiefs[largeIndex % chiefs.length];
+        chiefInfo.innerHTML = `
+            <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">${chief.name}</h3>
+            <p class="text-lg lg:text-xl text-gray-700 mb-4">${chief.title}</p>
+            <p class="text-gray-600 mb-6">${chief.description}</p>
+            
+            <button onclick="openDoctorModal(${largeIndex % chiefs.length})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+                <span>Voir le profil</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </button>
+        `;
+        chiefInfo.classList.remove('fade-out');
+        chiefInfo.classList.add('fade-in');
+        
+        setTimeout(() => {
+            img1.classList.remove('slide-in-left');
+            chiefInfo.classList.remove('fade-in');
+            isAnimating = false;
+        }, 600);
+    }, 600);
 }
 
 function openDoctorModal(index) {
@@ -616,12 +801,9 @@ document.getElementById('doctorModal').addEventListener('click', function(e) {
 // Initialize display
 window.addEventListener('DOMContentLoaded', function() {
     if (chiefs.length > 0) {
-        const prevIndex = (currentChiefIndex - 1 + chiefs.length) % chiefs.length;
-        const nextIndex = (currentChiefIndex + 1) % chiefs.length;
-        
-        document.getElementById('chief-img-1').src = chiefs[prevIndex].image;
-        document.getElementById('chief-img-2').src = chiefs[currentChiefIndex].image;
-        document.getElementById('chief-img-3').src = chiefs[nextIndex].image;
+        document.getElementById('chief-img-1').src = chiefs[smallIndex % chiefs.length].image;
+        document.getElementById('chief-img-2').src = chiefs[mediumIndex % chiefs.length].image;
+        document.getElementById('chief-img-3').src = chiefs[largeIndex % chiefs.length].image;
     }
 });
 </script>
