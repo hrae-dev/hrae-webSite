@@ -5,35 +5,35 @@
 
 {% block content %}
 <!-- Featured Image with Back and Share Buttons -->
-<div class="relative w-full h-96 md:h-[500px] bg-gray-900">
+<div class="relative w-full h-64 md:h-80 lg:h-96 bg-gray-900">
     {% if article.featured_image %}
     <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-full object-cover">
     {% else %}
     <div class="w-full h-full bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center">
-        <svg class="w-32 h-32 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-24 h-24 md:w-32 md:h-32 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
         </svg>
     </div>
     {% endif %}
     
     <!-- Back and Share Buttons - Top Right -->
-    <div class="absolute top-6 right-6 flex gap-3">
+    <div class="absolute top-4 md:top-6 right-4 md:right-6 flex gap-2 md:gap-3">
         <!-- Back Button -->
-        <a href="{% url 'news' %}" class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition">
-            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href="{% url 'news' %}" class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition">
+            <svg class="w-5 h-5 md:w-6 md:h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
         </a>
         
         <!-- Share Button -->
-        <button onclick="toggleShareMenu()" class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition">
-            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button onclick="toggleShareMenu()" class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition">
+            <svg class="w-5 h-5 md:w-6 md:h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
             </svg>
         </button>
         
         <!-- Share Menu Dropdown -->
-        <div id="shareMenu" class="hidden absolute top-16 right-0 bg-white rounded-2xl shadow-xl p-4 min-w-[200px]">
+        <div id="shareMenu" class="hidden absolute top-12 md:top-16 right-0 bg-white rounded-2xl shadow-xl p-4 min-w-[200px] z-10">
             <p class="text-sm font-bold text-gray-700 mb-3">Partager sur :</p>
             <div class="flex flex-col gap-2">
                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
@@ -57,62 +57,62 @@
 </div>
 
 <!-- Article Content -->
-<div class="container mx-auto px-4 py-12 max-w-4xl">
+<div class="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
     <!-- Title -->
-    <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-6 leading-tight">
+    <h1 class="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-gray-900 mb-4 md:mb-6 leading-tight">
         {{ article.title }}
     </h1>
     
     <!-- Date and Author -->
-    <div class="flex flex-wrap items-center gap-4 text-gray-600 mb-8 pb-6 border-b border-gray-200">
+    <div class="flex flex-wrap items-center gap-3 md:gap-4 text-gray-600 mb-6 md:mb-8 pb-4 md:pb-6 border-b border-gray-200">
         {% if article.category %}
-        <span class="inline-block bg-orange-100 text-orange-600 px-3 py-1 rounded-lg text-sm font-semibold">
+        <span class="inline-block bg-orange-100 text-orange-600 px-3 py-1 rounded-lg text-xs md:text-sm font-semibold">
             {{ article.category.name }}
         </span>
         {% endif %}
         
         <div class="flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
-            <span class="font-medium">{{ article.published_at|date:"d F Y" }}</span>
+            <span class="text-sm md:text-base font-medium">{{ article.published_at|date:"d F Y" }}</span>
         </div>
         
         {% if article.author %}
         <div class="flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
             </svg>
-            <span class="font-medium">{{ article.author.get_full_name|default:article.author.username }}</span>
+            <span class="text-sm md:text-base font-medium">{{ article.author.get_full_name|default:article.author.username }}</span>
         </div>
         {% endif %}
     </div>
 
     <!-- Article Content -->
-    <div class="prose prose-lg max-w-none mb-12">
-        <div class="text-gray-700 leading-relaxed text-base md:text-lg">
+    <div class="prose prose-lg max-w-none mb-8 md:mb-12">
+        <div class="text-gray-700 leading-relaxed text-sm md:text-base lg:text-lg">
             {{ article.content|linebreaks }}
         </div>
     </div>
 
     <!-- Gallery Photos -->
     {% if article.gallery_images.all %}
-    <div class="mb-12">
-        <h2 class="text-2xl md:text-3xl font-bold mb-6">
+    <div class="mb-8 md:mb-12">
+        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-6">
             <span class="inline-block relative">
                 <span class="relative z-10">G</span>
                 <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
             </span>alerie photos
         </h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {% for image in article.gallery_images.all %}
             <div class="group">
                 <div class="relative overflow-hidden rounded-2xl shadow-lg">
                     <img src="{{ image.image.url }}" alt="{{ image.caption }}" 
-                         class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                         class="w-full h-48 md:h-64 object-cover group-hover:scale-110 transition duration-500">
                 </div>
                 {% if image.caption %}
-                <p class="text-sm text-gray-600 mt-3 px-2">{{ image.caption }}</p>
+                <p class="text-xs md:text-sm text-gray-600 mt-2 md:mt-3 px-2">{{ image.caption }}</p>
                 {% endif %}
             </div>
             {% endfor %}
@@ -122,27 +122,27 @@
 
     <!-- Similar Articles -->
     {% if similar_articles %}
-    <div class="mt-16 pt-12 border-t border-gray-200">
-        <h2 class="text-2xl md:text-3xl font-bold mb-8">
+    <div class="mt-12 md:mt-16 pt-8 md:pt-12 border-t border-gray-200">
+        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold mb-6 md:mb-8">
             <span class="inline-block relative">
                 <span class="relative z-10">A</span>
                 <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
             </span>rticles similaires
         </h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {% for similar in similar_articles %}
             <a href="{% url 'news_detail' similar.id %}" class="group">
                 <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition">
                     {% if similar.featured_image %}
-                    <div class="h-48 overflow-hidden">
+                    <div class="h-40 md:h-48 overflow-hidden">
                         <img src="{{ similar.featured_image.url }}" alt="{{ similar.title }}" 
                              class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     {% else %}
-                    <div class="h-48 bg-gradient-to-br from-orange-400 to-orange-600"></div>
+                    <div class="h-40 md:h-48 bg-gradient-to-br from-orange-400 to-orange-600"></div>
                     {% endif %}
-                    <div class="p-5">
-                        <div class="flex items-center gap-3 mb-3">
+                    <div class="p-4 md:p-5">
+                        <div class="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
                             {% if similar.category %}
                             <span class="text-xs font-semibold bg-orange-100 text-orange-600 px-2 py-1 rounded">
                                 {{ similar.category.name }}
@@ -150,10 +150,10 @@
                             {% endif %}
                             <time class="text-xs text-gray-500">{{ similar.published_at|date:"d M Y" }}</time>
                         </div>
-                        <h3 class="font-bold text-lg mb-2 group-hover:text-orange-600 transition line-clamp-2">
+                        <h3 class="font-bold text-base md:text-lg mb-2 group-hover:text-orange-600 transition line-clamp-2">
                             {{ similar.title }}
                         </h3>
-                        <p class="text-sm text-gray-600 line-clamp-2">{{ similar.excerpt|truncatewords:15 }}</p>
+                        <p class="text-xs md:text-sm text-gray-600 line-clamp-2">{{ similar.excerpt|truncatewords:15 }}</p>
                     </div>
                 </div>
             </a>
