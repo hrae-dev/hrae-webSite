@@ -35,7 +35,7 @@
                             <li><a href="{% url 'services' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'services' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Services et spécialités" %}</a></li>
                             <li><a href="{% url 'team' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'team' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Notre équipe" %}</a></li>
                             <li><a href="{% url 'news' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'news' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Actualités" %}</a></li>
-                            <li><a href="{% url 'practical_info' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'practical_info' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Infos pratiques" %}</a></li>
+                            <li><a href="{% url 'practical_info' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'practical_info' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Espace Patient" %}</a></li>
                             <li><a href="{% url 'contact' %}" class="px-3 py-2 rounded-full transition-all duration-300 hover:bg-orange-100 {% if request.resolver_match.url_name == 'contact' %}bg-orange-50 text-orange-600 font-semibold{% endif %}">{% trans "Contacts" %}</a></li>
                         </ul>
                     </div>
@@ -64,7 +64,7 @@
                     <a href="{% url 'services' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100">{% trans "Services" %}</a>
                     <a href="{% url 'team' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100">{% trans "Équipe" %}</a>
                     <a href="{% url 'news' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100">{% trans "Actualités" %}</a>
-                    <a href="{% url 'practical_info' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100">{% trans "Infos" %}</a>
+                    <a href="{% url 'practical_info' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100">{% trans "Espace Patient" %}</a>
                     <a href="{% url 'contact' %}" class="block px-4 py-2 rounded-lg hover:bg-orange-100">{% trans "Contact" %}</a>
                 </div>
             </div>
