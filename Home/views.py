@@ -14,32 +14,40 @@ from itertools import chain
 from datetime import datetime
 
 def index(request):
+    # Services pour page d'accueil (max 6)
+    homepage_services = Service.objects.filter(
+        is_active=True,
+        show_on_homepage=True
+    ).order_by('display_order')[:6]
+    
+    # Publications récentes (articles + campagnes)
+    recent_articles = Article.objects.filter(
+        status='published',
+        published_at__lte=timezone.now()
+    ).order_by('-published_at')[:3]
+    
+    active_campaigns = Campaign.objects.filter(
+        status='active',
+        start_date__lte=timezone.now()
+    ).order_by('-start_date')[:3]
+    
+    publications = sorted(
+        list(recent_articles) + list(active_campaigns),
+        key=lambda x: getattr(x, 'published_at', None) or getattr(x, 'start_date', None),
+        reverse=True
+    )[:6]
+    
+    # Chiffres clés depuis SiteSettings
     settings = SiteSettings.get_settings()
-    services = Service.objects.filter(is_active=True)[:4]
-    
-    articles = Article.objects.filter(status='published').order_by('-published_at')[:3]
-    today = timezone.now().date()
-    campaigns = Campaign.objects.filter(end_date__gte=today).order_by('start_date')[:3]
-    
-    # Fonction pour obtenir une date comparable
-    def get_date(item):
-        if hasattr(item, 'published_at') and item.published_at:
-            return item.published_at.date() if hasattr(item.published_at, 'date') else item.published_at
-        elif hasattr(item, 'start_date') and item.start_date:
-            return item.start_date
-        return today
-    
-    publications = list(articles) + list(campaigns)
-    publications = sorted(publications, key=get_date, reverse=True)[:3]
     
     context = {
-        'settings': settings,
-        'services': services,
+        'homepage_services': homepage_services,
         'publications': publications,
-        'testimonials': Testimonial.objects.filter(is_active=True)[:3],
-        'partners': Partner.objects.filter(is_active=True),
+        'settings': settings,
     }
+    
     return render(request, 'Home/index.html', context)
+
 
 
 def about_us(request):

@@ -111,6 +111,10 @@ class Service(models.Model):
     consultation_hours = models.CharField("Horaires de consultation", max_length=255, blank=True)
     tariffs = models.TextField("Tarifs indicatifs", blank=True)
     contact_phone = models.CharField("Téléphone direct", max_length=20, blank=True)
+    show_on_homepage = models.BooleanField(
+        "Afficher sur la page d'accueil",
+        default=False,
+        help_text="Cocher pour afficher ce service sur la page d'accueil (max 6)")
     
     # Gestion
     display_order = models.IntegerField("Ordre d'affichage", default=0)

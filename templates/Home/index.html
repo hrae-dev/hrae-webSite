@@ -194,16 +194,20 @@
         <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">{% trans "Des soins complets pour" %} <span class="font-black">{% trans "toute la famille" %}</span></h2>
         
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12">
-            <!-- Card 1 -->
+            {% for service in homepage_services %}
             <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
                 <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/machine_pic.jpeg' %}" alt="Médecine Générale" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Médecine Générale" %}</h3>
+                    {% if service.banner_image %}
+                    <img src="{{ service.banner_image.url }}" alt="{{ service.name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-orange-400 to-purple-600"></div>
+                    {% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-center justify-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{{ service.name }}</h3>
                     </div>
                 </div>
                 <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
+                    <a href="{% url 'service_detail' service.slug %}" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
                         {% trans "En savoir plus" %}
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -211,98 +215,11 @@
                     </a>
                 </div>
             </div>
-            
-            <!-- Card 2 -->
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/baby_pic.jpeg' %}" alt="Pédiatrie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Pédiatrie" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12">
+                <p class="text-gray-600">{% trans "Aucun service disponible pour le moment." %}</p>
             </div>
-            
-            <!-- Card 3 -->
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/mat_pic.jpeg' %}" alt="Gynécologie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Gynécologie/ Maternité" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Card 4 -->
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/labs_pic.jpeg' %}" alt="Chirurgie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Chirurgie" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Card 5 -->
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/scanner_pic.jpeg' %}" alt="Imagerie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Imagerie médicale" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Card 6 - Can be commented out -->
-          
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/ambulance_pic.jpeg' %}" alt="Urgences" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Urgences" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -314,29 +231,28 @@
         <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">{% trans "Chiffres clés" %}</h2>
         <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 max-w-6xl mx-auto">
             <div class="text-center">
-                <div class="text-4xl md:text-5xl font-bold text-white mb-2">+1000</div>
-                <div class="text-white text-sm md:text-white">{% trans "Patients" %}</div>
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">{{ settings.patients_per_year|default:"+1000" }}</div>
+                <div class="text-white text-sm md:text-base">{% trans "Patients" %}</div>
             </div>
             <div class="text-center">
-                <div class="text-4xl md:text-5xl font-bold text-white mb-2">+60</div>
-                <div class="text-white text-sm md:text-white">{% trans "Années d'expérience" %}</div>
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">{{ settings.years_of_experience|default:"+60" }}</div>
+                <div class="text-white text-sm md:text-base">{% trans "Années d'expérience" %}</div>
             </div>
             <div class="text-center">
-                <div class="text-4xl md:text-5xl font-bold text-white mb-2">13</div>
-                <div class="text-white text-sm md:text-white">{% trans "Spécialités" %}</div>
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">{{ settings.specialties_count|default:"13" }}</div>
+                <div class="text-white text-sm md:text-base">{% trans "Spécialités" %}</div>
             </div>
             <div class="text-center">
-                <div class="text-4xl md:text-5xl font-bold text-white mb-2">+50</div>
-                <div class="text-white text-sm md:text-white">{% trans "Lits" %}</div>
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">{{ settings.beds_count|default:"+50" }}</div>
+                <div class="text-white text-sm md:text-base">{% trans "Lits" %}</div>
             </div>
             <div class="text-center col-span-2 md:col-span-1">
-                <div class="text-4xl md:text-5xl font-bold text-white mb-2">+100</div>
-                <div class="text-white text-sm md:text-white">{% trans "Personnel" %}</div>
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2">{{ settings.staff_count|default:"+100" }}</div>
+                <div class="text-white text-sm md:text-base">{% trans "Personnel" %}</div>
             </div>
         </div>
     </div>
 </section>
-
 
 <!-- Actualités et campagnes -->
 <section class="relative py-16 bg-cover bg-center" style="background-image: url('{% static 'images/hero_hospital_2.jpg' %}');">
