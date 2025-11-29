@@ -14,19 +14,25 @@ from .models import (
 class SiteSettingsAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Informations générales', {
-            'fields': ('site_name', 'site_tagline', 'logo')
+            'fields': ('site_name', 'site_tagline', 'logo', 'favicon')
         }),
         ('Contact', {
-            'fields': ('phone', 'emergency_phone', 'email', 'address')
+            'fields': ('address', 'phone', 'emergency_phone', 'email')
+        }),
+        ('Horaires', {
+            'fields': ('opening_hours', 'emergency_hours')
         }),
         ('Réseaux sociaux', {
-            'fields': ('facebook_url', 'twitter_url', 'linkedin_url', 'instagram_url'),
-            'classes': ('collapse',)
+            'fields': ('facebook_url', 'twitter_url', 'linkedin_url', 'instagram_url', 'youtube_url')
+        }),
+        ('Contenus éditoriaux', {
+            'fields': ('history', 'mission', 'vision', 'values')
         }),
         ('Chiffres clés', {
-            'fields': ('patients_per_year', 'beds_count', 'specialties_count', 'staff_count', 'success_rate')
+            'fields': ('patients_per_year', 'beds_count', 'specialties_count', 
+                      'staff_count', 'years_of_experience', 'success_rate')
         }),
-        ('À propos', {
+        ('Documents', {
             'fields': ('organization_chart', 'certifications')
         }),
     )
@@ -35,9 +41,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         return not SiteSettings.objects.exists()
     
     def has_delete_permission(self, request, obj=None):
-        return False
-
-
+        return False    
 # ========================================
 # PAGES STATIQUES
 # ========================================
