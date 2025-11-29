@@ -1,126 +1,316 @@
 {% extends "base.html" %}
+{% load static i18n %}
 
-{% block title %}Contact - HRAE{% endblock %}
+{% block title %}{% trans "Contact - HRAE" %}{% endblock %}
 
 {% block content %}
-<div class="bg-orange-600 text-base py-16 sm:py-20 md:py-24 mt-16 lg:mt-20">
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold">Contactez-nous</h1>
-        <p class="mt-2 text-base">Nous sommes à votre écoute</p>
+<!-- Hero Header -->
+<div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white py-20 md:py-28 lg:py-36 mt-10 md:mt-16">
+    <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+            <span class="inline-block relative pb-2">
+                <span class="relative z-10">{% trans "C" %}</span>
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-white"></span>
+            </span>{% trans "ontactez-nous" %}
+        </h1>
+        <p class="text-base md:text-lg text-orange-50 max-w-3xl">
+            {% trans "Nous sommes à votre écoute pour répondre à toutes vos questions" %}
+        </p>
     </div>
 </div>
 
-<div class="container mx-auto px-4 py-12">
-    <div class="grid md:grid-cols-2 gap-12">
-        <!-- Informations de contact -->
-        <div>
-            <h2 class="text-2xl font-bold mb-6">Informations de contact</h2>
+<!-- Main Content -->
+<section class="py-16 md:py-20 bg-gray-50">
+    <div class="container mx-auto px-6 sm:px-8 md:px-12 max-w-7xl">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
             
-            <div class="space-y-4">
-                <div class="flex items-start">
-                    <div class="text-2xl mr-4">📍</div>
-                    <div>
-                        <h3 class="font-bold">Adresse</h3>
-                        <p class="text-gray-600">{{ settings.address|default:"Edea, Cameroun"|linebreaks }}</p>
+            <!-- Left Column - Contact Information -->
+            <div class="space-y-8">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-black mb-8">
+                        <span class="inline-block relative pb-2">
+                            <span class="relative z-10">{% trans "Informations de contact" %}</span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500"></span>
+                        </span>
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Address -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-black text-lg text-gray-900 mb-2">{% trans "Adresse" %}</h3>
+                                    <p class="text-gray-600 leading-relaxed">
+                                        {% if settings.address %}
+                                            {{ settings.address|linebreaks }}
+                                        {% else %}
+                                            Edea<br>
+                                            BP 125, Edéa<br>
+                                            Région du Littoral, Cameroun
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-black text-lg text-gray-900 mb-2">{% trans "Téléphone" %}</h3>
+                                    <p class="text-gray-600 text-lg font-semibold">
+                                        {{ settings.phone|default:"+237 233 4642 32" }}
+                                    </p>
+                                    <p class="text-gray-500 text-sm mt-1">{% trans "Du lundi au vendredi, 8h - 17h" %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Emergency -->
+                        <div class="bg-gradient-to-br from-red-600 to-red-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition text-white">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-black text-lg mb-2">{% trans "Urgences 24/7" %}</h3>
+                                    <p class="text-white text-xl font-black">
+                                        {{ settings.emergency_phone|default:"119" }}
+                                    </p>
+                                    <p class="text-red-100 text-sm mt-1">{% trans "Service disponible jour et nuit" %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-black text-lg text-gray-900 mb-2">{% trans "Email" %}</h3>
+                                    <p class="text-gray-600 text-lg">
+                                        {{ settings.email|default:"contact@hrae.cm" }}
+                                    </p>
+                                    <p class="text-gray-500 text-sm mt-1">{% trans "Réponse sous 24-48h" %}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="flex items-start">
-                    <div class="text-2xl mr-4">📞</div>
-                    <div>
-                        <h3 class="font-bold">Téléphone</h3>
-                        <p class="text-gray-600">{{ settings.phone|default:"+237 XXX XXX XXX" }}</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-start">
-                    <div class="text-2xl mr-4">🚨</div>
-                    <div>
-                        <h3 class="font-bold">Urgences 24/7</h3>
-                        <p class="text-gray-600">{{ settings.emergency_phone|default:"+237 XXX XXX XXX" }}</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-start">
-                    <div class="text-2xl mr-4">📧</div>
-                    <div>
-                        <h3 class="font-bold">Email</h3>
-                        <p class="text-gray-600">{{ settings.email|default:"contact@hrae.cm" }}</p>
+                <!-- Social Media -->
+                <div>
+                    <h3 class="text-xl font-black text-gray-900 mb-4">{% trans "Suivez-nous" %}</h3>
+                    <div class="flex gap-4">
+                        {% if settings.facebook_url %}
+                        <a href="{{ settings.facebook_url }}" target="_blank" class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V.5h-4.33C10.24.5,9.5,3.44,9.5,5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4Z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        
+                        {% if settings.twitter_url %}
+                        <a href="{{ settings.twitter_url }}" target="_blank" class="w-12 h-12 bg-sky-500 rounded-full flex items-center justify-center hover:bg-sky-600 transition shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.44,4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96,1.32-2.02-.88.52-1.86.9-2.9,1.1-.82-.88-2-1.43-3.3-1.43-2.5,0-4.55,2.04-4.55,4.54,0,.36.03.7.1,1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6,1.45-.6,2.3,0,1.56.8,2.95,2,3.77-.74-.03-1.44-.23-2.05-.57v.06c0,2.2,1.56,4.03,3.64,4.44-.67.2-1.37.2-2.06.08.58,1.8,2.26,3.12,4.25,3.16C5.78,18.1,3.37,18.74,1,18.46c2,1.3,4.4,2.04,6.97,2.04,8.35,0,12.92-6.92,12.92-12.93,0-.2,0-.4-.02-.6.9-.63,1.96-1.22,2.56-2.14Z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        
+                        {% if settings.linkedin_url %}
+                        <a href="{{ settings.linkedin_url }}" target="_blank" class="w-12 h-12 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-800 transition shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        
+                        {% if settings.instagram_url %}
+                        <a href="{{ settings.instagram_url }}" target="_blank" class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-500 rounded-full flex items-center justify-center hover:from-purple-700 hover:to-pink-600 transition shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
             
-            <div class="mt-8">
-                <h3 class="font-bold mb-4">Réseaux sociaux</h3>
-                <div class="flex gap-4">
-                    {% if settings.facebook_url %}
-                    <a href="{{ settings.facebook_url }}" class="text-blue-600 text-2xl hover:text-blue-800">📘</a>
+            <!-- Right Column - Contact Form -->
+            <div>
+                <div class="bg-white rounded-3xl shadow-xl p-6 md:p-8 lg:p-10">
+                    <h2 class="text-3xl md:text-4xl font-black mb-2">
+                        <span class="inline-block relative pb-2">
+                            <span class="relative z-10">{% trans "Envoyez-nous un message" %}</span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500"></span>
+                        </span>
+                    </h2>
+                    <p class="text-gray-600 mb-8">{% trans "Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais" %}</p>
+                    
+                    {% if messages %}
+                    <div class="mb-6">
+                        {% for message in messages %}
+                        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg" role="alert">
+                            <p class="font-bold">{% trans "Succès!" %}</p>
+                            <p>{{ message }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
                     {% endif %}
-                    {% if settings.twitter_url %}
-                    <a href="{{ settings.twitter_url }}" class="text-blue-400 text-2xl hover:text-blue-600">🐦</a>
-                    {% endif %}
-                    {% if settings.linkedin_url %}
-                    <a href="{{ settings.linkedin_url }}" class="text-blue-700 text-2xl hover:text-blue-900">💼</a>
-                    {% endif %}
+                    
+                    <form method="post" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <!-- Name -->
+                        <div>
+                            <label for="{{ form.name.id_for_label }}" class="block text-sm font-bold text-gray-900 mb-2">
+                                {{ form.name.label }} <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" 
+                                   name="{{ form.name.name }}" 
+                                   id="{{ form.name.id_for_label }}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                                   placeholder="{% trans 'Votre nom complet' %}"
+                                   {% if form.name.value %}value="{{ form.name.value }}"{% endif %}
+                                   required>
+                            {% if form.name.errors %}
+                            <p class="text-red-600 text-sm mt-2">{{ form.name.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label for="{{ form.email.id_for_label }}" class="block text-sm font-bold text-gray-900 mb-2">
+                                {{ form.email.label }} <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" 
+                                   name="{{ form.email.name }}" 
+                                   id="{{ form.email.id_for_label }}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                                   placeholder="{% trans 'votre.email@exemple.com' %}"
+                                   {% if form.email.value %}value="{{ form.email.value }}"{% endif %}
+                                   required>
+                            {% if form.email.errors %}
+                            <p class="text-red-600 text-sm mt-2">{{ form.email.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div>
+                            <label for="{{ form.phone.id_for_label }}" class="block text-sm font-bold text-gray-900 mb-2">
+                                {{ form.phone.label }}
+                            </label>
+                            <input type="tel" 
+                                   name="{{ form.phone.name }}" 
+                                   id="{{ form.phone.id_for_label }}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                                   placeholder="{% trans '+237 6XX XXX XXX' %}"
+                                   {% if form.phone.value %}value="{{ form.phone.value }}"{% endif %}>
+                            {% if form.phone.errors %}
+                            <p class="text-red-600 text-sm mt-2">{{ form.phone.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Subject -->
+                        <div>
+                            <label for="{{ form.subject.id_for_label }}" class="block text-sm font-bold text-gray-900 mb-2">
+                                {{ form.subject.label }} <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" 
+                                   name="{{ form.subject.name }}" 
+                                   id="{{ form.subject.id_for_label }}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                                   placeholder="{% trans 'Objet de votre message' %}"
+                                   {% if form.subject.value %}value="{{ form.subject.value }}"{% endif %}
+                                   required>
+                            {% if form.subject.errors %}
+                            <p class="text-red-600 text-sm mt-2">{{ form.subject.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Message -->
+                        <div>
+                            <label for="{{ form.message.id_for_label }}" class="block text-sm font-bold text-gray-900 mb-2">
+                                {{ form.message.label }} <span class="text-red-500">*</span>
+                            </label>
+                            <textarea name="{{ form.message.name }}" 
+                                      id="{{ form.message.id_for_label }}"
+                                      rows="5"
+                                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition resize-none"
+                                      placeholder="{% trans 'Décrivez votre demande en détail...' %}"
+                                      required>{% if form.message.value %}{{ form.message.value }}{% endif %}</textarea>
+                            {% if form.message.errors %}
+                            <p class="text-red-600 text-sm mt-2">{{ form.message.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" 
+                                class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-xl font-bold text-lg hover:from-orange-600 hover:to-orange-700 transition shadow-lg hover:shadow-xl flex items-center justify-center gap-3 group">
+                            <span>{% trans "Envoyer le message" %}</span>
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
             </div>
-        </div>
-        
-        <!-- Formulaire de contact -->
-        <div class="bg-white rounded-lg shadow-lg p-8">
-            <h2 class="text-2xl font-bold mb-6">Envoyez-nous un message</h2>
-            
-            <form method="post">
-                {% csrf_token %}
-                
-                <div class="space-y-4">
-                    <div>
-                        <label class="block mb-2 font-semibold">{{ form.name.label }}</label>
-                        {{ form.name }}
-                        {% if form.name.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.name.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-                    
-                    <div>
-                        <label class="block mb-2 font-semibold">{{ form.email.label }}</label>
-                        {{ form.email }}
-                        {% if form.email.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-                    
-                    <div>
-                        <label class="block mb-2 font-semibold">{{ form.phone.label }}</label>
-                        {{ form.phone }}
-                        {% if form.phone.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.phone.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-                    
-                    <div>
-                        <label class="block mb-2 font-semibold">{{ form.subject.label }}</label>
-                        {{ form.subject }}
-                        {% if form.subject.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.subject.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-                    
-                    <div>
-                        <label class="block mb-2 font-semibold">{{ form.message.label }}</label>
-                        {{ form.message }}
-                        {% if form.message.errors %}
-                        <p class="text-red-600 text-sm mt-1">{{ form.message.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-                </div>
-                
-                <button type="submit" 
-                        class="w-full bg-orange-600 text-base py-3 rounded-lg font-bold mt-6 hover:bg-orange-700">
-                    Envoyer le message
-                </button>
-            </form>
         </div>
     </div>
-</div>
+</section>
+
+<!-- Map Section (Optional) -->
+<section class="py-16 md:py-20 bg-white">
+    <div class="container mx-auto px-6 sm:px-8 md:px-12 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-black mb-8 text-center">
+            <span class="inline-block relative pb-2">
+                <span class="relative z-10">{% trans "Où nous trouver" %}</span>
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500"></span>
+            </span>
+        </h2>
+        
+        <!-- Map Placeholder - Replace with actual Google Maps embed -->
+        <div class="rounded-3xl overflow-hidden shadow-lg">
+            <!-- 
+                SIMPLE GOOGLE MAPS INTEGRATION:
+                1. Go to https://www.google.com/maps
+                2. Search for "HRAE Edéa, Cameroon" or your exact address
+                3. Click "Share" → "Embed a map"
+                4. Copy the iframe code
+                5. Paste it below replacing the placeholder iframe
+            -->
+            
+            <!-- Example for Edéa, Cameroon - Replace with your actual location -->
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63779.89478297869!2d10.089899!3d3.797979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1061296f1bbf1fe1%3A0x7f3a583c17e66bb7!2sEdea%2C%20Cameroon!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+                width="100%" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                class="w-full">
+            </iframe>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
