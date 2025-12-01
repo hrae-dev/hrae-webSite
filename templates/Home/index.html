@@ -194,16 +194,29 @@
         <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">{% trans "Des soins complets pour" %} <span class="font-black">{% trans "toute la famille" %}</span></h2>
         
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12">
-            <!-- Card 1 -->
+            {% for service in services %}
             <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
                 <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/machine_pic.jpeg' %}" alt="Médecine Générale" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Médecine Générale" %}</h3>
+                    {% if service.banner_image %}
+                    <img src="{{ service.banner_image.url }}" alt="{{ service.name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <!-- Fallback gradient if no image -->
+                    <div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                        {% if service.icon %}
+                        <i class="fas {{ service.icon }} text-6xl text-white opacity-50"></i>
+                        {% else %}
+                        <svg class="w-24 h-24 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{{ service.name }}</h3>
                     </div>
                 </div>
                 <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
+                    <a href="{% url 'service_detail' service.slug %}" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
                         {% trans "En savoir plus" %}
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -211,98 +224,12 @@
                     </a>
                 </div>
             </div>
-            
-            <!-- Card 2 -->
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/baby_pic.jpeg' %}" alt="Pédiatrie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Pédiatrie" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
+            {% empty %}
+            <!-- Empty state if no services -->
+            <div class="col-span-full text-center py-12">
+                <p class="text-gray-500 text-lg">{% trans "Aucun service disponible pour le moment" %}</p>
             </div>
-            
-            <!-- Card 3 -->
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/mat_pic.jpeg' %}" alt="Gynécologie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Gynécologie/ Maternité" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Card 4 -->
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/labs_pic.jpeg' %}" alt="Chirurgie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Chirurgie" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Card 5 -->
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/scanner_pic.jpeg' %}" alt="Imagerie" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Imagerie médicale" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Card 6 - Can be commented out -->
-          
-            <div class="group rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="{% static 'images/ambulance_pic.jpeg' %}" alt="Urgences" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <h3 class="text-white text-2xl md:text-3xl font-bold text-center px-4">{% trans "Urgences" %}</h3>
-                    </div>
-                </div>
-                <div class="bg-base p-6 text-center">
-                    <a href="#" class="text-white font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all">
-                        {% trans "En savoir plus" %}
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        
+            {% endfor %}
         </div>
     </div>
 </section>

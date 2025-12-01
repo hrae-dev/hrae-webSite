@@ -15,7 +15,7 @@ from datetime import datetime
 
 def index(request):
     settings = SiteSettings.get_settings()
-    services = Service.objects.filter(is_active=True)[:4]
+    services = Service.objects.filter(is_active=True)[:6]
     
     articles = Article.objects.filter(status='published').order_by('-published_at')[:3]
     today = timezone.now().date()
@@ -59,7 +59,24 @@ def about_us(request):
 def our_services(request):
     """Liste des services médicaux"""
     settings = SiteSettings.get_settings()
-    services = Service.objects.filter(is_active=True)
+    
+    # Get all active services
+    services_list = Service.objects.filter(is_active=True)
+    
+    # Search filter
+    search = request.GET.get('search')
+    if search:
+        services_list = services_list.filter(
+            Q(name__icontains=search) | 
+            Q(short_description__icontains=search) |
+            Q(full_description__icontains=search) |
+            Q(pathologies__icontains=search)
+        )
+    
+    # Pagination (12 services per page)
+    paginator = Paginator(services_list, 12)
+    page_number = request.GET.get('page', 1)
+    services = paginator.get_page(page_number)
     
     context = {
         'settings': settings,
