@@ -7,37 +7,49 @@ from django.core.validators import FileExtensionValidator
 # PARAMÈTRES GÉNÉRAUX DU SITE
 # ========================================
 class SiteSettings(models.Model):
-    """Paramètres généraux du site (unique instance)"""
-    site_name = models.CharField("Nom de l'hôpital", max_length=255, default="HRAE")
-    site_tagline = models.CharField("Slogan", max_length=255, blank=True)
-    logo = models.ImageField("Logo", upload_to='settings/', blank=True)
+    # Informations générales
+    site_name = models.CharField("Nom du site", max_length=200, default="HRAE")
+    site_tagline = models.CharField("Slogan", max_length=255, default="Votre santé, notre priorité")
+    logo = models.ImageField("Logo", upload_to='site/', blank=True, null=True)
+    favicon = models.ImageField("Favicon", upload_to='site/', blank=True, null=True)
     
     # Contact
-    phone = models.CharField("Téléphone standard", max_length=20)
-    emergency_phone = models.CharField("Urgences 24/7", max_length=20)
-    email = models.EmailField("Email général")
-    address = models.TextField("Adresse complète")
+    address = models.TextField("Adresse")
+    phone = models.CharField("Téléphone", max_length=20)
+    emergency_phone = models.CharField("Urgences", max_length=20)
+    email = models.EmailField("Email")
+    
+    # Horaires
+    opening_hours = models.TextField("Horaires d'ouverture", default="Lundi - Vendredi: 8h00 - 18h00")
+    emergency_hours = models.TextField("Horaires urgences", default="24/7")
     
     # Réseaux sociaux
     facebook_url = models.URLField("Facebook", blank=True)
-    twitter_url = models.URLField("Twitter", blank=True)
+    twitter_url = models.URLField("Twitter/X", blank=True)
     linkedin_url = models.URLField("LinkedIn", blank=True)
     instagram_url = models.URLField("Instagram", blank=True)
+    youtube_url = models.URLField("YouTube", blank=True)
+    
+    # Contenus éditoriaux
+    history = models.TextField("Notre Histoire", blank=True, help_text="Histoire de l'hôpital affichée sur la page À propos")
+    mission = models.TextField("Notre mission", blank=True)
+    vision = models.TextField("Notre vision", blank=True)
+    values = models.TextField("Nos valeurs", blank=True)
     
     # Chiffres clés
     patients_per_year = models.IntegerField("Patients par an", default=0)
     beds_count = models.IntegerField("Nombre de lits", default=0)
     specialties_count = models.IntegerField("Nombre de spécialités", default=0)
     staff_count = models.IntegerField("Nombre de personnel", default=0)
-    success_rate = models.DecimalField("Taux de réussite (%)", max_digits=5, decimal_places=2, 
-                                       default=0, blank=True)
+    years_of_experience = models.IntegerField("Années d'expérience", default=0)
+    success_rate = models.DecimalField("Taux de succès (%)", max_digits=5, decimal_places=2, default=0)
     
-    # À propos
-    organization_chart = models.ImageField("Organigramme administratif", 
-                                          upload_to='settings/', blank=True)
-    certifications = models.TextField("Certifications et accréditations", blank=True,
-                                 help_text="Une par ligne")
+    # Documents
+    organization_chart = models.ImageField("Organigramme", upload_to='documents/', blank=True, null=True)
+    certifications = models.TextField("Certifications et accréditations", blank=True, 
+                                     help_text="Une certification par ligne")
     
+    # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -48,16 +60,10 @@ class SiteSettings(models.Model):
     def __str__(self):
         return self.site_name
     
-    def save(self, *args, **kwargs):
-        self.pk = 1
-        super().save(*args, **kwargs)
-    
     @classmethod
     def get_settings(cls):
-        obj, created = cls.objects.get_or_create(pk=1)
-        return obj
-
-
+        settings, created = cls.objects.get_or_create(pk=1)
+        return settings
 # ========================================
 # PAGES STATIQUES
 # ========================================
@@ -105,6 +111,10 @@ class Service(models.Model):
     consultation_hours = models.CharField("Horaires de consultation", max_length=255, blank=True)
     tariffs = models.TextField("Tarifs indicatifs", blank=True)
     contact_phone = models.CharField("Téléphone direct", max_length=20, blank=True)
+    show_on_homepage = models.BooleanField(
+        "Afficher sur la page d'accueil",
+        default=False,
+        help_text="Cocher pour afficher ce service sur la page d'accueil (max 6)")
     
     # Gestion
     display_order = models.IntegerField("Ordre d'affichage", default=0)

@@ -14,28 +14,120 @@ from .models import (
 class SiteSettingsAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Informations générales', {
-            'fields': ('site_name', 'site_tagline', 'logo')
+            'fields': ('site_name', 'site_tagline', 'logo', 'favicon'),
+            'description': 'Informations de base affichées sur tout le site'
         }),
         ('Contact', {
-            'fields': ('phone', 'emergency_phone', 'email', 'address')
+            'fields': ('address', 'phone', 'emergency_phone', 'email'),
+            'description': 'Coordonnées affichées dans le footer et la page contact'
+        }),
+        ('Horaires', {
+            'fields': ('opening_hours', 'emergency_hours'),
+            'description': 'Horaires d\'ouverture et disponibilité des urgences'
         }),
         ('Réseaux sociaux', {
-            'fields': ('facebook_url', 'twitter_url', 'linkedin_url', 'instagram_url'),
+            'fields': ('facebook_url', 'twitter_url', 'linkedin_url', 'instagram_url', 'youtube_url'),
+            'description': 'Liens vers vos pages de réseaux sociaux (laisser vide pour masquer l\'icône)',
             'classes': ('collapse',)
         }),
-        ('Chiffres clés', {
-            'fields': ('patients_per_year', 'beds_count', 'specialties_count', 'staff_count', 'success_rate')
+        ('📖 Notre Histoire', {
+            'fields': ('history',),
+            'description': '''
+                <strong>Section "Notre Histoire" de la page À propos</strong><br>
+                Racontez l'évolution de l'hôpital, ses moments clés, ses réalisations.<br><br>
+                <strong>💡 Conseils de rédaction :</strong><br>
+                • Parlez de la fondation de l'hôpital (quand, pourquoi, par qui)<br>
+                • Mentionnez les étapes importantes (agrandissements, nouveaux services)<br>
+                • Évoquez les réalisations et impacts sur la communauté<br>
+                • Gardez un ton positif et inspirant<br><br>
+                <strong>🎨 Mise en forme (HTML autorisé) :</strong><br>
+                • &lt;p&gt;...&lt;/p&gt; pour les paragraphes<br>
+                • &lt;strong&gt;...&lt;/strong&gt; pour le texte en gras<br>
+                • &lt;em&gt;...&lt;/em&gt; pour l'italique<br>
+                • &lt;br&gt; pour sauter une ligne<br>
+                • &lt;ul&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt; pour les listes à puces
+            '''
         }),
-        ('À propos', {
-            'fields': ('organization_chart', 'certifications')
+        ('🎯 Mission', {
+            'fields': ('mission',),
+            'description': '''
+                <strong>Notre Mission</strong> - Quelle est la raison d'être de l'hôpital ?<br><br>
+                <em>Exemple :</em><br>
+                "Fournir des soins de santé de qualité, accessibles et centrés sur le patient, 
+                tout en contribuant au développement de la santé publique dans la région de la Sanaga-Maritime."<br><br>
+                <strong>Longueur recommandée :</strong> 2-4 phrases
+            '''
+        }),
+        ('🔭 Vision', {
+            'fields': ('vision',),
+            'description': '''
+                <strong>Notre Vision</strong> - Où voulez-vous être dans le futur ?<br><br>
+                <em>Exemple :</em><br>
+                "Devenir le centre de référence en matière de soins de santé dans la région, 
+                reconnu pour son excellence médicale, ses infrastructures modernes et son engagement 
+                envers la communauté."<br><br>
+                <strong>Longueur recommandée :</strong> 2-4 phrases
+            '''
+        }),
+        ('💎 Valeurs', {
+            'fields': ('values',),
+            'description': '''
+                <strong>Nos Valeurs</strong> - Les principes qui guident vos actions quotidiennes.<br><br>
+                <em>Exemple :</em><br>
+                "Excellence médicale<br>
+                Compassion et empathie<br>
+                Intégrité et transparence<br>
+                Innovation et amélioration continue<br>
+                Respect de la dignité humaine"<br><br>
+                <strong>💡 Conseil :</strong> Listez 4-6 valeurs, une par ligne
+            '''
+        }),
+        ('📊 Chiffres clés', {
+            'fields': ('patients_per_year', 'beds_count', 'specialties_count', 
+                      'staff_count', 'years_of_experience', 'success_rate'),
+            'description': '''
+                <strong>Statistiques affichées sur la page À propos</strong><br>
+                Ces chiffres illustrent l'impact et l'envergure de l'hôpital.<br><br>
+                • <strong>Patients par an :</strong> Nombre de patients reçus annuellement<br>
+                • <strong>Nombre de lits :</strong> Capacité d'hospitalisation<br>
+                • <strong>Spécialités :</strong> Nombre de services médicaux<br>
+                • <strong>Personnel :</strong> Nombre total d'employés<br>
+                • <strong>Années d'expérience :</strong> Depuis la fondation<br>
+                • <strong>Taux de succès :</strong> Pourcentage (ex: 95.50 pour 95,5%)
+            ''',
+            'classes': ('collapse',)
+        }),
+        ('📄 Documents', {
+            'fields': ('organization_chart', 'certifications'),
+            'description': '''
+                <strong>📋 Organigramme :</strong> Image de la structure organisationnelle de l'hôpital<br>
+                <em>Format recommandé : PNG ou JPG, largeur minimale 1200px</em><br><br>
+                
+                <strong>🏆 Certifications :</strong> Liste des certifications et accréditations<br>
+                <em>Une certification par ligne, exemple :</em><br>
+                ISO 9001:2015<br>
+                Accréditation Ministère de la Santé Publique<br>
+                Certification HAS (Haute Autorité de Santé)<br>
+                Membre du Réseau Hospitalier Africain
+            ''',
+            'classes': ('collapse',)
         }),
     )
     
     def has_add_permission(self, request):
+        # Un seul objet SiteSettings autorisé
         return not SiteSettings.objects.exists()
     
     def has_delete_permission(self, request, obj=None):
+        # Interdire la suppression des paramètres
         return False
+    
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if change:
+            self.message_user(request, "✅ Les paramètres du site ont été mis à jour avec succès!", level='success')
+        else:
+            self.message_user(request, "✅ Les paramètres du site ont été créés avec succès!", level='success')
 
 
 # ========================================
@@ -64,11 +156,11 @@ class PageAdmin(admin.ModelAdmin):
 # ========================================
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'display_order', 'is_active', 'staff_count')
-    list_filter = ('is_active',)
+    list_display = ('name', 'display_order', 'is_active', 'show_on_homepage', 'staff_count')
+    list_filter = ('is_active', 'show_on_homepage')
     search_fields = ('name', 'short_description')
     prepopulated_fields = {'slug': ('name',)}
-    list_editable = ('display_order', 'is_active')
+    list_editable = ('display_order', 'is_active', 'show_on_homepage')
     
     fieldsets = (
         ('Informations de base', {
@@ -86,7 +178,8 @@ class ServiceAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
         ('Gestion', {
-            'fields': ('display_order', 'is_active')
+            'fields': ('display_order', 'is_active', 'show_on_homepage'),
+            'description': '<p style="color: #666;">Cochez "Afficher sur la page d\'accueil" pour que ce service apparaisse sur la page d\'accueil (maximum 6 services)</p>'
         }),
     )
     
@@ -110,8 +203,8 @@ class StaffAdmin(admin.ModelAdmin):
         ('Identité', {
             'fields': ('first_name', 'last_name', 'photo')
         }),
-        ('Informations personnelles', {
-            'fields': ('grade', 'speciality', 'is_chief')
+        ('Informations professionnelles', {
+            'fields': ('grade', 'speciality', 'services', 'is_chief')
         }),
         ('Rendez-vous', {
             'fields': ('accepts_appointments', 'consultation_duration', 'consultation_hours'),
