@@ -1,40 +1,67 @@
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
-
+from django.db.models import JSONField
 
 # ========================================
 # PARAMÈTRES GÉNÉRAUX DU SITE
 # ========================================
 class SiteSettings(models.Model):
+    """Paramètres généraux du site (unique instance)"""
     # Informations générales
-    site_name = models.CharField("Nom du site", max_length=200, default="HRAE")
-    site_tagline = models.CharField("Slogan", max_length=255, default="Votre santé, notre priorité")
-    logo = models.ImageField("Logo", upload_to='site/', blank=True, null=True)
-    favicon = models.ImageField("Favicon", upload_to='site/', blank=True, null=True)
+    site_name = models.CharField("Nom de l'hôpital", max_length=255, default="HRAE")
+    site_tagline = models.CharField("Slogan", max_length=255, blank=True)
+    logo = models.ImageField("Logo", upload_to='settings/', blank=True)
+    favicon = models.ImageField("Favicon", upload_to='settings/', blank=True)
     
     # Contact
-    address = models.TextField("Adresse")
-    phone = models.CharField("Téléphone", max_length=20)
-    emergency_phone = models.CharField("Urgences", max_length=20)
-    email = models.EmailField("Email")
+    phone = models.CharField("Téléphone standard", max_length=20)
+    emergency_phone = models.CharField("Urgences 24/7", max_length=20)
+    email = models.EmailField("Email général")
+    address = models.TextField("Adresse complète")
     
     # Horaires
-    opening_hours = models.TextField("Horaires d'ouverture", default="Lundi - Vendredi: 8h00 - 18h00")
-    emergency_hours = models.TextField("Horaires urgences", default="24/7")
+    opening_hours = models.CharField(
+        "Horaires d'ouverture", 
+        max_length=200, 
+        default="Lun-Dim 8h-15h30",
+        help_text="Horaires de consultation"
+    )
+    emergency_hours = models.CharField(
+        "Horaires urgences", 
+        max_length=200, 
+        default="24h/24, 7j/7"
+    )
+
+    # Tarifs & Paiements
+    payment_modes = models.TextField(
+        "Modes de paiement acceptés",
+        blank=True,
+        help_text="Un mode par ligne. Ex: Espèces, Mobile Money (OM, Momo), Carte bancaire"
+    )
+    accepted_insurances = models.TextField(
+        "Mutuelles acceptées",
+        blank=True,
+        help_text="Une mutuelle par ligne"
+    )
+ 
+
+
     
     # Réseaux sociaux
     facebook_url = models.URLField("Facebook", blank=True)
-    twitter_url = models.URLField("Twitter/X", blank=True)
+    twitter_url = models.URLField("Twitter", blank=True)
     linkedin_url = models.URLField("LinkedIn", blank=True)
     instagram_url = models.URLField("Instagram", blank=True)
     youtube_url = models.URLField("YouTube", blank=True)
     
     # Contenus éditoriaux
-    history = models.TextField("Notre Histoire", blank=True, help_text="Histoire de l'hôpital affichée sur la page À propos")
+    history = models.TextField("Notre Histoire", blank=True, 
+                               help_text="Histoire de l'hôpital affichée sur la page À propos")
     mission = models.TextField("Notre mission", blank=True)
     vision = models.TextField("Notre vision", blank=True)
-    values = models.TextField("Nos valeurs", blank=True)
+    values = models.TextField("Nos valeurs", blank=True, 
+                              help_text="Une valeur par ligne")
     
     # Chiffres clés
     patients_per_year = models.IntegerField("Patients par an", default=0)
@@ -42,14 +69,15 @@ class SiteSettings(models.Model):
     specialties_count = models.IntegerField("Nombre de spécialités", default=0)
     staff_count = models.IntegerField("Nombre de personnel", default=0)
     years_of_experience = models.IntegerField("Années d'expérience", default=0)
-    success_rate = models.DecimalField("Taux de succès (%)", max_digits=5, decimal_places=2, default=0)
+    success_rate = models.DecimalField("Taux de succès (%)", max_digits=5, 
+                                      decimal_places=2, default=0, blank=True)
     
     # Documents
-    organization_chart = models.ImageField("Organigramme", upload_to='documents/', blank=True, null=True)
-    certifications = models.TextField("Certifications et accréditations", blank=True, 
-                                     help_text="Une certification par ligne")
+    organization_chart = models.ImageField("Organigramme administratif", 
+                                          upload_to='settings/', blank=True)
+    certifications = models.TextField("Certifications et accréditations", blank=True,
+                                     help_text="Une par ligne")
     
-    # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -60,10 +88,56 @@ class SiteSettings(models.Model):
     def __str__(self):
         return self.site_name
     
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+    
     @classmethod
     def get_settings(cls):
-        settings, created = cls.objects.get_or_create(pk=1)
-        return settings
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+
+# ========================================
+# PARCOURS PATIENT
+# ========================================
+class PatientJourneySection(models.Model):
+    """Sections du parcours patient (Urgence, Consultation, Documents...)"""
+    name = models.CharField("Nom de la section", max_length=255,
+                           help_text="Ex: Situation d'urgence, Consultation / Visite, Documents à prévoir")
+    display_order = models.IntegerField("Ordre d'affichage", default=0,
+                                       help_text="Plus petit = affiché en premier")
+    is_active = models.BooleanField("Actif", default=True)
+
+    class Meta:
+        verbose_name = "Section du parcours patient"
+        verbose_name_plural = "Sections du parcours patient"
+        ordering = ['display_order', 'name']
+
+    def __str__(self):
+        return self.name
+
+
+class PatientJourneyStep(models.Model):
+    """Étapes d'une section du parcours patient"""
+    section = models.ForeignKey(PatientJourneySection, on_delete=models.CASCADE,
+                               related_name='steps', verbose_name="Section")
+    title = models.CharField("Titre de l'étape", max_length=255,
+                            help_text="Ex: Brancardier, Infirmier(ère), Carnet de santé")
+    description = models.TextField("Description",
+                                   help_text="Explication de cette étape")
+    display_order = models.IntegerField("Ordre d'affichage", default=0,
+                                       help_text="Plus petit = affiché en premier")
+
+    class Meta:
+        verbose_name = "Étape du parcours patient"
+        verbose_name_plural = "Étapes du parcours patient"
+        ordering = ['section', 'display_order', 'title']
+
+    def __str__(self):
+        return f"{self.section.name} - {self.title}"
+
+
 # ========================================
 # PAGES STATIQUES
 # ========================================
@@ -96,12 +170,12 @@ class Service(models.Model):
     """Services médicaux de l'hôpital"""
     name = models.CharField("Nom du service", max_length=255)
     slug = models.SlugField("URL", unique=True, blank=True)
-    icon = models.CharField("Icône (Font Awesome)", max_length=50, 
+    icon = models.CharField("Icône (Font Awesome)", max_length=50,
                            help_text="Ex: fa-heartbeat, fa-stethoscope")
     short_description = models.CharField("Description courte", max_length=255)
     full_description = models.TextField("Description complète")
     banner_image = models.ImageField("Image bannière", upload_to='services/', blank=True)
-    
+
     # Détails
     pathologies = models.TextField("Pathologies traitées", blank=True,
                                    help_text="Une par ligne")
@@ -115,24 +189,44 @@ class Service(models.Model):
         "Afficher sur la page d'accueil",
         default=False,
         help_text="Cocher pour afficher ce service sur la page d'accueil (max 6)")
-    
+
     # Gestion
     display_order = models.IntegerField("Ordre d'affichage", default=0)
     is_active = models.BooleanField("Actif", default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         verbose_name = "Service médical"
         verbose_name_plural = "Services médicaux"
         ordering = ['display_order', 'name']
-    
+
     def __str__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+
+# ========================================
+# IMAGES DES SERVICES (GALERIE)
+# ========================================
+class ServiceImage(models.Model):
+    """Images de galerie pour services"""
+    service = models.ForeignKey(Service, on_delete=models.CASCADE,
+                               related_name='gallery_images')
+    image = models.ImageField("Image", upload_to='services/gallery/')
+    caption = models.CharField("Légende", max_length=255, blank=True)
+    display_order = models.IntegerField("Ordre", default=0)
+
+    class Meta:
+        verbose_name = "Image de service"
+        verbose_name_plural = "Images de services"
+        ordering = ['display_order']
+
+    def __str__(self):
+        return f"{self.service.name} - Image {self.display_order}"
 
 
 # ========================================

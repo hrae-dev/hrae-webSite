@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<!-- Arrival Process Section -->
+<!-- Arrival Process Section - Dynamic from Database with Fallback -->
 <section class="py-16 md:py-20 bg-white">
     <div class="container mx-auto px-6 sm:px-8 md:px-12 max-w-7xl">
         <h2 class="text-3xl md:text-4xl font-black mb-4 text-center">
@@ -33,88 +33,191 @@
             {% trans "Lorsque vous arrivez à l'Hôpital Régional Annexe d'Edéa, les vigiles sont vos premiers interlocuteurs. Ils vous indiquent immédiatement où vous diriger selon votre situation." %}
         </p>
 
-        <!-- Two Paths -->
-        <div class="grid lg:grid-cols-2 gap-8 mb-12">
-            <!-- Emergency Path -->
-            <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-3xl p-8 border-2 border-red-200">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-black text-red-900">{% trans "Situation d'urgence" %}</h3>
-                </div>
-                
-                <p class="text-red-800 font-semibold mb-6">{% trans "Vous serez orienté directement vers le Service des Urgences :" %}</p>
-                
-                <div class="space-y-4">
-                    <div class="flex gap-4">
-                        <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">1</div>
-                        <div class="flex-1">
-                            <p class="font-bold text-red-900 mb-1">{% trans "Brancardier" %}</p>
-                            <p class="text-red-800 text-sm">{% trans "Vous prend en charge immédiatement" %}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-4">
-                        <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">2</div>
-                        <div class="flex-1">
-                            <p class="font-bold text-red-900 mb-1">{% trans "Infirmier(ère)" %}</p>
-                            <p class="text-red-800 text-sm">{% trans "Vous accueille et évalue votre état" %}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-4">
-                        <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">3</div>
-                        <div class="flex-1">
-                            <p class="font-bold text-red-900 mb-1">{% trans "Médecin" %}</p>
-                            <p class="text-red-800 text-sm">{% trans "Vous examine et prescrit les soins nécessaires" %}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {% if patient_journey_sections %}
+            {# Content from Database #}
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                {% for section in patient_journey_sections %}
+                    {% comment %}Define color scheme based on section name{% endcomment %}
+                    {% if "urgence" in section.name|lower or "emergency" in section.name|lower %}
+                        {% with bg_color="red" icon_path="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" %}
+                            <div class="bg-gradient-to-br from-{{ bg_color }}-50 to-{{ bg_color }}-100 rounded-3xl p-8 border-2 border-{{ bg_color }}-200">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <div class="w-16 h-16 bg-{{ bg_color }}-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ icon_path }}"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-black text-{{ bg_color }}-900">{{ section.name }}</h3>
+                                </div>
 
-            <!-- Non-urgent Path -->
-            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-8 border-2 border-blue-200">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                        </svg>
+                                <div class="space-y-4">
+                                    {% for step in section.steps.all %}
+                                        <div class="flex gap-4">
+                                            <div class="w-10 h-10 bg-{{ bg_color }}-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">{{ forloop.counter }}</div>
+                                            <div class="flex-1">
+                                                <p class="font-bold text-{{ bg_color }}-900 mb-1">{{ step.title }}</p>
+                                                <p class="text-{{ bg_color }}-800 text-sm">{{ step.description }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endwith %}
+                    {% elif "consultation" in section.name|lower or "visite" in section.name|lower %}
+                        {% with bg_color="blue" icon_path="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" %}
+                            <div class="bg-gradient-to-br from-{{ bg_color }}-50 to-{{ bg_color }}-100 rounded-3xl p-8 border-2 border-{{ bg_color }}-200">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <div class="w-16 h-16 bg-{{ bg_color }}-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ icon_path }}"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-black text-{{ bg_color }}-900">{{ section.name }}</h3>
+                                </div>
+
+                                <div class="space-y-4">
+                                    {% for step in section.steps.all %}
+                                        <div class="flex gap-4">
+                                            <div class="w-10 h-10 bg-{{ bg_color }}-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">{{ forloop.counter }}</div>
+                                            <div class="flex-1">
+                                                <p class="font-bold text-{{ bg_color }}-900 mb-1">{{ step.title }}</p>
+                                                <p class="text-{{ bg_color }}-800 text-sm">{{ step.description }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endwith %}
+                    {% elif "document" in section.name|lower %}
+                        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl p-8 border-2 border-orange-200 lg:col-span-2">
+                            <h2 class="text-3xl font-black mb-8 text-center">
+                                <span class="inline-block relative pb-2">
+                                    <span class="relative z-10">{{ section.name }}</span>
+                                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500"></span>
+                                </span>
+                            </h2>
+
+                            <div class="max-w-5xl mx-auto">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    {% for step in section.steps.all %}
+                                        <div class="flex items-start gap-4 bg-white rounded-2xl p-6">
+                                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <h3 class="font-black text-gray-900 mb-2 text-lg">{{ step.title }}</h3>
+                                                <p class="text-gray-600 text-sm">{{ step.description }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% comment %}Default styling for any other section type{% endcomment %}
+                        <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-8 border-2 border-gray-200">
+                            <h3 class="text-2xl font-black text-gray-900 mb-6">{{ section.name }}</h3>
+                            <div class="space-y-4">
+                                {% for step in section.steps.all %}
+                                    <div class="flex gap-4">
+                                        <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">{{ forloop.counter }}</div>
+                                        <div class="flex-1">
+                                            <p class="font-bold text-gray-900 mb-1">{{ step.title }}</p>
+                                            <p class="text-gray-700 text-sm">{{ step.description }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            {# Default Static Content (Fallback) #}
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <!-- Emergency Path -->
+                <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-3xl p-8 border-2 border-red-200">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-black text-red-900">{% trans "Situation d'urgence" %}</h3>
                     </div>
-                    <h3 class="text-2xl font-black text-blue-900">{% trans "Consultation / Visite" %}</h3>
+
+                    <p class="text-red-800 font-semibold mb-6">{% trans "Vous serez orienté directement vers le Service des Urgences :" %}</p>
+
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">1</div>
+                            <div class="flex-1">
+                                <p class="font-bold text-red-900 mb-1">{% trans "Brancardier" %}</p>
+                                <p class="text-red-800 text-sm">{% trans "Vous prend en charge immédiatement" %}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">2</div>
+                            <div class="flex-1">
+                                <p class="font-bold text-red-900 mb-1">{% trans "Infirmier(ère)" %}</p>
+                                <p class="text-red-800 text-sm">{% trans "Vous accueille et évalue votre état" %}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">3</div>
+                            <div class="flex-1">
+                                <p class="font-bold text-red-900 mb-1">{% trans "Médecin" %}</p>
+                                <p class="text-red-800 text-sm">{% trans "Vous examine et prescrit les soins nécessaires" %}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <p class="text-blue-800 font-semibold mb-6">{% trans "Pour une consultation ou un service non urgent :" %}</p>
-                
-                <div class="space-y-4">
-                    <div class="flex gap-4">
-                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">1</div>
-                        <div class="flex-1">
-                            <p class="font-bold text-blue-900 mb-1">{% trans "Accueil des Vigiles" %}</p>
-                            <p class="text-blue-800 text-sm">{% trans "Premier contact et orientation générale" %}</p>
+
+                <!-- Non-urgent Path -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-8 border-2 border-blue-200">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
                         </div>
+                        <h3 class="text-2xl font-black text-blue-900">{% trans "Consultation / Visite" %}</h3>
                     </div>
-                    
-                    <div class="flex gap-4">
-                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">2</div>
-                        <div class="flex-1">
-                            <p class="font-bold text-blue-900 mb-1">{% trans "Service d'Accueil et d'Orientation" %}</p>
-                            <p class="text-blue-800 text-sm">{% trans "Vous guide vers le service adapté à votre besoin" %}</p>
+
+                    <p class="text-blue-800 font-semibold mb-6">{% trans "Pour une consultation ou un service non urgent :" %}</p>
+
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">1</div>
+                            <div class="flex-1">
+                                <p class="font-bold text-blue-900 mb-1">{% trans "Accueil des Vigiles" %}</p>
+                                <p class="text-blue-800 text-sm">{% trans "Premier contact et orientation générale" %}</p>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="flex gap-4">
-                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">3</div>
-                        <div class="flex-1">
-                            <p class="font-bold text-blue-900 mb-1">{% trans "Service Spécialisé" %}</p>
-                            <p class="text-blue-800 text-sm">{% trans "Consultation avec le médecin approprié" %}</p>
+
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">2</div>
+                            <div class="flex-1">
+                                <p class="font-bold text-blue-900 mb-1">{% trans "Service d'Accueil et d'Orientation" %}</p>
+                                <p class="text-blue-800 text-sm">{% trans "Vous guide vers le service adapté à votre besoin" %}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold">3</div>
+                            <div class="flex-1">
+                                <p class="font-bold text-blue-900 mb-1">{% trans "Service Spécialisé" %}</p>
+                                <p class="text-blue-800 text-sm">{% trans "Consultation avec le médecin approprié" %}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 </section>
 
@@ -203,41 +306,40 @@
         </h2>
 
         <div class="grid md:grid-cols-2 gap-8">
-            <!-- Horaires -->
-            <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl p-8 shadow-lg border border-orange-200">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center">
-                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-black text-gray-900">{% trans "Horaires" %}</h3>
+        <!-- Horaires -->
+        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl p-8 shadow-lg border border-orange-200">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
                 </div>
-                
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center bg-white rounded-xl p-4">
-                        <span class="font-bold text-gray-900">{% trans "Consultations" %}</span>
-                        <span class="text-gray-700">{% trans "Lun-Dim 8h-15h30" %}</span>
-                    </div>
-                    <div class="flex justify-between items-center bg-white rounded-xl p-4">
-                        <span class="font-bold text-gray-900">{% trans "Service de garde" %}</span>
-                        <span class="text-gray-700">{% trans "15h-7h" %}</span>
-                    </div>
-                    <div class="flex justify-between items-center bg-white rounded-xl p-4">
-                        <span class="font-bold text-gray-900">{% trans "Urgences" %}</span>
-                        <span class="text-red-600 font-bold">{% trans "24h/24, 7j/7" %}</span>
-                    </div>
-                    <div class="flex justify-between items-center bg-white rounded-xl p-4">
-                        <span class="font-bold text-gray-900">{% trans "Administration" %}</span>
-                        <span class="text-gray-700">{% trans "Lun-Ven 8h-15h30" %}</span>
-                    </div>
-                    <div class="flex justify-between items-center bg-white rounded-xl p-4">
-                        <span class="font-bold text-gray-900">{% trans "Pharmacie" %}</span>
-                        <span class="text-red-600 font-bold">{% trans "24h/24, 7j/7" %}</span>
-                    </div>
+                <h3 class="text-2xl font-black text-gray-900">{% trans "Horaires" %}</h3>
+            </div>
+            
+            <div class="space-y-3">
+                <div class="flex justify-between items-center bg-white rounded-xl p-4">
+                    <span class="font-bold text-gray-900">{% trans "Consultations" %}</span>
+                    <span class="text-gray-700">{{ settings.opening_hours|default:"Lun-Dim 8h-15h30" }}</span>
+                </div>
+                <div class="flex justify-between items-center bg-white rounded-xl p-4">
+                    <span class="font-bold text-gray-900">{% trans "Service de garde" %}</span>
+                    <span class="text-gray-700">{% trans "15h-7h" %}</span>
+                </div>
+                <div class="flex justify-between items-center bg-white rounded-xl p-4">
+                    <span class="font-bold text-gray-900">{% trans "Urgences" %}</span>
+                    <span class="text-red-600 font-bold">{{ settings.emergency_hours|default:"24h/24, 7j/7" }}</span>
+                </div>
+                <div class="flex justify-between items-center bg-white rounded-xl p-4">
+                    <span class="font-bold text-gray-900">{% trans "Administration" %}</span>
+                    <span class="text-gray-700">{% trans "Lun-Ven 8h-15h30" %}</span>
+                </div>
+                <div class="flex justify-between items-center bg-white rounded-xl p-4">
+                    <span class="font-bold text-gray-900">{% trans "Pharmacie" %}</span>
+                    <span class="text-red-600 font-bold">{% trans "24h/24, 7j/7" %}</span>
                 </div>
             </div>
-
+        </div>
             <!-- Tarifs & Paiements -->
             <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-3xl p-8 shadow-lg border border-green-200">
                 <div class="flex items-center gap-4 mb-6">
@@ -252,32 +354,55 @@
                 <div class="mb-6">
                     <p class="font-bold text-gray-900 mb-3">{% trans "Modes de paiement acceptés :" %}</p>
                     <div class="space-y-2">
-                        <div class="flex items-center gap-3 bg-white rounded-xl p-3">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <span class="text-gray-700">{% trans "Espèces" %}</span>
-                        </div>
-                        <div class="flex items-center gap-3 bg-white rounded-xl p-3">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <span class="text-gray-700">{% trans "Mobile Money (OM, Momo)" %}</span>
-                        </div>
-                        <div class="flex items-center gap-3 bg-white rounded-xl p-3">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <span class="text-gray-700">{% trans "Carte bancaire" %}</span>
-                        </div>
+                        {% if settings.payment_modes %}
+                            {% for mode in settings.payment_modes.splitlines %}
+                                {% if mode.strip %}
+                                <div class="flex items-center gap-3 bg-white rounded-xl p-3">
+                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-gray-700">{{ mode }}</span>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="flex items-center gap-3 bg-white rounded-xl p-3">
+                                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-gray-700">{% trans "Espèces" %}</span>
+                            </div>
+                            <div class="flex items-center gap-3 bg-white rounded-xl p-3">
+                                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-gray-700">{% trans "Mobile Money (OM, Momo)" %}</span>
+                            </div>
+                            <div class="flex items-center gap-3 bg-white rounded-xl p-3">
+                                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-gray-700">{% trans "Carte bancaire" %}</span>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
                 <div class="bg-white rounded-xl p-4">
-                    <p class="font-bold text-gray-900 text-center">{% trans "Mutuelles acceptées" %}</p>
+                    <p class="font-bold text-gray-900 text-center mb-3">{% trans "Mutuelles acceptées" %}</p>
+                    {% if settings.accepted_insurances %}
+                        <div class="space-y-2">
+                            {% for insurance in settings.accepted_insurances.splitlines %}
+                                {% if insurance.strip %}
+                                <p class="text-gray-700 text-sm text-center">{{ insurance }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-gray-500 text-sm text-center italic">{% trans "Information non disponible" %}</p>
+                    {% endif %}
                 </div>
             </div>
-
             <!-- Admission -->
             <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl p-8 shadow-lg border border-purple-200">
                 <div class="flex items-center gap-4 mb-6">

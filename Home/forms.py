@@ -38,10 +38,9 @@ class AppointmentForm(forms.ModelForm):
                 'id': 'id_staff'
             }),
             'appointment_date': forms.DateTimeInput(attrs={
-                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
-                'type': 'datetime-local',
+                'type': 'hidden',
                 'id': 'id_appointment_date'
-            }),
+            }, format='%Y-%m-%dT%H:%M:%S'),
             'reason': forms.Textarea(attrs={
                 'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
                 'rows': 4,
@@ -78,25 +77,15 @@ class AppointmentForm(forms.ModelForm):
         self.fields['staff'].empty_label = "-- Pas de préférence --"
         self.fields['patient_birthdate'].required = False
         self.fields['insurance_number'].required = False
-        
-        # Ajouter les indicateurs de champs requis
-        required_fields = ['patient_name', 'patient_email', 'patient_phone', 'service', 'appointment_date', 'reason']
-        for field_name in required_fields:
-            if field_name in self.fields:
-                self.fields[field_name].widget.attrs['required'] = 'required'
+
+        # IMPORTANT: Ne pas ajouter l'attribut HTML 'required' car le formulaire multi-étapes
+        # cache les champs avec display:none, ce qui empêche la validation HTML5 de fonctionner.
+        # Django fera la validation côté serveur.
     
     def clean(self):
         cleaned_data = super().clean()
-        service = cleaned_data.get('service')
-        staff = cleaned_data.get('staff')
-        
-        # Si un médecin est sélectionné, vérifier qu'il appartient au service
-        if staff and service:
-            if service not in staff.services.all():
-                raise forms.ValidationError(
-                    f"Le médecin {staff} ne travaille pas dans le service {service}."
-                )
-        
+        # Validation supprimée : permettre de sélectionner n'importe quel médecin
+        # même s'il ne travaille pas dans le service sélectionné
         return cleaned_data
 
 

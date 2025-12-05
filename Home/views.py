@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.utils import timezone
 from .models import (
-    SiteSettings, Page, Service, Staff, Article, Category,
+    SiteSettings, PatientJourneySection, Page, Service, Staff, Article, Category,
     Campaign, Partner, Appointment, ContactMessage, Testimonial, DirectionMember
 )
 from .forms import AppointmentForm, CampaignRegistrationForm, ContactMessageForm
@@ -48,6 +48,30 @@ def index(request):
     
     return render(request, 'Home/index.html', context)
 
+def practical_info(request):
+    """
+    Vue pour la page Espace Patient
+    """
+    settings = SiteSettings.get_settings()
+
+    # Récupérer la page statique si elle existe
+    try:
+        page = Page.objects.get(slug='espace-patient', is_active=True)
+    except Page.DoesNotExist:
+        page = None
+
+    # Récupérer les sections du parcours patient avec leurs étapes
+    patient_journey_sections = PatientJourneySection.objects.filter(
+        is_active=True
+    ).prefetch_related('steps').order_by('display_order')
+
+    context = {
+        'settings': settings,
+        'page': page,
+        'patient_journey_sections': patient_journey_sections,
+    }
+
+    return render(request, 'Home/practical_info.html', context)
 
 
 def about_us(request):
@@ -239,16 +263,16 @@ def testimonials_list(request):
     return render(request, 'Home/testimonials.html', context)
 
 
-def practical_info(request):
-    """Informations pratiques"""
-    settings = SiteSettings.get_settings()
-    page = Page.objects.filter(slug='informations-pratiques', is_active=True).first()
+# def practical_info(request):
+#     """Informations pratiques"""
+#     settings = SiteSettings.get_settings()
+#     page = Page.objects.filter(slug='informations-pratiques', is_active=True).first()
     
-    context = {
-        'settings': settings,
-        'page': page,
-    }
-    return render(request, 'Home/practical_info.html', context)
+#     context = {
+#         'settings': settings,
+#         'page': page,
+#     }
+#     return render(request, 'Home/practical_info.html', context)
 
 
 def contact_us(request):
