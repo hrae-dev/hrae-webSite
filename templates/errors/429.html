@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trop de requêtes - HRAE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen flex items-center justify-center p-4">
+    
+    <div class="max-w-2xl w-full">
+        <!-- Card principale -->
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            
+            <!-- Header avec icône -->
+            <div class="bg-gradient-to-r from-orange-500 to-red-500 p-8 text-center">
+                <div class="mb-4">
+                    <i class="fas fa-exclamation-triangle text-white text-6xl animate-pulse"></i>
+                </div>
+                <h1 class="text-white text-4xl font-bold mb-2">Limite dépassée</h1>
+                <p class="text-white/90 text-lg">Code d'erreur: 429 - Too Many Requests</p>
+            </div>
+            
+            <!-- Contenu -->
+            <div class="p-8">
+                
+                <!-- Message principal -->
+                <div class="mb-8 text-center">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                        Vous avez effectué trop de requêtes
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed">
+                        Pour protéger nos serveurs et garantir un service de qualité à tous nos utilisateurs, 
+                        nous limitons le nombre de requêtes par période de temps.
+                    </p>
+                </div>
+                
+                <!-- Informations -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-info-circle text-blue-500 text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-2">Que faire ?</h3>
+                            <ul class="space-y-2 text-blue-800">
+                                <li class="flex items-start">
+                                    <i class="fas fa-clock text-blue-500 mt-1 mr-2"></i>
+                                    <span>Attendez quelques minutes avant de réessayer</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-hand-paper text-blue-500 mt-1 mr-2"></i>
+                                    <span>Réduisez la fréquence de vos actions</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-phone text-blue-500 mt-1 mr-2"></i>
+                                    <span>Contactez-nous si le problème persiste</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Limites par action -->
+                <div class="bg-gray-50 rounded-xl p-6 mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-shield-alt text-gray-600 mr-2"></i>
+                        Nos limites de sécurité
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-envelope text-orange-500 mr-2"></i>
+                                <span class="font-semibold">Formulaire contact</span>
+                            </div>
+                            <p class="text-gray-600">5 messages / 15 minutes</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-check text-blue-500 mr-2"></i>
+                                <span class="font-semibold">Prise de rendez-vous</span>
+                            </div>
+                            <p class="text-gray-600">3 demandes / heure</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-browser text-green-500 mr-2"></i>
+                                <span class="font-semibold">Navigation générale</span>
+                            </div>
+                            <p class="text-gray-600">100 pages / minute</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-globe text-purple-500 mr-2"></i>
+                                <span class="font-semibold">Requêtes API</span>
+                            </div>
+                            <p class="text-gray-600">60 appels / minute</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timer de réessai -->
+                <div class="text-center mb-8">
+                    <div class="inline-block bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-full">
+                        <i class="fas fa-hourglass-half animate-spin mr-2"></i>
+                        <span class="font-semibold">Réessayez dans <span id="countdown">60</span> secondes</span>
+                    </div>
+                </div>
+                
+                <!-- Boutons d'action -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{% url 'home' %}" 
+                       class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                        <i class="fas fa-home mr-2"></i>
+                        Retour à l'accueil
+                    </a>
+                    
+                    <button onclick="location.reload()" 
+                            id="retryBtn"
+                            disabled
+                            class="inline-flex items-center justify-center px-6 py-3 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed font-semibold transition-all">
+                        <i class="fas fa-redo mr-2"></i>
+                        Réessayer
+                    </button>
+                </div>
+                
+                <!-- Contact urgence -->
+                <div class="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <h4 class="font-semibold text-red-900 mb-2 flex items-center">
+                        <i class="fas fa-ambulance text-red-600 mr-2"></i>
+                        En cas d'urgence médicale
+                    </h4>
+                    <p class="text-red-800 text-sm">
+                        Appelez immédiatement le 
+                        <a href="tel:{{ settings.emergency_phone|default:'+237XXXXXXXXX' }}" 
+                           class="font-bold underline hover:text-red-600">
+                            {{ settings.emergency_phone|default:'+237 XXX XXX XXX' }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Footer info -->
+        <div class="mt-6 text-center text-gray-600 text-sm">
+            <p>
+                <i class="fas fa-hospital mr-2"></i>
+                {{ settings.hospital_name|default:'Hôpital Régional Annexe d\'Edéa (HRAE)' }}
+            </p>
+            <p class="mt-2">
+                <i class="fas fa-shield-alt mr-2"></i>
+                Protection automatique activée pour votre sécurité
+            </p>
+        </div>
+    </div>
+    
+    <!-- Script countdown -->
+    <script>
+        let countdown = 60;
+        const countdownElement = document.getElementById('countdown');
+        const retryBtn = document.getElementById('retryBtn');
+        
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
+                retryBtn.disabled = false;
+                retryBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                retryBtn.classList.add('bg-green-600', 'text-white', 'hover:bg-green-700', 'cursor-pointer');
+                countdownElement.parentElement.innerHTML = '<i class="fas fa-check-circle mr-2"></i><span class="font-semibold">Vous pouvez réessayer maintenant</span>';
+            }
+        }, 1000);
+    </script>
+    
+</body>
+</html>

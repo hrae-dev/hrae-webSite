@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import JsonResponse
 from django.utils import timezone
+import django_ratelimit
 from .models import (
     SiteSettings, PatientJourneySection, Page, Service, Staff, Article, Category,
     Campaign, Partner, Appointment, ContactMessage, Testimonial, DirectionMember
@@ -11,8 +12,31 @@ from .models import (
 from .forms import AppointmentForm, CampaignRegistrationForm, ContactMessageForm
 
 from itertools import chain
-from datetime import datetime
+from django_ratelimit.decorators import ratelimit
+import logging
+logger = logging.getLogger(__name__)
 
+
+# ========================================
+# 🛡️ GESTION DES ERREURS RATE LIMIT
+# ========================================
+def rate_limit_exceeded(request, exception=None):
+    """
+    Vue personnalisée appelée quand un utilisateur dépasse les limites.
+    Retourne une page 429 élégante avec informations.
+    """
+    # Logger l'événement
+    logger.warning(
+        f"Rate limit exceeded - IP: {request.META.get('REMOTE_ADDR')} - "
+        f"Path: {request.path} - User: {request.user if request.user.is_authenticated else 'Anonymous'}"
+    )
+    
+    settings = SiteSettings.get_settings()
+    return render(request, 'errors/429.html', {
+        'settings': settings,
+    }, status=429)
+
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def index(request):
     # Services pour page d'accueil (max 6)
     homepage_services = Service.objects.filter(
@@ -48,6 +72,7 @@ def index(request):
     
     return render(request, 'Home/index.html', context)
 
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def practical_info(request):
     """
     Vue pour la page Espace Patient
@@ -73,7 +98,7 @@ def practical_info(request):
 
     return render(request, 'Home/practical_info.html', context)
 
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def about_us(request):
     """Page À propos"""
     settings = SiteSettings.get_settings()
@@ -87,7 +112,7 @@ def about_us(request):
     }
     return render(request, 'Home/about_us.html', context)
 
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def our_services(request):
     """Liste des services médicaux"""
     settings = SiteSettings.get_settings()
@@ -118,7 +143,7 @@ def our_services(request):
 
 
 from django.core.paginator import Paginator
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def our_team(request):
     """Liste du personnel médical"""
     settings = SiteSettings.get_settings()
@@ -161,7 +186,7 @@ def our_team(request):
     }
     return render(request, 'Home/team.html', context)
 
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def news(request):
     """Liste des actualités et campagnes avec filtres et pagination"""
     settings = SiteSettings.get_settings()
@@ -203,6 +228,7 @@ def news(request):
     }
     return render(request, 'news/news.html', context)
 
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def health_campaigns(request):
     """Liste des campagnes groupées par statut"""
     settings = SiteSettings.get_settings()
@@ -230,7 +256,7 @@ def health_campaigns(request):
     }
     return render(request, 'Home/health_campaigns.html', context)
 
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def our_partners(request):
     """Liste des partenaires par type"""
     settings = SiteSettings.get_settings()
@@ -250,7 +276,7 @@ def our_partners(request):
     }
     return render(request, 'Home/partners.html', context)
 
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def testimonials_list(request):
     """Liste des témoignages"""
     settings = SiteSettings.get_settings()
@@ -262,19 +288,7 @@ def testimonials_list(request):
     }
     return render(request, 'Home/testimonials.html', context)
 
-
-# def practical_info(request):
-#     """Informations pratiques"""
-#     settings = SiteSettings.get_settings()
-#     page = Page.objects.filter(slug='informations-pratiques', is_active=True).first()
-    
-#     context = {
-#         'settings': settings,
-#         'page': page,
-#     }
-#     return render(request, 'Home/practical_info.html', context)
-
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def contact_us(request):
     """Page de contact avec formulaire"""
     settings = SiteSettings.get_settings()
@@ -312,6 +326,7 @@ def contact_us(request):
 # ========================================
 # DETAIL PAGES
 # ========================================
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def service_detail(request, service_slug):
     """Détail d'un service"""
     settings = SiteSettings.get_settings()
@@ -325,6 +340,7 @@ def service_detail(request, service_slug):
     }
     return render(request, 'services/service_detail.html', context)
 
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def doctor_detail(request, doctor_id):
     """Fiche détaillée d'un membre du personnel"""
     settings = SiteSettings.get_settings()
@@ -336,7 +352,7 @@ def doctor_detail(request, doctor_id):
     }
     return render(request, 'doctors/doctor_detail.html', context)
 
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def news_detail(request, news_id):
     """Détail d'un article"""
     settings = SiteSettings.get_settings()
@@ -359,7 +375,7 @@ def news_detail(request, news_id):
     }
     return render(request, 'news/news_detail.html', context)
 
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def campaign_detail(request, campaign_id):
     """Détail d'une campagne avec formulaire d'inscription"""
     settings = SiteSettings.get_settings()
@@ -389,6 +405,8 @@ def campaign_detail(request, campaign_id):
 # ========================================
 # RENDEZ-VOUS
 # ========================================
+@ratelimit(key='ip', rate='100/m', method='GET', block=True) 
+@ratelimit(key='ip', rate='3/h', method='POST', block=True)  
 def appointment_create(request):
     """Formulaire de prise de rendez-vous"""
     settings = SiteSettings.get_settings()
@@ -415,7 +433,7 @@ def appointment_create(request):
     }
     return render(request, 'Home/appointment_form.html', context)
 
-
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def appointment_success(request):
     """Page de confirmation après rendez-vous"""
     settings = SiteSettings.get_settings()
@@ -425,6 +443,7 @@ def appointment_success(request):
 # ========================================
 # API AJAX
 # ========================================
+@ratelimit(key='ip', rate='100/m', method='GET', block=True)
 def get_staff_by_service(request):
     """API pour récupérer les médecins d'un service (AJAX)"""
     service_id = request.GET.get('service_id')
