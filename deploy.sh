@@ -7,9 +7,7 @@ cd /var/www/hrae-webSite || exit
 
 echo "📦 Pulling latest code..."
 git config --global --add safe.directory /var/www/hrae-webSite
-git fetch origin main
-git reset --hard origin/main
-git clean -fd
+git pull origin main
 
 # Activer l'environnement virtuel
 echo "🧰 Activating virtualenv..."
