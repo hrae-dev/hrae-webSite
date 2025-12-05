@@ -45,6 +45,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'axes.middleware.AxesMiddleware',
+    'core.middleware.RateLimitMiddleware',
+    'core.middleware.SecurityHeadersMiddleware', 
+    'core.middleware.AttackDetectionMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -64,6 +67,30 @@ CACHES = {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         },
     }
+}
+
+RATELIMIT_ENABLE = True
+RATELIMIT_USE_CACHE = 'default'
+
+# Logging pour rate limiting
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file_ratelimit': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs/ratelimit.log',
+            'maxBytes': 5242880,
+            'backupCount': 3,
+        },
+    },
+    'loggers': {
+        'django_ratelimit': {
+            'handlers': ['file_ratelimit'],
+            'level': 'INFO',
+        },
+    },
 }
 
 ROOT_URLCONF = 'core.urls'
@@ -87,7 +114,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-RATELIMIT_IP_META_KEY = 'HTTP_X_FORWARDED_FOR'
+
+if DEBUG:
+    RATELIMIT_USE_CACHE = 'default'
+else:
+    RATELIMIT_IP_META_KEY = 'HTTP_X_FORWARDED_FOR'
 
 
 # Database (MySQL)
