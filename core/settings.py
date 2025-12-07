@@ -72,27 +72,40 @@ CACHES = {
 RATELIMIT_ENABLE = True
 RATELIMIT_USE_CACHE = 'default'
 
-# Créer le répertoire logs s'il n'existe pas
-LOGS_DIR = BASE_DIR / 'logs'
-LOGS_DIR.mkdir(exist_ok=True)
+# === Créer le répertoire logs s'il n'existe pas ===
+from pathlib import Path
 
-# Logging pour rate limiting
+LOGS_DIR = BASE_DIR / "logs"
+LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+# === Logging pour le rate limiting ===
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file_ratelimit': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOGS_DIR / 'ratelimit.log',
-            'maxBytes': 5242880,
-            'backupCount': 3,
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "handlers": {
+        "file_ratelimit": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGS_DIR / "ratelimit.log",
+            "maxBytes": 5 * 1024 * 1024,  # 5 MB
+            "backupCount": 3,
+            "formatter": "simple",
         },
     },
-    'loggers': {
-        'django_ratelimit': {
-            'handlers': ['file_ratelimit'],
-            'level': 'INFO',
+
+    "formatters": {
+        "simple": {
+            "format": "[{asctime}] {levelname} {message}",
+            "style": "{",
+        },
+    },
+
+    "loggers": {
+        "django_ratelimit": {
+            "handlers": ["file_ratelimit"],
+            "level": "INFO",
+            "propagate": False,
         },
     },
 }
