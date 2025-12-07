@@ -72,6 +72,10 @@ CACHES = {
 RATELIMIT_ENABLE = True
 RATELIMIT_USE_CACHE = 'default'
 
+# Créer le répertoire logs s'il n'existe pas
+LOGS_DIR = BASE_DIR / 'logs'
+LOGS_DIR.mkdir(exist_ok=True)
+
 # Logging pour rate limiting
 LOGGING = {
     'version': 1,
@@ -80,7 +84,7 @@ LOGGING = {
         'file_ratelimit': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR / 'logs/ratelimit.log',
+            'filename': LOGS_DIR / 'ratelimit.log',
             'maxBytes': 5242880,
             'backupCount': 3,
         },
