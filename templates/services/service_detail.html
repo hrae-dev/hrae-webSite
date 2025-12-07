@@ -33,10 +33,39 @@
         <div class="grid lg:grid-cols-3 gap-8">
             <!-- Left Column - Main Content -->
             <div class="lg:col-span-2 space-y-6">
-                <!-- Banner Image -->
-                {% if service.banner_image %}
+                <!-- Image Gallery/Carousel -->
+                {% if service.banner_image or service.gallery_images.all %}
                 <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
-                    <img src="{{ service.banner_image.url }}" alt="{{ service.name }}" class="w-full h-64 md:h-96 object-cover">
+                    <div class="relative h-64 md:h-96">
+                        <!-- Collect all images -->
+                        {% with all_images=service.gallery_images.all %}
+                        {% if all_images %}
+                            <!-- Multiple images - Carousel -->
+                            {% if all_images.count > 1 %}
+                            <div class="service-carousel relative w-full h-full">
+                                {% for image in all_images %}
+                                <div class="carousel-slide {% if forloop.first %}active{% endif %} absolute inset-0 opacity-0 transition-opacity duration-1000">
+                                    <img src="{{ image.image.url }}" alt="{{ image.caption|default:service.name }}" class="w-full h-full object-cover">
+                                </div>
+                                {% endfor %}
+                                
+                                <!-- Navigation Dots -->
+                                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+                                    {% for image in all_images %}
+                                    <button class="carousel-dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white/80 transition {% if forloop.first %}active bg-white{% endif %}" data-slide="{{ forloop.counter0 }}"></button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% else %}
+                            <!-- Single image -->
+                            <img src="{{ all_images.0.image.url }}" alt="{{ all_images.0.caption|default:service.name }}" class="w-full h-full object-cover">
+                            {% endif %}
+                        {% elif service.banner_image %}
+                            <!-- Fallback to banner image -->
+                            <img src="{{ service.banner_image.url }}" alt="{{ service.name }}" class="w-full h-full object-cover">
+                        {% endif %}
+                        {% endwith %}
+                    </div>
                 </div>
                 {% endif %}
 
@@ -157,7 +186,7 @@
 
                     <!-- CTA Button -->
                     <a href="{% url 'appointment_create' %}" 
-                       class="mt-8 flex items-center justify-center gap-3 bg-red-500 text-white px-6 py-4 rounded-full font-bold hover:bg-orange-600 transition shadow-lg text-center w-full">
+                       class="mt-8 flex items-center justify-center gap-3 bg-orange-500 text-white px-6 py-4 rounded-full font-bold hover:bg-orange-600 transition shadow-lg text-center w-full">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
@@ -199,4 +228,65 @@
         {% endif %}
     </div>
 </div>
+
+<script>
+// Auto-rotating carousel for service images
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.service-carousel');
+    if (!carousel) return;
+    
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots = carousel.querySelectorAll('.carousel-dot');
+    
+    if (slides.length <= 1) return; // No need for carousel with 1 image
+    
+    let currentSlide = 0;
+    const slideInterval = 5000; // 5 seconds
+    
+    function showSlide(index) {
+        // Hide all slides
+        slides.forEach(slide => {
+            slide.classList.remove('active');
+            slide.style.opacity = '0';
+        });
+        
+        // Remove active class from all dots
+        dots.forEach(dot => {
+            dot.classList.remove('active', 'bg-white');
+            dot.classList.add('bg-white/50');
+        });
+        
+        // Show current slide
+        slides[index].classList.add('active');
+        slides[index].style.opacity = '1';
+        
+        // Highlight current dot
+        dots[index].classList.add('active', 'bg-white');
+        dots[index].classList.remove('bg-white/50');
+    }
+    
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+    
+    // Auto-rotate
+    let autoRotate = setInterval(nextSlide, slideInterval);
+    
+    // Dot click handlers
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentSlide = index;
+            showSlide(currentSlide);
+            
+            // Reset auto-rotate timer
+            clearInterval(autoRotate);
+            autoRotate = setInterval(nextSlide, slideInterval);
+        });
+    });
+    
+    // Show first slide
+    showSlide(0);
+});
+</script>
 {% endblock %}
