@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
 from django.db.models import JSONField
+from django_ckeditor_5.fields import CKEditor5Field
 
 # ========================================
 # PARAMÈTRES GÉNÉRAUX DU SITE
@@ -56,11 +57,11 @@ class SiteSettings(models.Model):
     youtube_url = models.URLField("YouTube", blank=True)
     
     # Contenus éditoriaux
-    history = models.TextField("Notre Histoire", blank=True, 
+    history = CKEditor5Field("Notre Histoire", blank=True,
                                help_text="Histoire de l'hôpital affichée sur la page À propos")
-    mission = models.TextField("Notre mission", blank=True)
-    vision = models.TextField("Notre vision", blank=True)
-    values = models.TextField("Nos valeurs", blank=True, 
+    mission = CKEditor5Field("Notre mission", blank=True)
+    vision = CKEditor5Field("Notre vision", blank=True)
+    values = CKEditor5Field("Nos valeurs", blank=True,
                               help_text="Une valeur par ligne")
     
     # Chiffres clés
@@ -145,7 +146,7 @@ class Page(models.Model):
     """Pages statiques (À propos, Infos pratiques, etc.)"""
     title = models.CharField("Titre", max_length=255)
     slug = models.SlugField("URL", unique=True)
-    content = models.TextField("Contenu")
+    content = CKEditor5Field("Contenu")
     meta_description = models.CharField("Description SEO", max_length=160, blank=True)
     is_active = models.BooleanField("Actif", default=True)
     updated_at = models.DateTimeField("Dernière modification", auto_now=True)
@@ -173,7 +174,7 @@ class Service(models.Model):
     icon = models.CharField("Icône (Font Awesome)", max_length=50,
                            help_text="Ex: fa-heartbeat, fa-stethoscope")
     short_description = models.CharField("Description courte", max_length=255)
-    full_description = models.TextField("Description complète")
+    full_description = CKEditor5Field("Description complète")
     banner_image = models.ImageField("Image bannière", upload_to='services/', blank=True)
 
     # Détails
@@ -251,11 +252,11 @@ class Staff(models.Model):
 
     # Informations professionnelles
     speciality = models.CharField("Spécialité", max_length=255)
-    services = models.ManyToManyField(Service, verbose_name="Services affectés", 
+    services = models.ManyToManyField(Service, verbose_name="Services affectés",
                                      related_name='staff_members')
-    diplomas = models.TextField("Diplômes", blank=True, help_text="Un par ligne")
-    experience = models.TextField("Parcours professionnel", blank=True)
-    expertise = models.TextField("Domaines d'expertise", blank=True)
+    diplomas = CKEditor5Field("Diplômes", blank=True, help_text="Un par ligne")
+    experience = CKEditor5Field("Parcours professionnel", blank=True)
+    expertise = CKEditor5Field("Domaines d'expertise", blank=True)
     languages = models.CharField("Langues parlées", max_length=255, blank=True,
                                 help_text="Ex: Français, Anglais, Ewondo")
     
@@ -316,8 +317,8 @@ class Article(models.Model):
     
     title = models.CharField("Titre", max_length=255)
     slug = models.SlugField("URL", unique=True, blank=True)
-    excerpt = models.TextField("Extrait", blank=True)
-    content = models.TextField("Contenu")
+    excerpt = CKEditor5Field("Extrait", blank=True)
+    content = CKEditor5Field("Contenu")
     featured_image = models.ImageField("Image principale", upload_to='articles/')
     
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, 
@@ -382,9 +383,9 @@ class Campaign(models.Model):
     title = models.CharField("Titre", max_length=255)
     slug = models.SlugField("URL", unique=True, blank=True)
     banner_image = models.ImageField("Image bannière", upload_to='campaigns/')
-    
+
     short_description = models.CharField("Description courte", max_length=255)
-    full_description = models.TextField("Description complète")
+    full_description = CKEditor5Field("Description complète")
     
     # Dates et lieu
     start_date = models.DateField("Date de début")
@@ -620,7 +621,7 @@ class DirectionMember(models.Model):
     photo = models.ImageField("Photo", upload_to='direction/')
     position = models.CharField("Fonction", max_length=255,
                                help_text="Ex: Directeur Général, Directeur Médical")
-    bio = models.TextField("Biographie", blank=True)
+    bio = CKEditor5Field("Biographie", blank=True)
     email = models.EmailField("Email", blank=True)
     phone = models.CharField("Téléphone", max_length=20, blank=True)
     

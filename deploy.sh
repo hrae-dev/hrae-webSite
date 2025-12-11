@@ -21,6 +21,7 @@ pip install -r requirements.txt
 
 # Migrer la base de données
 echo "🧱 Applying migrations..."
+python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 
 # build tailwind css
