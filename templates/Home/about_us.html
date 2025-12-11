@@ -80,9 +80,9 @@
                 </div>
                 <h3 class="text-2xl font-bold mb-4">{% trans "Notre mission" %}</h3>
                 <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                    <p class="text-white !text-white text-sm md:text-base leading-relaxed">
-                        {{ settings.mission|default:"Fournir des soins de santé de qualité, accessibles et centrés sur le patient, tout en contribuant à l'amélioration de la santé publique dans notre région." }}
-                    </p>
+                    <div class="text-white !text-white text-sm md:text-base leading-relaxed">
+                        {{ settings.mission|default:"Fournir des soins de santé de qualité, accessibles et centrés sur le patient, tout en contribuant à l'amélioration de la santé publique dans notre région."|safe }}
+                    </div>
                 </div>
             </div>
             
@@ -95,9 +95,9 @@
                 </div>
                 <h3 class="text-2xl font-bold mb-4">{% trans "Nos Valeurs" %}</h3>
                 <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                    <p class="text-white !text-white text-sm md:text-base leading-relaxed">
-                        {{ settings.values|default:"Excellence médicale, compassion, intégrité, respect de la dignité humaine et engagement envers l'innovation pour le bien-être de nos patients." }}
-                    </p>
+                    <div class="text-white !text-white text-sm md:text-base leading-relaxed">
+                        {{ settings.values|default:"Excellence médicale, compassion, intégrité, respect de la dignité humaine et engagement envers l'innovation pour le bien-être de nos patients."|safe }}
+                    </div>
                 </div>
             </div>
             
@@ -111,9 +111,9 @@
                 </div>
                 <h3 class="text-2xl font-bold mb-4">{% trans "Notre vision" %}</h3>
                 <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                    <p class="text-white !text-white text-sm md:text-base leading-relaxed">
-                        {{ settings.vision|default:"Devenir un centre d'excellence en santé reconnu pour la qualité de ses soins, son innovation médicale et son impact positif sur la communauté." }}
-                    </p>
+                    <div class="text-white !text-white text-sm md:text-base leading-relaxed">
+                        {{ settings.vision|default:"Devenir un centre d'excellence en santé reconnu pour la qualité de ses soins, son innovation médicale et son impact positif sur la communauté."|safe }}
+                    </div>
                 </div>
             </div>
         </div>

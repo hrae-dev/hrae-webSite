@@ -77,13 +77,9 @@
             {% if staff.diplomas %}
             <div class="bg-white p-6 rounded-lg shadow">
                 <h3 class="text-2xl font-bold mb-4">🎓 Diplômes et formations</h3>
-                <ul class="list-disc list-inside text-gray-600 space-y-2">
-                    {% for diploma in staff.diplomas.splitlines %}
-                    {% if diploma.strip %}
-                    <li>{{ diploma }}</li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
+                <div class="text-gray-600 leading-relaxed">
+                    {{ staff.diplomas|safe }}
+                </div>
             </div>
             {% endif %}
             
@@ -92,7 +88,7 @@
             <div class="bg-white p-6 rounded-lg shadow">
                 <h3 class="text-2xl font-bold mb-4">💼 Parcours professionnel</h3>
                 <div class="text-gray-600 leading-relaxed">
-                    {{ staff.experience|linebreaks }}
+                    {{ staff.experience|safe }}
                 </div>
             </div>
             {% endif %}
@@ -102,7 +98,7 @@
             <div class="bg-white p-6 rounded-lg shadow">
                 <h3 class="text-2xl font-bold mb-4">⭐ Domaines d'expertise</h3>
                 <div class="text-gray-600 leading-relaxed">
-                    {{ staff.expertise|linebreaks }}
+                    {{ staff.expertise|safe }}
                 </div>
             </div>
             {% endif %}

@@ -78,7 +78,7 @@
                         </span>{% trans "escription" %}
                     </h2>
                     <div class="text-gray-700 leading-relaxed text-sm md:text-base space-y-4">
-                        {{ service.full_description|linebreaks }}
+                        {{ service.full_description|safe }}
                     </div>
                 </div>
 

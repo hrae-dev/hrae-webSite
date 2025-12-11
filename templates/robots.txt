@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://hopital-regional-edea.com/sitemap.xml
+google-site-verification=EX54Yn3UTQ3hxvaEthJWq1bOWy3u6nonb8pLqHd_FfI
