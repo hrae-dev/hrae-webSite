@@ -1,0 +1,2479 @@
+═══════════════════════════════════════════════════════════════════════════════
+                  DOCUMENTATION DU PANNEAU D'ADMINISTRATION
+                Hôpital Régional Annexe d'Edea - Interface Admin
+═══════════════════════════════════════════════════════════════════════════════
+
+VERSION : 1.0
+DATE : Décembre 2024
+AUTEUR : Équipe de développement HRAE
+
+
+═══════════════════════════════════════════════════════════════════════════════
+TABLE DES MATIÈRES
+═══════════════════════════════════════════════════════════════════════════════
+
+1. INTRODUCTION
+2. ACCÈS AU PANNEAU D'ADMINISTRATION
+   2.1 Connexion
+   2.2 Sécurité et Mots de Passe
+   2.3 Déconnexion
+3. INTERFACE GÉNÉRALE
+   3.1 Tableau de Bord
+   3.2 Navigation
+   3.3 Thème et Personnalisation
+4. GESTION DU SITE
+   4.1 Paramètres du Site
+   4.2 Configuration Générale
+5. GESTION DES SERVICES MÉDICAUX
+   5.1 Liste des Services
+   5.2 Ajouter un Service
+   5.3 Modifier un Service
+   5.4 Supprimer un Service
+6. GESTION DU PERSONNEL MÉDICAL
+   6.1 Liste du Personnel
+   6.2 Ajouter un Membre
+   6.3 Modifier un Profil
+   6.4 Désactiver un Membre
+7. GESTION DES ACTUALITÉS
+   7.1 Articles
+   7.2 Catégories
+   7.3 Workflow de Publication
+8. GESTION DES CAMPAGNES DE SANTÉ
+   8.1 Créer une Campagne
+   8.2 Gérer les Inscriptions
+   8.3 Statuts des Campagnes
+9. GESTION DES RENDEZ-VOUS
+   9.1 Voir les Demandes
+   9.2 Confirmer un Rendez-vous
+   9.3 Annuler ou Reporter
+   9.4 Actions en Masse
+10. GESTION DES MESSAGES
+    10.1 Boîte de Réception
+    10.2 Répondre aux Messages
+    10.3 Archiver
+11. GESTION DES TÉMOIGNAGES
+12. GESTION DES PARTENAIRES
+13. GESTION DE LA DIRECTION
+14. PARCOURS PATIENT
+15. UTILISATEURS ET PERMISSIONS
+16. JOURNAUX ET SÉCURITÉ
+17. MAINTENANCE ET BONNES PRATIQUES
+18. RÉSOLUTION DE PROBLÈMES
+
+
+═══════════════════════════════════════════════════════════════════════════════
+1. INTRODUCTION
+═══════════════════════════════════════════════════════════════════════════════
+
+Bienvenue dans la documentation du panneau d'administration du site web HRAE.
+Cette interface vous permet de gérer l'intégralité du contenu et des
+fonctionnalités du site web de l'hôpital.
+
+QUI PEUT ACCÉDER ?
+• Administrateurs système
+• Personnel autorisé de l'hôpital
+• Équipe de communication
+• Direction de l'établissement
+
+CAPACITÉS DE L'ADMIN :
+• Gestion complète du contenu (textes, images, vidéos)
+• Administration du personnel médical
+• Traitement des demandes de rendez-vous
+• Réponse aux messages de contact
+• Suivi des inscriptions aux campagnes
+• Configuration des paramètres du site
+• Gestion des utilisateurs et permissions
+
+CE DOCUMENT VOUS GUIDERA :
+• Étape par étape pour chaque fonctionnalité
+• Avec des exemples pratiques
+• Conseils et bonnes pratiques
+• Solutions aux problèmes courants
+
+
+═══════════════════════════════════════════════════════════════════════════════
+2. ACCÈS AU PANNEAU D'ADMINISTRATION
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+2.1 CONNEXION
+───────────────────────────────────────────────────────────────────────────────
+
+URL D'ACCÈS : [votre-domaine]/admin/
+
+PROCÉDURE DE CONNEXION :
+
+1. Ouvrez votre navigateur web (Chrome, Firefox, Safari, Edge)
+
+2. Accédez à l'URL : [votre-domaine]/admin/
+
+3. Vous verrez la page de connexion Django Administration
+
+4. Entrez vos identifiants :
+   ┌─────────────────────────────────────┐
+   │ Nom d'utilisateur : [votre_login]   │
+   │ Mot de passe :      [votre_password]│
+   │                                      │
+   │        [Se connecter]                │
+   └─────────────────────────────────────┘
+
+5. Cliquez sur "Se connecter"
+
+6. Vous serez redirigé vers le tableau de bord
+
+
+PREMIÈRE CONNEXION :
+
+Si c'est votre première connexion :
+• Utilisez les identifiants fournis par l'administrateur système
+• Changez immédiatement votre mot de passe
+• Allez dans : Votre nom (en haut à droite) > Changer le mot de passe
+
+
+───────────────────────────────────────────────────────────────────────────────
+2.2 SÉCURITÉ ET MOTS DE PASSE
+───────────────────────────────────────────────────────────────────────────────
+
+RÈGLES DE SÉCURITÉ :
+
+A) MOTS DE PASSE FORTS
+   • Minimum 8 caractères
+   • Mélange de majuscules et minuscules
+   • Au moins un chiffre
+   • Au moins un caractère spécial (@, #, $, etc.)
+   • Ne pas utiliser : nom, prénom, date de naissance
+
+   Exemples de mots de passe FORTS :
+   • Hrae2024@Secure!
+   • M3d!c4l$Admin
+   • S4nt3#HRAE2024
+
+B) PROTECTION DU COMPTE
+
+   • Ne JAMAIS partager vos identifiants
+   • Ne pas noter le mot de passe sur papier
+   • Changez votre mot de passe tous les 3 mois
+   • Déconnectez-vous après chaque session
+
+C) PROTECTION ANTI-INTRUSION
+
+   Le système dispose de protections automatiques :
+
+   • LIMITE DE TENTATIVES :
+     - Maximum 5 tentatives de connexion échouées
+     - Après 5 échecs : compte bloqué pendant 1 heure
+     - Notification à l'administrateur système
+
+   • DÉTECTION D'ACTIVITÉ SUSPECTE :
+     - Tentatives de connexion depuis des pays étrangers
+     - Multiples connexions simultanées
+     - Patterns d'attaque détectés
+
+D) CHANGER VOTRE MOT DE PASSE
+
+   1. Connectez-vous au panneau admin
+   2. Cliquez sur votre nom en haut à droite
+   3. Sélectionnez "Changer le mot de passe"
+   4. Remplissez le formulaire :
+      - Mot de passe actuel
+      - Nouveau mot de passe
+      - Confirmation du nouveau mot de passe
+   5. Cliquez sur "Changer mon mot de passe"
+   6. Confirmation : "Votre mot de passe a été changé avec succès"
+
+
+───────────────────────────────────────────────────────────────────────────────
+2.3 DÉCONNEXION
+───────────────────────────────────────────────────────────────────────────────
+
+COMMENT SE DÉCONNECTER :
+
+1. Cliquez sur votre nom en haut à droite
+2. Sélectionnez "Se déconnecter"
+3. Confirmation : "Vous avez été déconnecté avec succès"
+
+IMPORTANT :
+• Déconnectez-vous TOUJOURS après utilisation
+• Surtout si vous utilisez un ordinateur partagé
+• La session expire automatiquement après 2 heures d'inactivité
+
+
+═══════════════════════════════════════════════════════════════════════════════
+3. INTERFACE GÉNÉRALE
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+3.1 TABLEAU DE BORD
+───────────────────────────────────────────────────────────────────────────────
+
+Après connexion, vous accédez au tableau de bord principal.
+
+STRUCTURE DU TABLEAU DE BORD :
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  HRAE Administration                      [Voir le site] [Votre nom ▼]     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  TABLEAU DE BORD                                                            │
+│                                                                              │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐            │
+│  │  RENDEZ-VOUS    │  │   MESSAGES      │  │   CAMPAGNES     │            │
+│  │      15         │  │      8          │  │       3         │            │
+│  │  En attente     │  │  Non lus        │  │  En cours       │            │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘            │
+│                                                                              │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐            │
+│  │   SERVICES      │  │   PERSONNEL     │  │   ARTICLES      │            │
+│  │      12         │  │      45         │  │      23         │            │
+│  │  Actifs         │  │  Membres        │  │  Publiés        │            │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘            │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+WIDGETS RAPIDES :
+• Compteurs des éléments importants
+• Liens directs vers les sections principales
+• Notifications des actions requises
+
+
+───────────────────────────────────────────────────────────────────────────────
+3.2 NAVIGATION
+───────────────────────────────────────────────────────────────────────────────
+
+BARRE LATÉRALE GAUCHE (MENU PRINCIPAL) :
+
+Le menu est organisé par sections :
+
+┌──────────────────────────────────┐
+│ SITE                              │
+│  • Paramètres du site            │
+│                                   │
+│ CONTENU                           │
+│  • Services                       │
+│  • Personnel médical (Staff)     │
+│  • Articles                       │
+│  • Catégories                     │
+│  • Campagnes                      │
+│  • Témoignages                    │
+│  • Partenaires                    │
+│                                   │
+│ INTERACTIONS                      │
+│  • Rendez-vous                    │
+│  • Messages de contact            │
+│  • Inscriptions campagnes         │
+│                                   │
+│ ORGANISATION                      │
+│  • Membres de la direction        │
+│  • Parcours patient               │
+│                                   │
+│ ADMINISTRATION                    │
+│  • Utilisateurs                   │
+│  • Groupes                        │
+│  • Journaux                       │
+└──────────────────────────────────┘
+
+BARRE SUPÉRIEURE :
+
+┌────────────────────────────────────────────────────────┐
+│  HRAE Admin   [Recherche...]  [Voir le site] [Nom ▼]  │
+└────────────────────────────────────────────────────────┘
+
+• Logo HRAE : retour au tableau de bord
+• Barre de recherche : recherche globale
+• "Voir le site" : ouvre le site public dans un nouvel onglet
+• Votre nom : menu déroulant avec options personnelles
+
+
+───────────────────────────────────────────────────────────────────────────────
+3.3 THÈME ET PERSONNALISATION
+───────────────────────────────────────────────────────────────────────────────
+
+INTERFACE JAZZMIN :
+
+L'interface utilise le thème Jazzmin avec personnalisation HRAE :
+
+• Couleur principale : ORANGE (#FF6B35)
+• Barre de navigation : Orange
+• Barre latérale : Fond blanc avec icônes oranges
+• Boutons d'action : Orange
+• Design moderne et épuré
+
+ICÔNES :
+
+Chaque section a une icône Font Awesome distinctive :
+
+• Services : fas fa-hospital
+• Personnel : fas fa-user-md
+• Articles : fas fa-newspaper
+• Campagnes : fas fa-bullhorn
+• Rendez-vous : fas fa-calendar-check
+• Messages : fas fa-envelope
+• Témoignages : fas fa-comments
+• Partenaires : fas fa-handshake
+
+MODE CLAIR/SOMBRE :
+Le système utilise le mode clair par défaut. Le mode sombre n'est pas activé
+pour maintenir une cohérence visuelle avec l'identité de l'hôpital.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+4. GESTION DU SITE
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.1 PARAMÈTRES DU SITE
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Menu > SITE > Paramètres du site
+
+Les paramètres du site contiennent TOUTES les informations générales affichées
+sur le site public.
+
+IMPORTANT : Il n'existe qu'UNE SEULE instance de paramètres. Vous ne pouvez
+pas en créer plusieurs. Vous pouvez uniquement MODIFIER les paramètres existants.
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.2 CONFIGURATION GÉNÉRALE
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Paramètres du site > Cliquer sur l'entrée unique > Modifier
+
+SECTIONS DU FORMULAIRE :
+
+A) INFORMATIONS DE BASE
+   ┌────────────────────────────────────────────────────┐
+   │ Nom de l'hôpital : Hôpital Régional Annexe d'Edea │
+   │ Slogan : [Votre slogan]                            │
+   │ Description courte : [Texte d'accroche]            │
+   │ Logo : [Télécharger]                               │
+   │ Favicon : [Télécharger]                            │
+   └────────────────────────────────────────────────────┘
+
+   • Nom : affiché en en-tête du site
+   • Slogan : sous le nom sur la page d'accueil
+   • Description : méta-description pour SEO
+   • Logo : format PNG/JPG, recommandé 200x200px
+   • Favicon : icône du site (16x16px ou 32x32px)
+
+B) COORDONNÉES DE CONTACT
+   ┌────────────────────────────────────────────────────┐
+   │ Adresse : Edea, Cameroun                           │
+   │ Ville : Edea                                       │
+   │ Code postal : [Code]                               │
+   │ Pays : Cameroun                                    │
+   │ Téléphone 1 : +237 XXX XXX XXX                    │
+   │ Téléphone 2 : +237 XXX XXX XXX (optionnel)       │
+   │ Email principal : contact@hrae.cm                  │
+   │ Email secondaire : [optionnel]                     │
+   └────────────────────────────────────────────────────┘
+
+   Ces informations apparaissent :
+   • Pied de page du site
+   • Page Contact
+   • Page Informations pratiques
+
+C) HORAIRES D'OUVERTURE
+   ┌────────────────────────────────────────────────────┐
+   │ Horaires consultations :                           │
+   │ Lundi - Vendredi : 8h00 - 17h00                   │
+   │ Samedi : 8h00 - 13h00                             │
+   │ Dimanche : Fermé                                   │
+   │                                                     │
+   │ Horaires urgences :                                │
+   │ 24h/24 - 7j/7                                     │
+   └────────────────────────────────────────────────────┘
+
+   Format recommandé : Texte libre ou HTML simple
+
+D) RÉSEAUX SOCIAUX
+   ┌────────────────────────────────────────────────────┐
+   │ Facebook : https://facebook.com/hrae               │
+   │ Twitter : https://twitter.com/hrae                 │
+   │ Instagram : https://instagram.com/hrae             │
+   │ LinkedIn : https://linkedin.com/company/hrae       │
+   │ YouTube : https://youtube.com/hrae                 │
+   │ WhatsApp : +237XXXXXXXXX                           │
+   └────────────────────────────────────────────────────┘
+
+   • Laissez vide si non utilisé
+   • URL complètes requises
+   • Icônes affichées automatiquement dans le pied de page
+
+E) MODES DE PAIEMENT
+   ┌────────────────────────────────────────────────────┐
+   │ Modes de paiement acceptés :                       │
+   │ • Espèces                                          │
+   │ • Carte bancaire (Visa, Mastercard)               │
+   │ • Mobile Money (MTN, Orange)                       │
+   │ • Virement bancaire                                │
+   │ • Chèque                                           │
+   └────────────────────────────────────────────────────┘
+
+   Format : Liste à puces ou texte libre
+
+F) ASSURANCES ACCEPTÉES
+   ┌────────────────────────────────────────────────────┐
+   │ Assurances et mutuelles partenaires :              │
+   │ • AXA Assurance Cameroun                           │
+   │ • Allianz Cameroun                                 │
+   │ • CNPS (Caisse Nationale de Prévoyance Sociale)   │
+   │ • Activa Assurance                                 │
+   │ • Sunu Assurances                                  │
+   └────────────────────────────────────────────────────┘
+
+   Format : Liste à puces ou texte libre
+
+G) STATISTIQUES DE L'HÔPITAL
+   ┌────────────────────────────────────────────────────┐
+   │ Patients par an : 15000                            │
+   │ Nombre de lits : 150                               │
+   │ Membres du personnel : 200                         │
+   │ Années d'expérience : 25                           │
+   │ Services disponibles : 12                          │
+   └────────────────────────────────────────────────────┘
+
+   • Chiffres affichés sur la page d'accueil
+   • Avec animation au défilement
+   • Mettez à jour annuellement
+
+H) MISSION, VISION, VALEURS
+   ┌────────────────────────────────────────────────────┐
+   │ Mission :                                          │
+   │ [Texte long décrivant la mission de l'hôpital]    │
+   │                                                     │
+   │ Vision :                                           │
+   │ [Texte décrivant la vision à long terme]          │
+   │                                                     │
+   │ Valeurs :                                          │
+   │ [Liste des valeurs fondamentales]                 │
+   └────────────────────────────────────────────────────┘
+
+   • Utilisez l'éditeur riche (WYSIWYG)
+   • Formatage HTML supporté
+   • Affichage sur pages Accueil et À propos
+
+I) CARTE GOOGLE MAPS (OPTIONNEL)
+   ┌────────────────────────────────────────────────────┐
+   │ URL Google Maps :                                  │
+   │ https://maps.google.com/...                        │
+   │                                                     │
+   │ Code iframe embed : [Code HTML]                    │
+   └────────────────────────────────────────────────────┘
+
+   Comment obtenir le code :
+   1. Allez sur Google Maps
+   2. Recherchez votre hôpital
+   3. Cliquez sur "Partager" > "Intégrer une carte"
+   4. Copiez le code iframe
+   5. Collez dans ce champ
+
+SAUVEGARDER LES MODIFICATIONS :
+
+1. Après avoir modifié les champs souhaités
+2. Faites défiler vers le bas
+3. Cliquez sur "ENREGISTRER" (bouton orange)
+4. Message de confirmation : "Paramètres du site modifiés avec succès"
+5. Vérifiez les changements sur le site public
+
+CONSEILS :
+• Vérifiez l'orthographe avant de sauvegarder
+• Testez les liens (réseaux sociaux, maps)
+• Utilisez des images de qualité professionnelle
+• Mettez à jour les statistiques régulièrement
+
+
+═══════════════════════════════════════════════════════════════════════════════
+5. GESTION DES SERVICES MÉDICAUX
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+5.1 LISTE DES SERVICES
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Menu > CONTENU > Services
+
+INTERFACE DE LISTE :
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  Services                                      [+ Ajouter un service]        │
+├───┬────────────────────────┬──────────┬─────────┬───────────┬──────────────┤
+│ ☐ │ Nom                    │ Actif    │ Ordre   │ Accueil   │ Actions      │
+├───┼────────────────────────┼──────────┼─────────┼───────────┼──────────────┤
+│ ☐ │ Service des Urgences   │ ✓        │ 1       │ ✓         │ Modifier     │
+│ ☐ │ Pédiatrie              │ ✓        │ 2       │ ✓         │ Modifier     │
+│ ☐ │ Maternité              │ ✓        │ 3       │ ✓         │ Modifier     │
+│ ☐ │ Chirurgie Générale     │ ✓        │ 4       │           │ Modifier     │
+└───┴────────────────────────┴──────────┴─────────┴───────────┴──────────────┘
+
+COLONNES AFFICHÉES :
+• Nom : nom du service
+• Actif : service visible sur le site (✓ = oui)
+• Ordre : ordre d'affichage (1 = premier)
+• Accueil : affiché sur la page d'accueil (max 6)
+• Actions : liens Modifier/Supprimer
+
+FONCTIONNALITÉS :
+• Cases à cocher : sélection multiple pour actions en masse
+• Recherche : barre de recherche en haut
+• Filtres : actif/inactif, affiché sur accueil
+• Tri : cliquer sur les en-têtes de colonnes
+
+
+───────────────────────────────────────────────────────────────────────────────
+5.2 AJOUTER UN SERVICE
+───────────────────────────────────────────────────────────────────────────────
+
+PROCÉDURE :
+
+1. Cliquez sur [+ Ajouter un service] en haut à droite
+
+2. Remplissez le formulaire :
+
+   A) INFORMATIONS DE BASE
+      ┌────────────────────────────────────────────────────┐
+      │ Nom du service * : Cardiologie                     │
+      │ Slug : cardiologie (généré automatiquement)        │
+      │ Description courte * :                             │
+      │ [Service spécialisé dans les pathologies...]       │
+      │                                                     │
+      │ Description complète * :                           │
+      │ [Éditeur riche - Texte détaillé avec formatage]   │
+      └────────────────────────────────────────────────────┘
+
+      * = Champ obligatoire
+
+      DESCRIPTION COURTE :
+      • Maximum 200 caractères
+      • Affichée sur la liste des services
+      • Résumé accrocheur
+
+      DESCRIPTION COMPLÈTE :
+      • Utilisez l'éditeur WYSIWYG
+      • Formatage : gras, italique, listes, titres
+      • Images supportées
+      • Liens hypertextes
+
+   B) IMAGE PRINCIPALE
+      ┌────────────────────────────────────────────────────┐
+      │ Image du service :                                 │
+      │ [Parcourir...] [Pas de fichier choisi]            │
+      └────────────────────────────────────────────────────┘
+
+      • Format : JPG, PNG
+      • Taille recommandée : 1200x800px
+      • Poids max : 5 MB
+      • Image représentative du service
+
+   C) PATHOLOGIES TRAITÉES
+      ┌────────────────────────────────────────────────────┐
+      │ Pathologies traitées :                             │
+      │ • Infarctus du myocarde                            │
+      │ • Hypertension artérielle                          │
+      │ • Insuffisance cardiaque                           │
+      │ • Arythmies                                        │
+      └────────────────────────────────────────────────────┘
+
+      Format : Texte libre, liste recommandée
+
+   D) ÉQUIPEMENTS DISPONIBLES
+      ┌────────────────────────────────────────────────────┐
+      │ Équipements :                                      │
+      │ • Échographe cardiaque                             │
+      │ • ECG                                              │
+      │ • Moniteurs cardiaques                             │
+      │ • Défibrillateur                                   │
+      └────────────────────────────────────────────────────┘
+
+   E) CONDITIONS D'ADMISSION
+      ┌────────────────────────────────────────────────────┐
+      │ Conditions d'admission :                           │
+      │ • Référence médicale (optionnel)                   │
+      │ • Carte d'identité                                 │
+      │ • Carnet de santé si disponible                    │
+      └────────────────────────────────────────────────────┘
+
+   F) HORAIRES DE CONSULTATION
+      ┌────────────────────────────────────────────────────┐
+      │ Horaires de consultation :                         │
+      │ Lundi - Vendredi : 8h00 - 15h00                   │
+      │ Samedi : Sur rendez-vous                           │
+      └────────────────────────────────────────────────────┘
+
+   G) TARIFS (OPTIONNEL)
+      ┌────────────────────────────────────────────────────┐
+      │ Tarification :                                     │
+      │ • Consultation : 5 000 FCFA                        │
+      │ • ECG : 8 000 FCFA                                │
+      │ • Échographie cardiaque : 15 000 FCFA             │
+      └────────────────────────────────────────────────────┘
+
+   H) PARAMÈTRES D'AFFICHAGE
+      ┌────────────────────────────────────────────────────┐
+      │ ☑ Service actif (visible sur le site)             │
+      │ ☑ Afficher sur la page d'accueil                  │
+      │ Ordre d'affichage : 5                              │
+      └────────────────────────────────────────────────────┘
+
+      • Service actif : décochez pour masquer temporairement
+      • Page d'accueil : maximum 6 services peuvent être cochés
+      • Ordre : numéro pour l'ordre d'affichage (1 = premier)
+
+   I) GALERIE D'IMAGES (OPTIONNEL)
+      Section en bas de page pour ajouter plusieurs images :
+
+      [+ Ajouter une autre image de service]
+
+      • Cliquez pour ajouter des images supplémentaires
+      • Chaque image peut avoir une légende
+      • Affichées dans une galerie sur la page du service
+
+3. ENREGISTRER
+
+   Trois options en bas du formulaire :
+
+   [Enregistrer et ajouter un autre]  [Enregistrer et continuer]  [ENREGISTRER]
+
+   • Enregistrer : sauvegarde et retour à la liste
+   • Enregistrer et continuer : sauvegarde et reste sur la page
+   • Enregistrer et ajouter un autre : sauvegarde et ouvre nouveau formulaire
+
+4. VÉRIFICATION
+
+   • Message de confirmation affiché
+   • Vérifiez l'affichage sur le site public
+   • Testez le lien vers la page détaillée
+
+
+───────────────────────────────────────────────────────────────────────────────
+5.3 MODIFIER UN SERVICE
+───────────────────────────────────────────────────────────────────────────────
+
+PROCÉDURE :
+
+1. Menu > Services
+2. Cliquez sur le nom du service OU cliquez sur [Modifier]
+3. Modifiez les champs souhaités
+4. Cliquez sur [ENREGISTRER]
+5. Confirmation : "Service modifié avec succès"
+
+ASTUCE : Pour modifier rapidement l'ordre d'affichage, changez juste le numéro
+dans le champ "Ordre" et sauvegardez.
+
+
+───────────────────────────────────────────────────────────────────────────────
+5.4 SUPPRIMER UN SERVICE
+───────────────────────────────────────────────────────────────────────────────
+
+ATTENTION : La suppression est DÉFINITIVE et ne peut pas être annulée !
+
+PROCÉDURE :
+
+Option 1 : Suppression unique
+1. Ouvrez le service à supprimer
+2. Faites défiler vers le bas
+3. Cliquez sur [Supprimer] (bouton rouge en bas à gauche)
+4. Confirmation demandée : "Êtes-vous sûr ?"
+5. Vérifiez les objets liés qui seront aussi supprimés
+6. Cliquez sur [Oui, je suis sûr]
+
+Option 2 : Suppression en masse
+1. Dans la liste des services
+2. Cochez les services à supprimer
+3. Menu déroulant Actions : "Supprimer les services sélectionnés"
+4. Cliquez sur [Exécuter]
+5. Confirmation demandée
+6. Cliquez sur [Oui, je suis sûr]
+
+ALTERNATIVE RECOMMANDÉE : DÉSACTIVATION
+Au lieu de supprimer :
+• Décochez "Service actif"
+• Le service sera masqué du site
+• Mais conservé dans la base de données
+• Peut être réactivé plus tard
+
+
+═══════════════════════════════════════════════════════════════════════════════
+6. GESTION DU PERSONNEL MÉDICAL
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+6.1 LISTE DU PERSONNEL
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Menu > CONTENU > Personnel médical (Staff)
+
+INTERFACE DE LISTE :
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  Personnel médical                     [+ Ajouter un membre du personnel]   │
+├───┬─────────────────┬──────────┬─────────────────┬─────────┬──────────────┤
+│ ☐ │ Nom             │ Grade    │ Service(s)      │ Actif   │ Actions      │
+├───┼─────────────────┼──────────┼─────────────────┼─────────┼──────────────┤
+│ ☐ │ Dr. Jean KOUAM  │ Docteur  │ Cardiologie     │ ✓       │ Modifier     │
+│ ☐ │ Pr. Marie NGONO │ Professeur│ Pédiatrie      │ ✓       │ Modifier     │
+│ ☐ │ Inf. Paul BIKOI │ Infirmier│ Urgences        │ ✓       │ Modifier     │
+└───┴─────────────────┴──────────┴─────────────────┴─────────┴──────────────┘
+
+FILTRES DISPONIBLES :
+• Par grade : Professeur, Docteur, Infirmier, Technicien, Admin
+• Par service : tous les services
+• Par statut : actif/inactif
+• Par disponibilité pour rendez-vous
+
+RECHERCHE :
+• Par nom
+• Par spécialité
+
+
+───────────────────────────────────────────────────────────────────────────────
+6.2 AJOUTER UN MEMBRE
+───────────────────────────────────────────────────────────────────────────────
+
+PROCÉDURE :
+
+1. Cliquez sur [+ Ajouter un membre du personnel]
+
+2. Remplissez le formulaire :
+
+   A) INFORMATIONS PERSONNELLES
+      ┌────────────────────────────────────────────────────┐
+      │ Prénom * : Jean                                    │
+      │ Nom * : KOUAM                                      │
+      │ Nom complet (généré) : Dr. Jean KOUAM             │
+      │ Date de naissance : [JJ/MM/AAAA]                  │
+      │ Sexe : ○ Homme  ○ Femme                           │
+      └────────────────────────────────────────────────────┘
+
+   B) PHOTO PROFESSIONNELLE
+      ┌────────────────────────────────────────────────────┐
+      │ Photo * :                                          │
+      │ [Parcourir...] [Pas de fichier choisi]            │
+      └────────────────────────────────────────────────────┘
+
+      IMPORTANT :
+      • Photo de qualité professionnelle requise
+      • Format : JPG ou PNG
+      • Fond neutre de préférence
+      • Taille recommandée : 400x400px (carré)
+      • Poids max : 2 MB
+
+   C) INFORMATIONS PROFESSIONNELLES
+      ┌────────────────────────────────────────────────────┐
+      │ Grade * :                                          │
+      │ [Sélectionner ▼]                                  │
+      │   • Professeur                                     │
+      │   • Docteur                                        │
+      │   • Infirmier                                      │
+      │   • Technicien                                     │
+      │   • Personnel administratif                        │
+      │                                                     │
+      │ Titre académique : Docteur en Médecine            │
+      │ (ex: Docteur en Médecine, PhD, Master...)         │
+      └────────────────────────────────────────────────────┘
+
+   D) SPÉCIALITÉS MÉDICALES
+      ┌────────────────────────────────────────────────────┐
+      │ Spécialités * :                                    │
+      │ Cardiologie, Médecine Interne                     │
+      │ (séparez par des virgules)                         │
+      └────────────────────────────────────────────────────┘
+
+      Exemples :
+      • Cardiologie, Échographie cardiaque
+      • Pédiatrie générale, Néonatologie
+      • Anesthésie, Réanimation
+
+   E) AFFECTATION AUX SERVICES
+      ┌────────────────────────────────────────────────────┐
+      │ Services * :                                       │
+      │ [Sélection multiple ▼]                            │
+      │ ☑ Cardiologie                                     │
+      │ ☐ Médecine Interne                                │
+      │ ☐ Urgences                                        │
+      │ ...                                                │
+      │                                                     │
+      │ Chef de service pour : [Sélection multiple]       │
+      │ ☑ Cardiologie                                     │
+      └────────────────────────────────────────────────────┘
+
+      • Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélection multiple
+      • Un membre peut être affecté à plusieurs services
+      • Marquez chef de service si applicable
+
+   F) DISPONIBILITÉ POUR RENDEZ-VOUS
+      ┌────────────────────────────────────────────────────┐
+      │ ☑ Disponible pour rendez-vous                     │
+      │                                                     │
+      │ Jours de disponibilité :                           │
+      │ Lundi, Mardi, Jeudi (8h-15h)                      │
+      │ Vendredi (8h-12h)                                 │
+      └────────────────────────────────────────────────────┘
+
+      • Cochez si les patients peuvent prendre RDV
+      • Précisez les jours et horaires
+
+   G) COORDONNÉES PROFESSIONNELLES
+      ┌────────────────────────────────────────────────────┐
+      │ Email professionnel : j.kouam@hrae.cm             │
+      │ Téléphone : +237 XXX XXX XXX                      │
+      │ Bureau : Bâtiment A, Bureau 105                   │
+      └────────────────────────────────────────────────────┘
+
+   H) LANGUES PARLÉES
+      ┌────────────────────────────────────────────────────┐
+      │ Langues :                                          │
+      │ Français, Anglais, Bassa                          │
+      │ (séparez par des virgules)                         │
+      └────────────────────────────────────────────────────┘
+
+   I) BIOGRAPHIE (OPTIONNEL)
+      ┌────────────────────────────────────────────────────┐
+      │ Biographie :                                       │
+      │ [Éditeur riche]                                    │
+      │ Dr. Jean KOUAM est un cardiologue expérimenté...  │
+      │                                                     │
+      │ • Diplôme de l'Université de Yaoundé I (2005)     │
+      │ • Spécialisation en cardiologie à Paris (2008)    │
+      │ • 15 ans d'expérience                             │
+      └────────────────────────────────────────────────────┘
+
+      Incluez :
+      • Parcours académique
+      • Formations spécialisées
+      • Expérience professionnelle
+      • Domaines d'expertise
+      • Publications ou distinctions
+
+   J) PARAMÈTRES D'AFFICHAGE
+      ┌────────────────────────────────────────────────────┐
+      │ ☑ Membre actif (visible sur le site)              │
+      │ Ordre d'affichage : 10                             │
+      └────────────────────────────────────────────────────┘
+
+3. ENREGISTRER
+
+   [Enregistrer et ajouter un autre]  [Enregistrer et continuer]  [ENREGISTRER]
+
+4. VÉRIFICATION
+
+   • Vérifiez le profil sur le site public
+   • Testez l'affichage dans la liste de l'équipe
+   • Vérifiez l'affichage dans les services associés
+
+
+───────────────────────────────────────────────────────────────────────────────
+6.3 MODIFIER UN PROFIL
+───────────────────────────────────────────────────────────────────────────────
+
+PROCÉDURE :
+
+1. Menu > Personnel médical
+2. Cliquez sur le nom du membre
+3. Modifiez les informations
+4. Cliquez sur [ENREGISTRER]
+
+MODIFICATIONS FRÉQUENTES :
+• Changement de service
+• Mise à jour de la disponibilité
+• Ajout de nouvelles spécialités
+• Actualisation de la photo
+• Modification des coordonnées
+
+
+───────────────────────────────────────────────────────────────────────────────
+6.4 DÉSACTIVER UN MEMBRE
+───────────────────────────────────────────────────────────────────────────────
+
+Pour un membre qui quitte l'hôpital ou en congé prolongé :
+
+PROCÉDURE :
+
+1. Ouvrez le profil du membre
+2. Décochez "☐ Membre actif"
+3. Décochez "☐ Disponible pour rendez-vous"
+4. Cliquez sur [ENREGISTRER]
+
+EFFET :
+• Le membre n'apparaît plus sur le site public
+• N'apparaît plus dans les sélections de rendez-vous
+• Le profil reste dans la base de données
+• Peut être réactivé ultérieurement
+
+
+═══════════════════════════════════════════════════════════════════════════════
+7. GESTION DES ACTUALITÉS
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+7.1 ARTICLES
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Menu > CONTENU > Articles
+
+INTERFACE DE LISTE :
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  Articles                                      [+ Ajouter un article]        │
+├───┬────────────────────────┬────────────┬───────────┬───────┬─────────────┤
+│ ☐ │ Titre                  │ Catégorie  │ Statut    │ Vues  │ Date        │
+├───┼────────────────────────┼────────────┼───────────┼───────┼─────────────┤
+│ ☐ │ Nouvelle maternité ... │ Événements │ Publié    │ 245   │ 01/12/2024 │
+│ ☐ │ Campagne vaccination...│ Santé      │ Publié    │ 189   │ 28/11/2024 │
+│ ☐ │ Formation du personnel │ Actualités │ Brouillon │ 0     │ 25/11/2024 │
+└───┴────────────────────────┴────────────┴───────────┴───────┴─────────────┘
+
+FILTRES :
+• Par statut : Brouillon, Publié, Archivé
+• Par catégorie
+• Par date de publication
+• Par auteur
+
+STATUTS DES ARTICLES :
+
+1. BROUILLON
+   • Article en cours de rédaction
+   • Non visible sur le site public
+   • Accessible uniquement aux administrateurs
+
+2. PUBLIÉ
+   • Article visible sur le site public
+   • Accessible à tous les visiteurs
+   • Apparaît dans la liste des actualités
+
+3. ARCHIVÉ
+   • Article retiré de la circulation
+   • Non visible sur le site public
+   • Conservé dans la base de données
+
+
+───────────────────────────────────────────────────────────────────────────────
+7.2 CRÉER UN ARTICLE
+───────────────────────────────────────────────────────────────────────────────
+
+PROCÉDURE :
+
+1. Cliquez sur [+ Ajouter un article]
+
+2. Remplissez le formulaire :
+
+   A) INFORMATIONS DE BASE
+      ┌────────────────────────────────────────────────────┐
+      │ Titre * : Ouverture de la nouvelle aile maternité │
+      │ Slug : ouverture-nouvelle-aile-maternite          │
+      │       (généré automatiquement)                     │
+      │                                                     │
+      │ Catégorie * : [Sélectionner ▼]                    │
+      │   • Événements                                     │
+      │   • Actualités                                     │
+      │   • Santé publique                                 │
+      │   ...                                              │
+      └────────────────────────────────────────────────────┘
+
+   B) IMAGE PRINCIPALE
+      ┌────────────────────────────────────────────────────┐
+      │ Image d'illustration * :                           │
+      │ [Parcourir...] [Pas de fichier choisi]            │
+      └────────────────────────────────────────────────────┘
+
+      • Format : JPG, PNG
+      • Taille recommandée : 1200x630px (format Facebook)
+      • Poids max : 5 MB
+      • Qualité professionnelle requise
+
+   C) RÉSUMÉ/EXTRAIT
+      ┌────────────────────────────────────────────────────┐
+      │ Extrait * :                                        │
+      │ L'hôpital HRAE inaugure sa nouvelle aile de       │
+      │ maternité, dotée de 30 lits supplémentaires...    │
+      │                                                     │
+      │ (150-200 caractères recommandés)                   │
+      └────────────────────────────────────────────────────┘
+
+      • Affiché dans la liste des articles
+      • Résumé accrocheur
+      • Incite au clic
+
+   D) CONTENU COMPLET
+      ┌────────────────────────────────────────────────────┐
+      │ Contenu * :                                        │
+      │ [Éditeur riche WYSIWYG]                           │
+      │                                                     │
+      │ Barre d'outils :                                   │
+      │ [B] [I] [U] [Liste] [Lien] [Image] [Titre]       │
+      └────────────────────────────────────────────────────┘
+
+      FONCTIONNALITÉS DE L'ÉDITEUR :
+
+      • Formatage texte : gras, italique, souligné
+      • Titres et sous-titres (H2, H3, H4)
+      • Listes à puces et numérotées
+      • Insertion d'images
+      • Insertion de liens hypertextes
+      • Citations
+      • Tableaux
+      • Code HTML (mode avancé)
+
+      CONSEILS DE RÉDACTION :
+
+      1. STRUCTURE CLAIRE
+         • Utilisez des sous-titres (H2, H3)
+         • Paragraphes courts (3-4 lignes max)
+         • Listes à puces pour faciliter la lecture
+
+      2. CONTENU INFORMATIF
+         • Répondez aux questions : Qui ? Quoi ? Quand ? Où ? Pourquoi ?
+         • Fournissez des détails pertinents
+         • Citez vos sources si nécessaire
+
+      3. IMAGES DANS LE TEXTE
+         • Ajoutez des images illustratives
+         • Légendez vos images
+         • Optimisez le poids (< 500 KB par image)
+
+      4. LONGUEUR RECOMMANDÉE
+         • Minimum : 300 mots
+         • Optimal : 500-800 mots
+         • Maximum : illimité
+
+   E) GALERIE D'IMAGES (OPTIONNEL)
+      ┌────────────────────────────────────────────────────┐
+      │ Galerie d'images :                                 │
+      │                                                     │
+      │ Image 1: [Parcourir] Légende: [Inauguration]      │
+      │ [+ Ajouter une autre image]                        │
+      └────────────────────────────────────────────────────┘
+
+      • Ajoutez plusieurs images liées à l'article
+      • Chaque image peut avoir une légende
+      • Affichées en galerie en bas de l'article
+
+   F) PARAMÈTRES DE PUBLICATION
+      ┌────────────────────────────────────────────────────┐
+      │ Statut * :                                         │
+      │ ○ Brouillon                                        │
+      │ ○ Publié                                           │
+      │ ○ Archivé                                          │
+      │                                                     │
+      │ ☑ Article en vedette                              │
+      │ (mis en avant sur la page d'accueil)              │
+      │                                                     │
+      │ Date de publication : [JJ/MM/AAAA HH:MM]          │
+      │ (laissez vide pour date actuelle)                 │
+      └────────────────────────────────────────────────────┘
+
+   G) SEO ET MÉTADONNÉES (OPTIONNEL)
+      ┌────────────────────────────────────────────────────┐
+      │ Méta description :                                 │
+      │ [Description pour moteurs de recherche]           │
+      │                                                     │
+      │ Mots-clés : maternité, HRAE, santé, Edea         │
+      │ (séparés par des virgules)                         │
+      └────────────────────────────────────────────────────┘
+
+3. PRÉVISUALISATION (OPTIONNEL)
+
+   Avant de publier, vous pouvez prévisualiser :
+   • Cliquez sur [Enregistrer et continuer]
+   • Cliquez sur [Voir sur le site] (en haut à droite)
+   • Vérifiez le rendu (même en brouillon)
+
+4. PUBLICATION
+
+   Pour publier immédiatement :
+   • Sélectionnez statut "Publié"
+   • Cliquez sur [ENREGISTRER]
+   • L'article est en ligne !
+
+   Pour publication différée :
+   • Statut "Publié"
+   • Date de publication : date future
+   • L'article sera automatiquement publié à cette date
+
+
+───────────────────────────────────────────────────────────────────────────────
+7.3 CATÉGORIES
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Menu > CONTENU > Catégories
+
+Les catégories permettent d'organiser les articles par thème.
+
+CRÉER UNE CATÉGORIE :
+
+1. Cliquez sur [+ Ajouter une catégorie]
+
+2. Remplissez :
+   ┌────────────────────────────────────────────────────┐
+   │ Nom * : Santé publique                             │
+   │ Slug : sante-publique                              │
+   │ Description :                                       │
+   │ Articles concernant les campagnes de santé...     │
+   └────────────────────────────────────────────────────┘
+
+3. Cliquez sur [ENREGISTRER]
+
+CATÉGORIES RECOMMANDÉES :
+• Actualités de l'hôpital
+• Événements
+• Santé publique
+• Communiqués
+• Partenariats
+• Vie hospitalière
+
+MODIFIER UNE CATÉGORIE :
+• Cliquez sur le nom de la catégorie
+• Modifiez les champs
+• Sauvegardez
+
+SUPPRIMER UNE CATÉGORIE :
+⚠️ ATTENTION : Les articles de cette catégorie seront aussi affectés
+• Option 1 : Ré-affectez les articles à une autre catégorie d'abord
+• Option 2 : Les articles deviendront sans catégorie
+
+
+───────────────────────────────────────────────────────────────────────────────
+7.4 WORKFLOW DE PUBLICATION
+───────────────────────────────────────────────────────────────────────────────
+
+PROCESSUS RECOMMANDÉ :
+
+1. RÉDACTION
+   • Créez l'article en statut "Brouillon"
+   • Rédigez le contenu
+   • Ajoutez les images
+   • Sauvegardez régulièrement
+
+2. RELECTURE
+   • Prévisualisez l'article
+   • Vérifiez l'orthographe et la grammaire
+   • Vérifiez les liens et images
+   • Faites relire par un collègue si possible
+
+3. VALIDATION
+   • Vérifiez que tous les champs obligatoires sont remplis
+   • Assurez-vous de la qualité des images
+   • Vérifiez la catégorie
+
+4. PUBLICATION
+   • Changez le statut en "Publié"
+   • Définissez la date de publication
+   • Sauvegardez
+   • Vérifiez l'affichage sur le site public
+
+5. PROMOTION
+   • Partagez sur les réseaux sociaux
+   • Envoyez une newsletter si applicable
+   • Affichez dans l'hôpital si pertinent
+
+6. SUIVI
+   • Consultez les statistiques de vues
+   • Répondez aux commentaires si fonctionnalité activée
+
+
+═══════════════════════════════════════════════════════════════════════════════
+8. GESTION DES CAMPAGNES DE SANTÉ
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+8.1 CRÉER UNE CAMPAGNE
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Menu > CONTENU > Campagnes
+
+Les campagnes permettent d'organiser des événements de santé publique avec
+possibilité d'inscription en ligne.
+
+PROCÉDURE :
+
+1. Cliquez sur [+ Ajouter une campagne]
+
+2. Remplissez le formulaire :
+
+   A) INFORMATIONS DE BASE
+      ┌────────────────────────────────────────────────────┐
+      │ Nom de la campagne * :                             │
+      │ Dépistage gratuit du diabète - Décembre 2024      │
+      │                                                     │
+      │ Slug : depistage-diabete-decembre-2024            │
+      │                                                     │
+      │ Description * :                                    │
+      │ [Éditeur riche]                                    │
+      │ Campagne de dépistage gratuit du diabète...       │
+      └────────────────────────────────────────────────────┘
+
+   B) DATES
+      ┌────────────────────────────────────────────────────┐
+      │ Date de début * : 15/12/2024                       │
+      │ Date de fin * : 20/12/2024                         │
+      └────────────────────────────────────────────────────┘
+
+      Le statut est calculé automatiquement :
+      • À venir : si date début > aujourd'hui
+      • En cours : si aujourd'hui entre début et fin
+      • Terminée : si date fin < aujourd'hui
+
+   C) IMAGE PRINCIPALE
+      ┌────────────────────────────────────────────────────┐
+      │ Image de la campagne * :                           │
+      │ [Parcourir...]                                     │
+      └────────────────────────────────────────────────────┘
+
+      • Format : JPG, PNG
+      • Taille recommandée : 1200x630px
+      • Image attrayante et informative
+
+   D) DÉTAILS DE LA CAMPAGNE
+      ┌────────────────────────────────────────────────────┐
+      │ Services proposés :                                │
+      │ • Dépistage glycémie                               │
+      │ • Consultation avec endocrinologue                 │
+      │ • Conseils nutritionnels                           │
+      │ • Remise de documentation                          │
+      │                                                     │
+      │ Public cible :                                     │
+      │ Adultes de 40 ans et plus, personnes à risque     │
+      │                                                     │
+      │ Lieu : Service d'Endocrinologie - HRAE            │
+      │                                                     │
+      │ Horaires : 8h00 - 15h00                           │
+      └────────────────────────────────────────────────────┘
+
+   E) INSCRIPTION
+      ┌────────────────────────────────────────────────────┐
+      │ ☑ Activer l'inscription en ligne                  │
+      │                                                     │
+      │ Nombre maximum de participants : 200               │
+      │ (0 = illimité)                                     │
+      │                                                     │
+      │ Message de confirmation :                          │
+      │ Merci pour votre inscription ! Vous recevrez...   │
+      └────────────────────────────────────────────────────┘
+
+      Si l'inscription est activée :
+      • Un formulaire apparaîtra sur la page de la campagne
+      • Les inscrits seront enregistrés dans le système
+      • Vous pourrez exporter la liste
+
+   F) GALERIE D'IMAGES
+      ┌────────────────────────────────────────────────────┐
+      │ Images de la campagne :                            │
+      │                                                     │
+      │ Image 1: [Parcourir] Légende: [...]               │
+      │ [+ Ajouter une autre image]                        │
+      └────────────────────────────────────────────────────┘
+
+      Ajoutez des photos :
+      • D'éditions précédentes
+      • Du matériel de sensibilisation
+      • De l'équipe qui animera
+
+3. ENREGISTRER
+
+   [ENREGISTRER]
+
+4. PROMOTION
+
+   • Annoncez sur le site (créez un article)
+   • Partagez sur les réseaux sociaux
+   • Affichez dans l'hôpital
+   • Contactez les médias locaux
+
+
+───────────────────────────────────────────────────────────────────────────────
+8.2 GÉRER LES INSCRIPTIONS
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Menu > INTERACTIONS > Inscriptions campagnes
+
+INTERFACE :
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  Inscriptions campagnes                                                      │
+├───┬──────────────────┬────────────────────────┬──────────┬────────────────┤
+│ ☐ │ Nom              │ Campagne               │ Date     │ Statut         │
+├───┼──────────────────┼────────────────────────┼──────────┼────────────────┤
+│ ☐ │ Marie NKONO      │ Dépistage diabète      │ 01/12/24 │ Confirmé       │
+│ ☐ │ Paul EKOTTO      │ Dépistage diabète      │ 01/12/24 │ En attente     │
+└───┴──────────────────┴────────────────────────┴──────────┴────────────────┘
+
+CONSULTER UNE INSCRIPTION :
+
+1. Cliquez sur le nom de la personne
+2. Voyez les détails :
+   • Nom complet
+   • Email
+   • Téléphone
+   • Date de naissance
+   • Message/Commentaire éventuel
+   • Date et heure d'inscription
+   • Adresse IP
+
+EXPORTER LA LISTE :
+
+1. Cochez les inscriptions à exporter (ou toutes)
+2. Menu Actions : "Exporter les inscriptions sélectionnées"
+3. Format : CSV (ouverture Excel)
+4. Utilisez pour :
+   • Liste d'appel
+   • Liste de présence
+   • Envoi d'emails de rappel
+
+ACTIONS EN MASSE :
+
+• Marquer comme confirmées
+• Marquer comme présentes
+• Supprimer les inscriptions
+
+
+───────────────────────────────────────────────────────────────────────────────
+8.3 STATUTS DES CAMPAGNES
+───────────────────────────────────────────────────────────────────────────────
+
+Les campagnes ont 3 statuts automatiques :
+
+1. À VENIR
+   • Date de début dans le futur
+   • Badge bleu affiché
+   • Inscription possible si activée
+
+2. EN COURS
+   • Date actuelle entre début et fin
+   • Badge vert affiché
+   • Inscription possible si activée
+   • Mise en avant sur le site
+
+3. TERMINÉE
+   • Date de fin passée
+   • Badge gris affiché
+   • Inscription désactivée
+   • Reste visible sur le site (archives)
+
+MODIFIER UNE CAMPAGNE :
+
+1. Ouvrez la campagne
+2. Modifiez les dates si besoin
+3. Désactivez l'inscription si complet
+4. Ajoutez des images de l'événement (après)
+5. Sauvegardez
+
+
+═══════════════════════════════════════════════════════════════════════════════
+9. GESTION DES RENDEZ-VOUS
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+9.1 VOIR LES DEMANDES
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Menu > INTERACTIONS > Rendez-vous
+
+INTERFACE DE LISTE :
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  Rendez-vous                                                                 │
+├───┬──────────────┬─────────────┬─────────────────┬─────────┬──────────────┤
+│ ☐ │ Patient      │ Service     │ Médecin         │ Date RDV│ Statut       │
+├───┼──────────────┼─────────────┼─────────────────┼─────────┼──────────────┤
+│ ☐ │ Jean MBALLA  │ Cardiologie │ Dr. KOUAM       │ 15/12/24│ En attente   │
+│ ☐ │ Marie EWODO  │ Pédiatrie   │ Pr. NGONO       │ 16/12/24│ Confirmé     │
+│ ☐ │ Paul ONANA   │ Urgences    │ Dr. BIKOI       │ 14/12/24│ Complété     │
+│ ☐ │ Sophie ATEBA │ Maternité   │ Dr. FOUDA       │ 10/12/24│ Annulé       │
+└───┴──────────────┴─────────────┴─────────────────┴─────────┴──────────────┘
+
+FILTRES DISPONIBLES :
+• Par statut : En attente, Confirmé, Annulé, Complété, Reporté
+• Par service
+• Par médecin
+• Par date de rendez-vous
+• Par date de demande
+
+RECHERCHE :
+• Par nom du patient
+• Par email
+• Par téléphone
+
+CONSULTATION D'UN RENDEZ-VOUS :
+
+1. Cliquez sur le nom du patient
+2. Voyez tous les détails :
+
+   ┌────────────────────────────────────────────────────┐
+   │ INFORMATIONS PATIENT                               │
+   │ Nom : Jean MBALLA                                  │
+   │ Email : j.mballa@email.com                         │
+   │ Téléphone : +237 6XX XXX XXX                       │
+   │ Date de naissance : 15/05/1980                     │
+   │                                                     │
+   │ DÉTAILS DU RENDEZ-VOUS                            │
+   │ Service : Cardiologie                              │
+   │ Médecin : Dr. Jean KOUAM                          │
+   │ Date souhaitée : 15/12/2024                        │
+   │ Raison : Douleurs thoraciques récurrentes         │
+   │                                                     │
+   │ ASSURANCE                                          │
+   │ Compagnie : AXA Cameroun                          │
+   │ N° Police : AXA123456789                          │
+   │                                                     │
+   │ INFORMATIONS SYSTÈME                               │
+   │ Statut : En attente                                │
+   │ Date de demande : 01/12/2024 10:30                │
+   │ Adresse IP : 196.200.XXX.XXX                      │
+   └────────────────────────────────────────────────────┘
+
+
+───────────────────────────────────────────────────────────────────────────────
+9.2 CONFIRMER UN RENDEZ-VOUS
+───────────────────────────────────────────────────────────────────────────────
+
+PROCÉDURE :
+
+1. Ouvrez le rendez-vous "En attente"
+
+2. VÉRIFICATIONS À FAIRE :
+
+   A) Disponibilité du médecin
+      • Consultez l'agenda du médecin
+      • Vérifiez qu'il est disponible à la date demandée
+
+   B) Contact avec le patient
+      • Appelez le patient au numéro indiqué
+      • Confirmez la date ou proposez une alternative
+      • Expliquez les modalités (documents à apporter, etc.)
+
+3. MISE À JOUR DU STATUT
+
+   Dans le formulaire :
+   ┌────────────────────────────────────────────────────┐
+   │ Statut : [Sélectionner ▼]                         │
+   │   ○ En attente                                     │
+   │   ● Confirmé       ← Sélectionnez                 │
+   │   ○ Annulé                                         │
+   │   ○ Reporté                                        │
+   │   ○ Complété                                       │
+   │                                                     │
+   │ Notes internes : (optionnel)                       │
+   │ Patient confirmé par téléphone le 02/12/2024.     │
+   │ RDV programmé pour 15/12 à 10h00.                 │
+   └────────────────────────────────────────────────────┘
+
+4. ENREGISTRER
+
+   Cliquez sur [ENREGISTRER]
+
+5. NOTIFICATION AU PATIENT
+
+   Options pour notifier :
+   • Envoyez un SMS de confirmation
+   • Appelez pour confirmer verbalement
+   • Envoyez un email (manuel ou système)
+
+
+───────────────────────────────────────────────────────────────────────────────
+9.3 ANNULER OU REPORTER
+───────────────────────────────────────────────────────────────────────────────
+
+ANNULER UN RENDEZ-VOUS :
+
+Raisons courantes :
+• Patient ne se présente pas (no-show)
+• Patient annule
+• Médecin indisponible (urgence, absence)
+
+PROCÉDURE :
+1. Ouvrez le rendez-vous
+2. Changez le statut en "Annulé"
+3. Ajoutez une note expliquant la raison :
+   "Patient a annulé par téléphone le XX/XX"
+   ou
+   "Médecin absent - patient contacté"
+4. Sauvegardez
+
+REPORTER UN RENDEZ-VOUS :
+
+Si le rendez-vous doit être déplacé :
+
+PROCÉDURE :
+1. Ouvrez le rendez-vous
+2. Changez le statut en "Reporté"
+3. Modifiez la date de rendez-vous
+4. Ajoutez une note :
+   "Reporté au 20/12/2024 à 14h - Patient d'accord"
+5. Sauvegardez
+
+IMPORTANT : Contactez toujours le patient avant de changer le statut !
+
+
+───────────────────────────────────────────────────────────────────────────────
+9.4 ACTIONS EN MASSE
+───────────────────────────────────────────────────────────────────────────────
+
+Pour traiter plusieurs rendez-vous en même temps :
+
+PROCÉDURE :
+
+1. Dans la liste des rendez-vous
+2. Cochez les rendez-vous concernés
+3. Sélectionnez une action dans le menu déroulant :
+
+   ┌────────────────────────────────────────────────────┐
+   │ Actions : [Sélectionner ▼]                         │
+   │   • Marquer comme confirmés                        │
+   │   • Marquer comme complétés                        │
+   │   • Marquer comme annulés                          │
+   │   • Supprimer les rendez-vous sélectionnés         │
+   │   • Exporter en CSV                                │
+   └────────────────────────────────────────────────────┘
+
+4. Cliquez sur [Exécuter]
+
+5. Confirmation demandée
+
+EXPORT DES RENDEZ-VOUS :
+
+Pour exporter vers Excel :
+1. Sélectionnez les rendez-vous (ou tous)
+2. Action : "Exporter en CSV"
+3. Ouvrez le fichier dans Excel
+4. Utilisez pour :
+   • Statistiques
+   • Planning
+   • Archivage
+
+STATISTIQUES UTILES :
+
+Consultez régulièrement :
+• Nombre de demandes par service
+• Taux de confirmation
+• Taux d'annulation
+• Médecins les plus demandés
+• Services les plus sollicités
+
+
+═══════════════════════════════════════════════════════════════════════════════
+10. GESTION DES MESSAGES
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+10.1 BOÎTE DE RÉCEPTION
+───────────────────────────────────────────────────────────────────────────────
+
+ACCÈS : Menu > INTERACTIONS > Messages de contact
+
+INTERFACE :
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  Messages de contact                                                         │
+├───┬──────────────────┬──────────────────┬───────────┬──────────┬──────────┤
+│ ☐ │ Expéditeur       │ Sujet            │ Date      │ Statut   │ Type     │
+├───┼──────────────────┼──────────────────┼───────────┼──────────┼──────────┤
+│ ☐ │ Marie NKONO      │ Information      │ 01/12/24  │ Nouveau  │ Info     │
+│ ☐ │ Jean EKOTO       │ Réclamation      │ 30/11/24  │ Lu       │ Plainte  │
+│ ☐ │ Paul ESSOMBA     │ Partenariat      │ 28/11/24  │ Répondu  │ Partner. │
+│ ☐ │ Sophie MBA       │ Suggestion       │ 25/11/24  │ Archivé  │ Suggest. │
+└───┴──────────────────┴──────────────────┴───────────┴──────────┴──────────┘
+
+STATUTS DES MESSAGES :
+
+1. NOUVEAU
+   • Message non encore lu
+   • Badge rouge dans l'interface
+   • Priorité élevée
+
+2. LU
+   • Message consulté
+   • En attente de réponse
+
+3. RÉPONDU
+   • Réponse fournie au patient
+   • Peut être archivé
+
+4. ARCHIVÉ
+   • Message traité et archivé
+   • N'apparaît plus dans la vue principale
+
+TYPES DE MESSAGES :
+
+• DEMANDE D'INFORMATION
+  - Questions générales
+  - Renseignements sur services
+  - Horaires, tarifs, etc.
+
+• RÉCLAMATION
+  - Plaintes de patients
+  - Problèmes rencontrés
+  - Insatisfactions
+
+• SUGGESTION
+  - Idées d'amélioration
+  - Retours constructifs
+
+• PROPOSITION DE PARTENARIAT
+  - Demandes de collaboration
+  • Offres de services
+  - Partenariats institutionnels
+
+FILTRES :
+• Par statut
+• Par type de message
+• Par date
+• Par expéditeur
+
+CONSULTER UN MESSAGE :
+
+1. Cliquez sur le nom de l'expéditeur
+2. Voyez les détails complets :
+
+   ┌────────────────────────────────────────────────────┐
+   │ EXPÉDITEUR                                         │
+   │ Nom : Marie NKONO                                  │
+   │ Email : m.nkono@email.com                         │
+   │ Téléphone : +237 6XX XXX XXX                      │
+   │                                                     │
+   │ MESSAGE                                            │
+   │ Sujet : Demande d'information                      │
+   │ Type : Information                                 │
+   │                                                     │
+   │ Contenu :                                          │
+   │ Bonjour,                                          │
+   │ Je souhaiterais obtenir des informations sur...   │
+   │                                                     │
+   │ INFORMATIONS SYSTÈME                               │
+   │ Date d'envoi : 01/12/2024 14:30                   │
+   │ Adresse IP : 196.200.XXX.XXX                      │
+   │ Statut : Nouveau                                   │
+   └────────────────────────────────────────────────────┘
+
+
+───────────────────────────────────────────────────────────────────────────────
+10.2 RÉPONDRE AUX MESSAGES
+───────────────────────────────────────────────────────────────────────────────
+
+PROCÉDURE :
+
+1. Ouvrez le message
+
+2. CHANGEZ LE STATUT
+
+   Passez de "Nouveau" à "Lu" dès que vous lisez le message
+
+3. PRÉPAREZ VOTRE RÉPONSE
+
+   • Lisez attentivement la demande
+   • Rassemblez les informations nécessaires
+   • Consultez les collègues si besoin
+
+4. RÉPONDEZ PAR EMAIL
+
+   Le système ne dispose pas d'envoi d'email intégré.
+   Répondez manuellement :
+
+   A) Ouvrez votre client email (Gmail, Outlook, etc.)
+   B) Nouvelle message à : [email du patient]
+   C) Objet : RE: [sujet du message]
+   D) Rédigez votre réponse
+
+   CONSEILS POUR LA RÉPONSE :
+
+   • Soyez professionnel et courtois
+   • Répondez précisément aux questions posées
+   • Fournissez des informations complètes
+   • Incluez vos coordonnées de contact
+   • Signature avec nom et fonction
+
+   EXEMPLE DE RÉPONSE :
+
+   ```
+   Objet : RE: Demande d'information sur la pédiatrie
+
+   Bonjour Madame NKONO,
+
+   Nous vous remercions pour votre message.
+
+   Concernant votre demande d'information sur notre service
+   de pédiatrie, voici les renseignements demandés :
+
+   - Horaires de consultation : Lundi à Vendredi, 8h-17h
+   - Tarif consultation : 5 000 FCFA
+   - Médecins disponibles : Pr. NGONO, Dr. FOUDA
+
+   Pour prendre rendez-vous, vous pouvez :
+   - Appeler le +237 XXX XXX XXX
+   - Utiliser notre formulaire en ligne : [lien]
+
+   N'hésitez pas à nous recontacter pour toute question.
+
+   Cordialement,
+
+   [Votre nom]
+   [Votre fonction]
+   Hôpital Régional Annexe d'Edea
+   Tel : +237 XXX XXX XXX
+   Email : contact@hrae.cm
+   ```
+
+5. METTEZ À JOUR LE STATUT
+
+   Retournez dans l'admin :
+   • Changez le statut en "Répondu"
+   • Ajoutez une note (optionnel) :
+     "Réponse envoyée par email le 02/12/2024"
+   • Sauvegardez
+
+GESTION DES RÉCLAMATIONS :
+
+Pour les plaintes :
+• PRIORITÉ HAUTE - Répondez rapidement (< 24h)
+• Prenez la plainte au sérieux
+• Reconnaissez le problème
+• Proposez une solution ou compensation
+• Suivez le dossier jusqu'à résolution
+• Informez la direction si nécessaire
+
+GESTION DES PARTENARIATS :
+
+Pour les propositions de collaboration :
+• Transférez au responsable compétent
+• Demandez plus de détails si nécessaire
+• Planifiez une rencontre si intéressant
+• Archivez les propositions non pertinentes
+
+
+───────────────────────────────────────────────────────────────────────────────
+10.3 ARCHIVER
+───────────────────────────────────────────────────────────────────────────────
+
+Pour les messages traités :
+
+PROCÉDURE :
+
+1. Ouvrez le message répondu
+2. Changez le statut en "Archivé"
+3. Sauvegardez
+
+Les messages archivés :
+• N'apparaissent plus dans la vue par défaut
+• Restent accessibles via filtre "Archivé"
+• Peuvent être restaurés si besoin
+
+ACTION EN MASSE :
+
+1. Cochez plusieurs messages "Répondu"
+2. Action : "Marquer comme archivés"
+3. Exécutez
+
+NETTOYAGE PÉRIODIQUE :
+
+Recommandé tous les mois :
+• Archivez les messages traités
+• Supprimez les spams éventuels
+• Exportez pour archivage externe si nécessaire
+
+
+═══════════════════════════════════════════════════════════════════════════════
+11. GESTION DES TÉMOIGNAGES
+═══════════════════════════════════════════════════════════════════════════════
+
+ACCÈS : Menu > CONTENU > Témoignages
+
+Les témoignages sont des avis de patients satisfaits affichés sur le site.
+
+AJOUTER UN TÉMOIGNAGE :
+
+1. Cliquez sur [+ Ajouter un témoignage]
+
+2. Remplissez :
+   ┌────────────────────────────────────────────────────┐
+   │ Nom du patient * : Marie EWODO                     │
+   │ Service concerné : Maternité                       │
+   │                                                     │
+   │ Note * : ★★★★★ (5/5)                              │
+   │ [Curseur de 1 à 5 étoiles]                        │
+   │                                                     │
+   │ Témoignage * :                                     │
+   │ J'ai été très bien prise en charge lors de mon    │
+   │ accouchement. Le personnel était attentif...      │
+   │                                                     │
+   │ Photo (optionnel) : [Parcourir...]                │
+   │                                                     │
+   │ Date : 01/12/2024                                  │
+   │ Ordre d'affichage : 1                              │
+   │ ☑ Actif (visible sur le site)                     │
+   └────────────────────────────────────────────────────┘
+
+3. Sauvegardez
+
+CONSEILS :
+
+• Demandez l'autorisation du patient avant publication
+• Authentifiez les témoignages (vrais patients)
+• Variez les services concernés
+• Mettez en avant les points positifs
+• Restez honnête et crédible
+• Photo optionnelle mais renforce l'authenticité
+
+MODÉRATION :
+
+• Ne publiez que des témoignages authentiques
+• Évitez les faux avis
+• Retirez les contenus inappropriés
+• Gardez un équilibre (pas uniquement 5 étoiles)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+12. GESTION DES PARTENAIRES
+═══════════════════════════════════════════════════════════════════════════════
+
+ACCÈS : Menu > CONTENU > Partenaires
+
+AJOUTER UN PARTENAIRE :
+
+1. Cliquez sur [+ Ajouter un partenaire]
+
+2. Remplissez :
+   ┌────────────────────────────────────────────────────┐
+   │ Nom * : AXA Assurance Cameroun                     │
+   │                                                     │
+   │ Type * : [Sélectionner ▼]                         │
+   │   • Partenaire institutionnel                      │
+   │   • ONG                                            │
+   │   • Compagnie d'assurance     ← Sélectionnez      │
+   │   • Partenaire privé                               │
+   │   • Hôpital partenaire                             │
+   │                                                     │
+   │ Logo * : [Parcourir...]                           │
+   │ (Format PNG transparent recommandé)                │
+   │                                                     │
+   │ Site web : https://www.axa.cm                     │
+   │                                                     │
+   │ Description :                                      │
+   │ Compagnie d'assurance partenaire proposant...     │
+   │                                                     │
+   │ Domaine de collaboration :                         │
+   │ Prise en charge des patients assurés              │
+   │                                                     │
+   │ Ordre : 5                                          │
+   │ ☑ Actif                                           │
+   └────────────────────────────────────────────────────┘
+
+3. Sauvegardez
+
+GESTION DU LOGO :
+
+• Format : PNG (avec transparence) ou JPG
+• Taille : 200x100px recommandé
+• Fond blanc ou transparent
+• Qualité professionnelle
+
+AFFICHAGE SUR LE SITE :
+
+• Page Partenaires : tous les partenaires actifs
+• Groupés par type
+• Logos cliquables vers site web
+• Tri par ordre défini
+
+
+═══════════════════════════════════════════════════════════════════════════════
+13. GESTION DE LA DIRECTION
+═══════════════════════════════════════════════════════════════════════════════
+
+ACCÈS : Menu > ORGANISATION > Membres de la direction
+
+Gestion des profils de l'équipe de direction de l'hôpital.
+
+AJOUTER UN MEMBRE DE LA DIRECTION :
+
+1. Cliquez sur [+ Ajouter un membre de la direction]
+
+2. Remplissez :
+   ┌────────────────────────────────────────────────────┐
+   │ Nom complet * : Dr. François NDONGO                │
+   │ Poste * : Directeur Général                        │
+   │                                                     │
+   │ Photo * : [Parcourir...]                          │
+   │ (Photo professionnelle haute qualité)              │
+   │                                                     │
+   │ Biographie :                                       │
+   │ [Éditeur riche]                                    │
+   │ Dr. NDONGO est diplômé de l'Université de...      │
+   │                                                     │
+   │ Email : f.ndongo@hrae.cm                          │
+   │ Téléphone : +237 XXX XXX XXX                       │
+   │                                                     │
+   │ Ordre d'affichage : 1                              │
+   │ (1 = affiché en premier)                          │
+   │                                                     │
+   │ ☑ Actif                                           │
+   └────────────────────────────────────────────────────┘
+
+3. Sauvegardez
+
+AFFICHAGE :
+
+• Page "À propos" : profils de la direction
+• Ordre hiérarchique respecté
+• Photos et biographies complètes
+
+POSTES COURANTS :
+
+• Directeur Général
+• Directeur Médical
+• Directeur des Soins Infirmiers
+• Directeur Administratif et Financier
+• Directeur des Ressources Humaines
+• Chef de Service [Nom du service]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+14. PARCOURS PATIENT
+═══════════════════════════════════════════════════════════════════════════════
+
+ACCÈS : Menu > ORGANISATION > Parcours patient
+
+Le parcours patient guide les visiteurs sur les étapes à suivre.
+
+STRUCTURE :
+
+SECTIONS > ÉTAPES
+
+Exemple :
+• Section "Urgences"
+  - Étape 1 : Se présenter à l'accueil
+  - Étape 2 : Triage infirmier
+  - Étape 3 : Consultation
+  - Étape 4 : Traitement
+
+CRÉER UNE SECTION :
+
+ACCÈS : Parcours patient > Sections du parcours patient
+
+1. Cliquez sur [+ Ajouter une section]
+2. Remplissez :
+   ┌────────────────────────────────────────────────────┐
+   │ Titre * : Urgences                                 │
+   │ Description :                                       │
+   │ Procédure en cas d'urgence médicale               │
+   │                                                     │
+   │ Icône : fas fa-ambulance                          │
+   │ (Code Font Awesome)                                │
+   │                                                     │
+   │ Ordre : 1                                          │
+   └────────────────────────────────────────────────────┘
+3. Sauvegardez
+
+AJOUTER DES ÉTAPES :
+
+ACCÈS : Parcours patient > Étapes du parcours
+
+1. Cliquez sur [+ Ajouter une étape]
+2. Remplissez :
+   ┌────────────────────────────────────────────────────┐
+   │ Section * : Urgences                               │
+   │ Numéro d'étape * : 1                               │
+   │ Titre * : Présentation à l'accueil                │
+   │                                                     │
+   │ Description :                                       │
+   │ Présentez-vous à l'accueil des urgences avec      │
+   │ votre carte d'identité et tout document médical.  │
+   │                                                     │
+   │ Icône : fas fa-clipboard-check                    │
+   └────────────────────────────────────────────────────┘
+3. Sauvegardez
+4. Répétez pour chaque étape
+
+SECTIONS RECOMMANDÉES :
+
+• Urgences
+• Consultations externes
+• Hospitalisations
+• Examens et analyses
+• Documents à fournir
+
+
+═══════════════════════════════════════════════════════════════════════════════
+15. UTILISATEURS ET PERMISSIONS
+═══════════════════════════════════════════════════════════════════════════════
+
+ACCÈS : Menu > ADMINISTRATION > Utilisateurs
+
+GESTION DES COMPTES ADMINISTRATEURS :
+
+AJOUTER UN UTILISATEUR :
+
+1. Cliquez sur [+ Ajouter un utilisateur]
+
+2. ÉTAPE 1 : Informations de base
+   ┌────────────────────────────────────────────────────┐
+   │ Nom d'utilisateur * : marie.nkono                  │
+   │ (lettres, chiffres, @/./+/-/_ uniquement)         │
+   │                                                     │
+   │ Mot de passe * : [Générer aléatoirement]          │
+   │ [Cliquez pour générer un mot de passe fort]       │
+   │                                                     │
+   │ Confirmation : [même mot de passe]                 │
+   └────────────────────────────────────────────────────┘
+
+3. ÉTAPE 2 : Informations personnelles
+   ┌────────────────────────────────────────────────────┐
+   │ Prénom : Marie                                     │
+   │ Nom : NKONO                                        │
+   │ Adresse e-mail : marie.nkono@hrae.cm              │
+   └────────────────────────────────────────────────────┘
+
+4. ÉTAPE 3 : Permissions
+
+   A) STATUT
+      ┌────────────────────────────────────────────────────┐
+      │ ☑ Actif                                           │
+      │ (Peut se connecter)                                │
+      │                                                     │
+      │ ☑ Statut équipe                                   │
+      │ (Accès au panneau d'administration)               │
+      │                                                     │
+      │ ☐ Statut superutilisateur                         │
+      │ (Tous les droits - ATTENTION !)                   │
+      └────────────────────────────────────────────────────┘
+
+   B) GROUPES
+      ┌────────────────────────────────────────────────────┐
+      │ Groupes :                                          │
+      │ [Sélection multiple]                               │
+      │ ☐ Éditeurs de contenu                             │
+      │ ☐ Gestionnaires de rendez-vous                    │
+      │ ☐ Administrateurs complets                         │
+      └────────────────────────────────────────────────────┘
+
+   C) PERMISSIONS INDIVIDUELLES
+      Liste détaillée des permissions par modèle :
+      • Voir (view)
+      • Ajouter (add)
+      • Modifier (change)
+      • Supprimer (delete)
+
+5. Sauvegardez
+
+CRÉER DES GROUPES DE PERMISSIONS :
+
+ACCÈS : Menu > ADMINISTRATION > Groupes
+
+Créez des groupes pour faciliter la gestion :
+
+EXEMPLE 1 : ÉDITEURS DE CONTENU
+Permissions :
+• Articles : voir, ajouter, modifier
+• Catégories : voir
+• Services : voir, modifier
+• Personnel : voir
+• Témoignages : voir, ajouter, modifier
+
+EXEMPLE 2 : GESTIONNAIRES DE RENDEZ-VOUS
+Permissions :
+• Rendez-vous : voir, modifier
+• Messages : voir, modifier
+• Services : voir
+• Personnel : voir
+
+EXEMPLE 3 : ADMINISTRATEURS COMPLETS
+• Toutes les permissions
+
+PROCÉDURE DE CRÉATION DE GROUPE :
+
+1. Cliquez sur [+ Ajouter un groupe]
+2. Nom : Éditeurs de contenu
+3. Sélectionnez les permissions dans la liste
+4. Sauvegardez
+
+ATTRIBUER UN GROUPE À UN UTILISATEUR :
+
+1. Ouvrez l'utilisateur
+2. Section Groupes
+3. Sélectionnez le(s) groupe(s)
+4. Sauvegardez
+
+BONNES PRATIQUES :
+
+• Principe du moindre privilège : donnez uniquement les permissions nécessaires
+• Limitez le nombre de superutilisateurs
+• Utilisez des groupes plutôt que des permissions individuelles
+• Désactivez les comptes inutilisés (décochez "Actif")
+• Changez les mots de passe régulièrement
+• Auditez régulièrement les permissions
+
+
+═══════════════════════════════════════════════════════════════════════════════
+16. JOURNAUX ET SÉCURITÉ
+═══════════════════════════════════════════════════════════════════════════════
+
+JOURNAUX D'ACTIVITÉ :
+
+Le système enregistre automatiquement toutes les actions dans l'admin.
+
+ACCÈS : Menu > ADMINISTRATION > Journaux (ou Recent Actions)
+
+INFORMATIONS ENREGISTRÉES :
+
+• Qui ? : utilisateur ayant effectué l'action
+• Quoi ? : type d'action (ajout, modification, suppression)
+• Quand ? : date et heure exactes
+• Où ? : objet concerné (article, service, rendez-vous, etc.)
+
+CONSULTATION :
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  Entrées de journal                                                          │
+├────────────────────────┬────────────────┬────────────┬────────────────────┤
+│ Utilisateur            │ Action         │ Type       │ Date               │
+├────────────────────────┼────────────────┼────────────┼────────────────────┤
+│ admin                  │ Modifié        │ Article    │ 01/12/24 10:30     │
+│ marie.nkono            │ Ajouté         │ Service    │ 01/12/24 09:15     │
+│ admin                  │ Supprimé       │ Témoignage │ 30/11/24 16:45     │
+└────────────────────────┴────────────────┴────────────┴────────────────────┘
+
+UTILITÉ :
+
+• Traçabilité des modifications
+• Audit de sécurité
+• Identification des erreurs
+• Résolution de conflits
+• Conformité réglementaire
+
+SÉCURITÉ :
+
+Le système inclut plusieurs protections :
+
+A) PROTECTION ANTI-BRUTE FORCE (django-axes)
+   • Max 5 tentatives de connexion échouées
+   • Blocage de 1 heure après 5 échecs
+   • Suivi par adresse IP
+   • Logs des tentatives suspectes
+
+B) RATE LIMITING (limitation de taux)
+   • Formulaires publics limités :
+     - Rendez-vous : 3/heure par IP
+     - Contact : 5/heure par IP
+     - Inscriptions campagnes : 5/heure par IP
+   • Logs dans /logs/ratelimit.log
+
+C) DÉTECTION D'ATTAQUES
+   • Patterns SQL injection détectés
+   • User-agents malveillants bloqués
+   • Tentatives de path traversal bloquées
+
+D) HEADERS DE SÉCURITÉ
+   • HTTPS forcé
+   • HSTS activé
+   • Content-Security-Policy
+   • X-Frame-Options: DENY
+   • X-Content-Type-Options: nosniff
+
+CONSULTATION DES LOGS :
+
+Les logs système sont dans /logs/ :
+• ratelimit.log : tentatives bloquées par rate limiting
+• attack_detection.log : attaques détectées
+
+Consultez-les régulièrement pour surveiller la sécurité.
+
+EN CAS D'INCIDENT :
+
+1. Identifiez l'utilisateur concerné
+2. Consultez les journaux
+3. Désactivez le compte si compromis
+4. Changez les mots de passe
+5. Informez l'administrateur système
+6. Analysez les logs pour comprendre
+7. Corrigez la faille si applicable
+
+
+═══════════════════════════════════════════════════════════════════════════════
+17. MAINTENANCE ET BONNES PRATIQUES
+═══════════════════════════════════════════════════════════════════════════════
+
+MAINTENANCE QUOTIDIENNE :
+
+Chaque jour :
+□ Vérifier les nouveaux rendez-vous (traiter sous 24h)
+□ Lire et répondre aux messages de contact
+□ Vérifier les nouvelles inscriptions aux campagnes
+
+MAINTENANCE HEBDOMADAIRE :
+
+Chaque semaine :
+□ Vérifier les statistiques du site
+□ Publier au moins 1 nouvel article
+□ Mettre à jour les disponibilités du personnel
+□ Archiver les messages traités
+
+MAINTENANCE MENSUELLE :
+
+Chaque mois :
+□ Vérifier et mettre à jour les services
+□ Actualiser les photos si nécessaire
+□ Réviser les témoignages (ajouter nouveaux)
+□ Vérifier les liens externes (partenaires, etc.)
+□ Exporter les statistiques de rendez-vous
+□ Audit des comptes utilisateurs
+□ Révision des permissions
+
+MAINTENANCE ANNUELLE :
+
+Chaque année :
+□ Mettre à jour les statistiques de l'hôpital (patients/an, etc.)
+□ Réviser Mission, Vision, Valeurs si nécessaire
+□ Mettre à jour les tarifs
+□ Réviser la liste des assurances acceptées
+□ Archiver les anciennes campagnes
+□ Nettoyer les comptes utilisateurs inactifs
+□ Sauvegarder l'intégralité de la base de données
+
+BONNES PRATIQUES :
+
+1. CONTENU
+   • Écrivez dans un français correct
+   • Vérifiez l'orthographe
+   • Utilisez des images de qualité professionnelle
+   • Créditez les sources si nécessaire
+   • Respectez les droits d'auteur
+
+2. IMAGES
+   • Optimisez le poids (compression)
+   • Formats : JPG pour photos, PNG pour logos
+   • Nommez correctement vos fichiers
+   • Ajoutez des textes alternatifs (accessibilité)
+
+3. SÉCURITÉ
+   • Ne partagez jamais vos identifiants
+   • Déconnectez-vous après chaque session
+   • Utilisez un mot de passe fort
+   • Changez-le tous les 3 mois
+   • Ne naviguez pas sur d'autres sites depuis l'admin
+
+4. COMMUNICATION
+   • Répondez rapidement (< 24-48h)
+   • Restez professionnel
+   • Vérifiez les informations avant publication
+   • Relisez avant d'enregistrer
+
+5. DONNÉES PERSONNELLES
+   • Respectez la confidentialité des patients
+   • Ne divulguez pas d'informations médicales
+   • Sécurisez les exports de données
+   • Supprimez les données obsolètes
+
+6. BACKUP
+   • L'administrateur système fait des sauvegardes automatiques
+   • En cas de doute, demandez une sauvegarde avant modification majeure
+
+
+═══════════════════════════════════════════════════════════════════════════════
+18. RÉSOLUTION DE PROBLÈMES
+═══════════════════════════════════════════════════════════════════════════════
+
+PROBLÈME : Je ne peux pas me connecter
+
+SOLUTIONS :
+
+1. Vérifiez votre nom d'utilisateur et mot de passe
+   • Attention aux majuscules/minuscules
+   • Pas d'espaces en début/fin
+
+2. Compte bloqué après 5 tentatives ?
+   • Attendez 1 heure
+   • Ou contactez l'administrateur système
+
+3. Mot de passe oublié ?
+   • Contactez l'administrateur système
+   • Il pourra le réinitialiser
+
+4. Problème persistant ?
+   • Essayez un autre navigateur
+   • Videz le cache
+   • Vérifiez votre connexion internet
+
+
+PROBLÈME : L'image ne s'upload pas
+
+SOLUTIONS :
+
+1. Vérifiez le format
+   • Acceptés : JPG, PNG, GIF
+   • Pas de : BMP, TIFF, PSD
+
+2. Vérifiez la taille
+   • Maximum : 5 MB par fichier
+   • Compressez si nécessaire (TinyPNG, etc.)
+
+3. Vérifiez le nom du fichier
+   • Pas de caractères spéciaux (é, à, ç, etc.)
+   • Pas d'espaces (utilisez tirets ou underscores)
+   • Exemple OK : service-pediatrie.jpg
+   • Exemple NON : Service Pédiatrie (2024).jpg
+
+4. Problème persistant ?
+   • Essayez une autre image
+   • Contactez l'administrateur système
+
+
+PROBLÈME : Les modifications n'apparaissent pas sur le site
+
+SOLUTIONS :
+
+1. Rafraîchissez la page
+   • Ctrl + F5 (Windows)
+   • Cmd + Shift + R (Mac)
+   • Vide le cache
+
+2. Vérifiez le statut
+   • Article : statut "Publié" ?
+   • Service : case "Actif" cochée ?
+   • Personnel : "Membre actif" coché ?
+
+3. Videz le cache du site
+   • Contactez l'administrateur système
+   • Il peut vider le cache Redis
+
+4. Attendez quelques minutes
+   • Le cache peut prendre 5-10 minutes à se rafraîchir
+
+
+PROBLÈME : Je ne peux pas supprimer un élément
+
+SOLUTIONS :
+
+1. Vérifiez les permissions
+   • Avez-vous le droit "Supprimer" ?
+   • Consultez votre groupe de permissions
+
+2. Éléments liés
+   • Django protège contre suppressions dangereuses
+   • Exemple : impossible de supprimer un service si des rendez-vous y sont liés
+   • Supprimez d'abord les éléments liés
+   • Ou utilisez "Désactiver" au lieu de supprimer
+
+3. Contactez un superutilisateur
+   • Il pourra effectuer la suppression
+
+
+PROBLÈME : L'éditeur de texte ne fonctionne pas
+
+SOLUTIONS :
+
+1. Vérifiez JavaScript
+   • L'éditeur nécessite JavaScript activé
+   • Vérifiez les paramètres de votre navigateur
+
+2. Changez de navigateur
+   • Testez avec Chrome ou Firefox
+
+3. Désactivez les extensions
+   • Bloqueurs de pub peuvent causer des problèmes
+   • Testez en navigation privée
+
+4. Contactez le support technique
+
+
+PROBLÈME : Le site est lent
+
+Ce n'est généralement PAS un problème admin, mais :
+
+1. Vérifiez votre connexion internet
+
+2. Images trop lourdes ?
+   • Compressez avant upload
+   • Taille max recommandée : 1 MB
+
+3. Contactez l'administrateur système
+   • Problème potentiel de serveur ou cache
+
+
+═══════════════════════════════════════════════════════════════════════════════
+CONTACT SUPPORT TECHNIQUE
+═══════════════════════════════════════════════════════════════════════════════
+
+Pour toute question ou problème non résolu :
+
+ADMINISTRATEUR SYSTÈME :
+• Nom : [À renseigner]
+• Email : [À renseigner]
+• Téléphone : [À renseigner]
+
+ÉQUIPE DE DÉVELOPPEMENT :
+• Email : [À renseigner]
+
+HEURES DE SUPPORT :
+• Lundi - Vendredi : 8h00 - 17h00
+• Urgences : [Numéro d'urgence]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ANNEXE : RACCOURCIS CLAVIER
+═══════════════════════════════════════════════════════════════════════════════
+
+NAVIGATION :
+• Alt + S : Sauvegarder (formulaire)
+• Ctrl + F : Rechercher dans la page
+• Échap : Fermer les popups
+
+ÉDITION DE TEXTE (éditeur riche) :
+• Ctrl + B : Gras
+• Ctrl + I : Italique
+• Ctrl + U : Souligné
+• Ctrl + K : Insérer un lien
+• Ctrl + Z : Annuler
+• Ctrl + Y : Rétablir
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ANNEXE : CODES ICÔNES FONT AWESOME
+═══════════════════════════════════════════════════════════════════════════════
+
+Pour les services, parcours patient, etc. :
+
+MÉDICAL :
+• fas fa-hospital : Hôpital
+• fas fa-user-md : Médecin
+• fas fa-stethoscope : Stéthoscope
+• fas fa-heartbeat : Cardiologie
+• fas fa-baby : Pédiatrie/Maternité
+• fas fa-ambulance : Urgences
+• fas fa-syringe : Injection
+• fas fa-pills : Médicaments
+• fas fa-x-ray : Radiologie
+• fas fa-microscope : Laboratoire
+
+ACTIONS :
+• fas fa-calendar-check : Rendez-vous
+• fas fa-clipboard-check : Vérification
+• fas fa-check-circle : Validation
+• fas fa-file-medical : Dossier médical
+• fas fa-notes-medical : Notes médicales
+
+COMMUNICATION :
+• fas fa-envelope : Email
+• fas fa-phone : Téléphone
+• fas fa-comments : Messages
+• fas fa-bullhorn : Campagne
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                            FIN DU DOCUMENT
+═══════════════════════════════════════════════════════════════════════════════
+
+Merci d'utiliser le panneau d'administration HRAE !
+
+Pour toute question, n'hésitez pas à consulter cette documentation ou à
+contacter le support technique.
+
+Document préparé avec soin pour faciliter la gestion quotidienne de votre
+site web hospitalier.
+
+Bonne utilisation !

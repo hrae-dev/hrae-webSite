@@ -1,0 +1,784 @@
+═══════════════════════════════════════════════════════════════════════════════
+                    DOCUMENTATION DU SITE WEB HRAE
+                Hôpital Régional Annexe d'Edea - Partie Utilisateur
+═══════════════════════════════════════════════════════════════════════════════
+
+VERSION : 1.0
+DATE : Décembre 2024
+AUTEUR : Équipe de développement HRAE
+
+
+═══════════════════════════════════════════════════════════════════════════════
+TABLE DES MATIÈRES
+═══════════════════════════════════════════════════════════════════════════════
+
+1. INTRODUCTION
+2. ACCÈS AU SITE WEB
+3. NAVIGATION SUR LE SITE
+4. FONCTIONNALITÉS PRINCIPALES
+   4.1 Page d'Accueil
+   4.2 À Propos de l'Hôpital
+   4.3 Services Médicaux
+   4.4 Équipe Médicale
+   4.5 Actualités et Campagnes
+   4.6 Prise de Rendez-vous en Ligne
+   4.7 Formulaire de Contact
+   4.8 Informations Pratiques
+   4.9 Partenaires
+   4.10 Témoignages
+5. LANGUES DISPONIBLES
+6. SÉCURITÉ ET CONFIDENTIALITÉ
+7. SUPPORT TECHNIQUE
+
+
+═══════════════════════════════════════════════════════════════════════════════
+1. INTRODUCTION
+═══════════════════════════════════════════════════════════════════════════════
+
+Bienvenue dans la documentation du site web de l'Hôpital Régional Annexe d'Edea
+(HRAE). Ce site offre aux patients et visiteurs un accès facile aux informations
+sur l'hôpital, ses services, son équipe médicale, ainsi que des fonctionnalités
+interactives telles que la prise de rendez-vous en ligne.
+
+Le site est conçu pour être :
+• Accessible 24h/24 et 7j/7
+• Responsive (adapté aux ordinateurs, tablettes et smartphones)
+• Multilingue (Français et Anglais)
+• Sécurisé et conforme aux normes de protection des données
+
+
+═══════════════════════════════════════════════════════════════════════════════
+2. ACCÈS AU SITE WEB
+═══════════════════════════════════════════════════════════════════════════════
+
+URL du site : [À renseigner selon votre domaine]
+
+Le site est accessible depuis :
+• Ordinateurs de bureau et portables
+• Tablettes (iPad, Android)
+• Smartphones (iOS, Android)
+
+Navigateurs recommandés :
+• Google Chrome (version 90+)
+• Mozilla Firefox (version 88+)
+• Safari (version 14+)
+• Microsoft Edge (version 90+)
+
+REMARQUE : Pour une expérience optimale, assurez-vous que JavaScript est
+activé dans votre navigateur.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+3. NAVIGATION SUR LE SITE
+═══════════════════════════════════════════════════════════════════════════════
+
+Le site dispose d'une barre de navigation principale accessible en haut de
+chaque page, contenant les sections suivantes :
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  ACCUEIL | À PROPOS | SERVICES | ÉQUIPE | ACTUALITÉS | RENDEZ-VOUS | CONTACT│
+└─────────────────────────────────────────────────────────────────────────────┘
+
+NAVIGATION MOBILE :
+Sur mobile, le menu est accessible via l'icône "hamburger" (☰) en haut à droite
+de l'écran.
+
+PIED DE PAGE :
+Le pied de page contient :
+• Coordonnées de l'hôpital (adresse, téléphone, email)
+• Liens vers les réseaux sociaux
+• Liens rapides vers les sections principales
+• Informations légales
+
+
+═══════════════════════════════════════════════════════════════════════════════
+4. FONCTIONNALITÉS PRINCIPALES
+═══════════════════════════════════════════════════════════════════════════════
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.1 PAGE D'ACCUEIL
+───────────────────────────────────────────────────────────────────────────────
+
+URL : / (page principale)
+
+La page d'accueil présente :
+
+A) SECTION HERO (EN-TÊTE)
+   • Carrousel d'images avec messages d'accueil
+   • Boutons d'action rapide vers les sections importantes
+   • Slogan de l'hôpital
+
+B) SERVICES PRINCIPAUX
+   • Affichage des 6 services médicaux principaux
+   • Chaque service est présenté avec :
+     - Une icône représentative
+     - Un nom et une brève description
+     - Un bouton "En savoir plus" vers la page détaillée
+
+C) ACTUALITÉS RÉCENTES
+   • Les 3 dernières actualités publiées
+   • Image d'illustration
+   • Titre, date de publication et extrait
+   • Lien vers l'article complet
+
+D) STATISTIQUES CLÉS
+   • Nombre de patients traités par an
+   • Nombre de lits disponibles
+   • Nombre de membres du personnel
+   • Années d'expérience
+   [Les chiffres sont animés lors du défilement]
+
+E) MISSION ET VISION
+   • Présentation de la mission de l'hôpital
+   • Vision pour l'avenir
+   • Valeurs fondamentales
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.2 À PROPOS DE L'HÔPITAL
+───────────────────────────────────────────────────────────────────────────────
+
+URL : /a-propos/
+
+Cette section présente :
+
+A) HISTORIQUE
+   • Histoire de l'hôpital
+   • Évolution et développement
+   • Dates clés
+
+B) ÉQUIPE DE DIRECTION
+   • Profils des membres de la direction
+   • Photos professionnelles
+   • Postes et responsabilités
+   • Coordonnées de contact
+   • Biographies complètes
+
+C) MISSION, VISION ET VALEURS
+   • Mission principale de l'hôpital
+   • Vision à long terme
+   • Valeurs fondamentales guidant les actions
+
+D) INFORMATIONS ORGANISATIONNELLES
+   • Structure de l'établissement
+   • Certifications et accréditations
+   • Partenariats institutionnels
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.3 SERVICES MÉDICAUX
+───────────────────────────────────────────────────────────────────────────────
+
+URL : /services/
+
+A) LISTE DES SERVICES
+   • Vue d'ensemble de tous les services médicaux
+   • Fonction de recherche par nom de service
+   • Filtrage par spécialité
+   • Chaque service affiche :
+     - Nom du service
+     - Image d'illustration
+     - Description courte
+     - Bouton d'accès aux détails
+
+B) PAGE DÉTAILLÉE D'UN SERVICE
+   URL : /services/<nom-du-service>/
+
+   Informations complètes :
+
+   1. DESCRIPTION COMPLÈTE
+      • Présentation détaillée du service
+      • Objectifs et approche médicale
+
+   2. PATHOLOGIES TRAITÉES
+      • Liste des maladies et conditions prises en charge
+      • Types d'interventions disponibles
+
+   3. ÉQUIPEMENTS DISPONIBLES
+      • Liste du matériel médical spécialisé
+      • Technologies utilisées
+
+   4. CONDITIONS D'ADMISSION
+      • Procédures d'admission
+      • Documents requis
+      • Modalités de prise en charge
+
+   5. HORAIRES ET TARIFS
+      • Horaires de consultation
+      • Grille tarifaire
+      • Informations sur les assurances acceptées
+
+   6. ÉQUIPE DU SERVICE
+      • Liste du personnel médical affecté
+      • Photos et spécialités
+      • Liens vers les profils complets
+
+   7. GALERIE D'IMAGES
+      • Photos du service
+      • Équipements
+      • Installations
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.4 ÉQUIPE MÉDICALE
+───────────────────────────────────────────────────────────────────────────────
+
+URL : /equipe/
+
+A) ANNUAIRE DU PERSONNEL MÉDICAL
+
+   Fonctionnalités disponibles :
+
+   • RECHERCHE PAR NOM
+     - Barre de recherche pour trouver un médecin ou infirmier
+     - Recherche en temps réel
+
+   • FILTRAGE PAR GRADE
+     - Professeur
+     - Docteur
+     - Infirmier
+     - Technicien
+     - Personnel administratif
+
+   • FILTRAGE PAR SERVICE
+     - Sélection du service médical
+     - Affichage du personnel affecté
+
+   • AFFICHAGE DES PROFILS
+     Chaque carte de profil contient :
+     - Photo professionnelle
+     - Nom complet
+     - Grade et titre
+     - Service d'affectation
+     - Spécialités
+     - Indicateur de disponibilité pour rendez-vous
+     - Bouton "Voir le profil"
+
+B) PAGE DE PROFIL DÉTAILLÉE
+   URL : /equipe/<nom-du-personnel>/
+
+   Informations complètes :
+
+   1. INFORMATIONS PERSONNELLES
+      • Photo professionnelle
+      • Nom complet
+      • Grade et titre académique
+
+   2. INFORMATIONS PROFESSIONNELLES
+      • Service(s) d'affectation
+      • Spécialités médicales
+      • Rôle (Chef de service, etc.)
+
+   3. COMPÉTENCES ET EXPERTISE
+      • Domaines d'expertise
+      • Formations spécialisées
+      • Certifications
+
+   4. DISPONIBILITÉ
+      • Statut de disponibilité pour rendez-vous
+      • Jours de consultation
+
+   5. COORDONNÉES
+      • Email professionnel
+      • Numéro de téléphone
+      • Bureau/Cabinet
+
+   6. LANGUES PARLÉES
+      • Liste des langues de communication
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.5 ACTUALITÉS ET CAMPAGNES
+───────────────────────────────────────────────────────────────────────────────
+
+A) PAGE DES ACTUALITÉS
+   URL : /actualites/
+
+   Fonctionnalités :
+
+   • AFFICHAGE DES ARTICLES
+     - Liste chronologique des actualités
+     - Articles et campagnes de santé mélangés
+     - Pagination pour navigation facile
+
+   • RECHERCHE
+     - Barre de recherche par mots-clés
+     - Recherche dans les titres et contenus
+
+   • FILTRAGE PAR CATÉGORIE
+     - Catégories définies par l'administration
+     - Filtrage instantané
+
+   • INFORMATIONS PAR ARTICLE
+     - Image d'illustration
+     - Titre
+     - Date de publication
+     - Catégorie
+     - Extrait du contenu
+     - Nombre de vues
+     - Lien "Lire la suite"
+
+B) PAGE DÉTAILLÉE D'UN ARTICLE
+   URL : /actualites/<titre-article>/
+
+   Contenu :
+
+   1. ARTICLE COMPLET
+      • Titre principal
+      • Date de publication
+      • Catégorie
+      • Image principale
+      • Contenu intégral formaté
+      • Galerie d'images supplémentaires
+
+   2. PARTAGE SOCIAL
+      • Boutons de partage sur réseaux sociaux
+      • Facebook, Twitter, LinkedIn, WhatsApp
+
+   3. ARTICLES SIMILAIRES
+      • Recommandations d'articles connexes
+      • Même catégorie ou thème proche
+
+   4. COMPTEUR DE VUES
+      • Suivi automatique du nombre de lectures
+
+C) PAGE DES CAMPAGNES DE SANTÉ
+   URL : /campagnes/
+
+   • Liste des campagnes sanitaires
+   • Statut : À venir, En cours, Terminée
+   • Date de début et fin
+   • Description courte
+   • Image d'illustration
+
+D) PAGE DÉTAILLÉE D'UNE CAMPAGNE
+   URL : /campagnes/<nom-campagne>/
+
+   Informations complètes :
+
+   1. DÉTAILS DE LA CAMPAGNE
+      • Titre de la campagne
+      • Dates (début et fin)
+      • Statut (à venir, en cours, terminée)
+      • Description complète
+      • Objectifs
+
+   2. SERVICES PROPOSÉS
+      • Liste des services médicaux offerts
+      • Examens disponibles
+      • Vaccinations
+      • Dépistages
+
+   3. PUBLIC CIBLE
+      • Groupe d'âge concerné
+      • Conditions d'éligibilité
+
+   4. GALERIE D'IMAGES
+      • Photos de campagnes précédentes
+      • Sensibilisation visuelle
+
+   5. INSCRIPTION (SI ACTIVÉE)
+      • Formulaire d'inscription en ligne
+      • Champs requis :
+        - Nom complet
+        - Email
+        - Téléphone
+        - Date de naissance
+        - Commentaire/Message
+      • Confirmation automatique d'inscription
+
+      LIMITATION : 5 inscriptions maximum par heure depuis la même adresse IP
+      (protection contre les abus)
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.6 PRISE DE RENDEZ-VOUS EN LIGNE
+───────────────────────────────────────────────────────────────────────────────
+
+URL : /rendez-vous/
+
+Le système de prise de rendez-vous permet aux patients de réserver une
+consultation médicale sans se déplacer.
+
+A) PROCESSUS DE PRISE DE RENDEZ-VOUS
+
+   ÉTAPE 1 : SÉLECTION DU SERVICE
+   • Liste déroulante de tous les services disponibles
+   • Recherche rapide possible
+
+   ÉTAPE 2 : SÉLECTION DU MÉDECIN
+   • Liste automatique des médecins du service choisi
+   • Affichage uniquement des médecins disponibles pour rendez-vous
+   • Chargement dynamique (AJAX)
+
+   ÉTAPE 3 : INFORMATIONS DU PATIENT
+   • Nom complet *
+   • Adresse email *
+   • Numéro de téléphone *
+   • Date de naissance *
+
+   ÉTAPE 4 : DÉTAILS DE LA CONSULTATION
+   • Date souhaitée pour le rendez-vous *
+   • Raison de la consultation *
+
+   ÉTAPE 5 : INFORMATIONS D'ASSURANCE (OPTIONNEL)
+   • Nom de l'assurance
+   • Numéro de police d'assurance
+
+   (* = Champs obligatoires)
+
+B) VALIDATION ET CONFIRMATION
+
+   • Validation automatique des données
+   • Message de confirmation à l'écran
+   • Email de confirmation envoyé au patient
+   • Le rendez-vous est créé avec le statut "En attente"
+   • L'administration recevra la demande et la validera
+
+C) LIMITATIONS DE SÉCURITÉ
+
+   PROTECTION ANTI-SPAM :
+   • Maximum 3 demandes de rendez-vous par heure depuis la même adresse IP
+   • En cas de dépassement, message d'erreur affiché
+   • Réinitialisation automatique après 1 heure
+
+D) SUIVI DE VOTRE RENDEZ-VOUS
+
+   Une fois le rendez-vous soumis :
+   • Statut initial : "En attente"
+   • L'administration examine la demande
+   • Vous recevrez un appel ou email pour :
+     - Confirmer le rendez-vous
+     - Proposer un autre créneau si nécessaire
+     - Demander des informations complémentaires
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.7 FORMULAIRE DE CONTACT
+───────────────────────────────────────────────────────────────────────────────
+
+URL : /contact/
+
+Le formulaire de contact permet d'envoyer des messages directement à
+l'administration de l'hôpital.
+
+A) CHAMPS DU FORMULAIRE
+
+   1. NOM COMPLET *
+      • Votre nom et prénom
+
+   2. ADRESSE EMAIL *
+      • Email valide pour recevoir une réponse
+
+   3. NUMÉRO DE TÉLÉPHONE *
+      • Numéro de contact
+
+   4. SUJET *
+      • Demande d'information
+      • Réclamation
+      • Suggestion
+      • Proposition de partenariat
+
+   5. MESSAGE *
+      • Votre message détaillé (minimum 10 caractères)
+
+   (* = Champs obligatoires)
+
+B) APRÈS L'ENVOI
+
+   • Confirmation immédiate à l'écran
+   • Enregistrement dans le système
+   • Votre adresse IP est enregistrée (sécurité)
+   • L'administration recevra votre message
+   • Réponse par email dans les meilleurs délais
+
+C) LIMITATIONS DE SÉCURITÉ
+
+   PROTECTION ANTI-SPAM :
+   • Maximum 5 messages par heure depuis la même adresse IP
+   • En cas de dépassement, message d'erreur affiché
+   • Réinitialisation automatique après 1 heure
+
+D) DÉLAIS DE RÉPONSE
+
+   • Messages lus par l'administration dans les 24-48h
+   • Réponse généralement sous 2-5 jours ouvrables
+   • Pour les urgences médicales, contactez directement l'hôpital par téléphone
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.8 INFORMATIONS PRATIQUES
+───────────────────────────────────────────────────────────────────────────────
+
+URL : /informations-pratiques/
+
+Cette page centralise toutes les informations utiles pour les patients.
+
+A) HORAIRES D'OUVERTURE
+
+   CONSULTATIONS :
+   • Jours et heures d'ouverture
+   • Horaires des différents services
+
+   URGENCES :
+   • Disponibilité 24h/24
+   • Accès et procédures
+
+B) MODES DE PAIEMENT ACCEPTÉS
+
+   • Liste complète des moyens de paiement
+   • Espèces
+   • Cartes bancaires
+   • Virements
+   • Mobile Money
+   • Autres options
+
+C) ASSURANCES ACCEPTÉES
+
+   • Liste des compagnies d'assurance partenaires
+   • Mutuelles
+   • Organismes de prévoyance
+   • Modalités de prise en charge
+
+D) PARCOURS DU PATIENT
+
+   Guide étape par étape pour :
+
+   1. URGENCES
+      • Étapes à suivre en cas d'urgence
+      • Documents à apporter
+      • Procédure d'admission
+
+   2. CONSULTATIONS
+      • Comment prendre rendez-vous
+      • Préparation de la consultation
+      • Déroulement
+
+   3. DOCUMENTS NÉCESSAIRES
+      • Pièces d'identité requises
+      • Dossiers médicaux
+      • Ordonnances
+      • Justificatifs d'assurance
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.9 PARTENAIRES
+───────────────────────────────────────────────────────────────────────────────
+
+URL : /partenaires/
+
+Cette page présente les partenaires institutionnels et commerciaux de l'hôpital.
+
+TYPES DE PARTENAIRES :
+
+• PARTENAIRES INSTITUTIONNELS
+  - Ministères et organismes publics
+  - Universités et centres de formation
+
+• ONG ET ORGANISATIONS
+  - Organisations non gouvernementales
+  - Associations caritatives
+
+• COMPAGNIES D'ASSURANCE
+  - Assureurs santé partenaires
+  - Mutuelles
+
+• PARTENAIRES PRIVÉS
+  - Entreprises privées
+  - Fournisseurs de services
+
+• HÔPITAUX PARTENAIRES
+  - Réseau hospitalier
+  - Collaborations médicales
+
+INFORMATIONS AFFICHÉES :
+• Logo du partenaire
+• Nom de l'organisation
+• Type de partenariat
+• Domaine de collaboration
+• Site web (lien cliquable)
+
+
+───────────────────────────────────────────────────────────────────────────────
+4.10 TÉMOIGNAGES
+───────────────────────────────────────────────────────────────────────────────
+
+URL : /temoignages/
+
+Page présentant les avis et témoignages de patients satisfaits.
+
+CONTENU DES TÉMOIGNAGES :
+
+• Photo du patient (si fournie)
+• Nom du patient
+• Note sur 5 étoiles (★★★★★)
+• Service médical concerné
+• Texte du témoignage
+• Date de publication
+
+AFFICHAGE :
+• Tri par ordre de publication (plus récents en premier)
+• Système de notation visuelle par étoiles
+• Design attractif avec cartes stylisées
+
+Les témoignages sont gérés exclusivement par l'administration pour assurer
+l'authenticité et la qualité des avis publiés.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+5. LANGUES DISPONIBLES
+═══════════════════════════════════════════════════════════════════════════════
+
+Le site est disponible en deux langues :
+
+• FRANÇAIS (par défaut)
+• ANGLAIS
+
+CHANGEMENT DE LANGUE :
+• Sélecteur de langue en haut du site
+• Changement instantané
+• Préférence mémorisée dans votre navigateur
+
+REMARQUE : Le contenu créé par l'administration (articles, descriptions de
+services, etc.) est géré dans la langue principale (français). Les éléments
+d'interface (menus, boutons, messages système) sont traduits automatiquement.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+6. SÉCURITÉ ET CONFIDENTIALITÉ
+═══════════════════════════════════════════════════════════════════════════════
+
+A) PROTECTION DES DONNÉES
+
+   Le site HRAE respecte les normes de sécurité et de confidentialité :
+
+   • CRYPTAGE SSL/HTTPS
+     - Toutes les communications sont cryptées
+     - Certificat SSL valide
+     - Icône cadenas dans votre navigateur
+
+   • PROTECTION DES FORMULAIRES
+     - Protection CSRF contre les attaques
+     - Validation stricte des données
+     - Protection anti-spam par limite de taux
+
+   • CONFIDENTIALITÉ
+     - Vos données personnelles sont protégées
+     - Pas de revente à des tiers
+     - Utilisation uniquement à des fins médicales
+
+B) LIMITATIONS DE TAUX (ANTI-SPAM)
+
+   Pour protéger le système contre les abus :
+
+   • Rendez-vous : 3 demandes max/heure par IP
+   • Contact : 5 messages max/heure par IP
+   • Inscriptions campagnes : 5 inscriptions max/heure par IP
+
+   En cas de blocage :
+   • Message d'information affiché
+   • Réessayez après 1 heure
+   • En cas de problème persistant, contactez l'administration
+
+C) COOKIES
+
+   Le site utilise des cookies pour :
+   • Mémoriser votre langue préférée
+   • Assurer la sécurité des formulaires
+   • Améliorer votre expérience de navigation
+
+   Les cookies ne contiennent pas d'informations personnelles sensibles.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+7. SUPPORT TECHNIQUE
+═══════════════════════════════════════════════════════════════════════════════
+
+EN CAS DE PROBLÈME AVEC LE SITE :
+
+A) PROBLÈMES COURANTS ET SOLUTIONS
+
+   PROBLÈME : Le site ne s'affiche pas correctement
+   SOLUTION :
+   • Videz le cache de votre navigateur
+   • Essayez un autre navigateur
+   • Vérifiez votre connexion internet
+
+   PROBLÈME : Le formulaire ne s'envoie pas
+   SOLUTION :
+   • Vérifiez que tous les champs obligatoires (*) sont remplis
+   • Vérifiez que vous n'avez pas dépassé la limite de taux
+   • Réessayez après quelques minutes
+
+   PROBLÈME : Je ne reçois pas d'email de confirmation
+   SOLUTION :
+   • Vérifiez votre dossier spam/courrier indésirable
+   • Assurez-vous d'avoir saisi la bonne adresse email
+   • Attendez 10-15 minutes (délai de traitement)
+
+   PROBLÈME : Les images ne se chargent pas
+   SOLUTION :
+   • Vérifiez votre connexion internet
+   • Actualisez la page (F5 ou Ctrl+R)
+   • Videz le cache du navigateur
+
+B) CONTACT POUR SUPPORT TECHNIQUE
+
+   Pour toute assistance technique :
+
+   • Utilisez le formulaire de contact sur le site
+   • Sujet : "Demande d'information"
+   • Décrivez précisément le problème rencontré
+   • Indiquez le navigateur et l'appareil utilisé
+
+   Ou contactez directement :
+   • Email : [email de l'hôpital]
+   • Téléphone : [numéro de l'hôpital]
+   • Horaires : [horaires d'ouverture]
+
+C) SIGNALER UN BUG
+
+   Si vous rencontrez un dysfonctionnement :
+
+   Informations à fournir :
+   • Page concernée (URL)
+   • Action effectuée
+   • Message d'erreur (capture d'écran si possible)
+   • Navigateur et version
+   • Type d'appareil (PC, mobile, tablette)
+   • Système d'exploitation
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ANNEXE : INFORMATIONS TECHNIQUES
+═══════════════════════════════════════════════════════════════════════════════
+
+TECHNOLOGIES UTILISÉES :
+• Framework : Django 5.2.7
+• Interface : Tailwind CSS 2.2
+• Langages : Python 3.x, HTML5, CSS3, JavaScript
+• Base de données : MySQL
+• Hébergement : Serveur sécurisé avec SSL
+• Performance : Système de cache Redis
+
+COMPATIBILITÉ :
+• Responsive design (mobile, tablette, desktop)
+• Navigateurs modernes (Chrome, Firefox, Safari, Edge)
+• Accessible aux personnes handicapées (normes WCAG)
+
+MAINTENANCE :
+• Sauvegarde quotidienne des données
+• Mises à jour de sécurité régulières
+• Monitoring 24/7
+• Support technique disponible
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                            FIN DU DOCUMENT
+═══════════════════════════════════════════════════════════════════════════════
+
+Pour toute question ou information complémentaire, n'hésitez pas à contacter
+l'administration de l'Hôpital Régional Annexe d'Edea.
+
+Merci de votre confiance !

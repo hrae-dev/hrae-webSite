@@ -17,6 +17,12 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 # Allowed hosts
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
+# CSRF Trusted Origins (pour les requêtes POST cross-origin)
+CSRF_TRUSTED_ORIGINS = [
+    'https://hopital-regional-edea.com',
+    'https://www.hopital-regional-edea.com',
+]
+
 # Application definition
 INSTALLED_APPS = [
     'jazzmin',  
@@ -214,8 +220,8 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
 
-    # Cliquezjacking
-    X_FRAME_OPTIONS = 'DENY'
+    # Cliquezjacking (SAMEORIGIN permet les popups Django Admin "Add another")
+    X_FRAME_OPTIONS = 'SAMEORIGIN'
 
     # Cookies HTTP only
     SESSION_COOKIE_HTTPONLY = True
