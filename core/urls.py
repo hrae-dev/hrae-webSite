@@ -5,13 +5,28 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from django.contrib.sitemaps.views import sitemap
+from Home.sitemaps import (
+    StaticViewSitemap, ServiceSitemap, ArticleSitemap,
+    CampaignSitemap, StaffSitemap, PageSitemap
+)
 
+# Configuration des sitemaps
+sitemaps = {
+    'static': StaticViewSitemap,
+    'services': ServiceSitemap,
+    'articles': ArticleSitemap,
+    'campaigns': CampaignSitemap,
+    'staff': StaffSitemap,
+    'pages': PageSitemap,
+}
 
 urlpatterns = [
     path('robots.txt', TemplateView.as_view(
         template_name="robots.txt",
         content_type="text/plain"
     )),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('i18n/', include('django.conf.urls.i18n')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 ]
