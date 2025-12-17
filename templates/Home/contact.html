@@ -48,7 +48,7 @@
                                     <h3 class="font-black text-lg text-gray-900 mb-2">{% trans "Adresse" %}</h3>
                                     <p class="text-gray-600 leading-relaxed">
                                         {% if settings.address %}
-                                            {{ settings.address|linebreaks }}
+                                            {{ settings.address|safe }}
                                         {% else %}
                                             Edea<br>
                                             BP 125, Edéa<br>

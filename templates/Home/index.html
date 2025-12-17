@@ -274,13 +274,13 @@
                 <div class="p-6">
                     <h3 class="font-bold text-xl mb-3">{{ item.title }}</h3>
                     {% if item.excerpt %}
-                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.excerpt|truncatewords:20 }}</p>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.excerpt|truncatewords:20|safe }}</p>
                     {% elif item.short_description %}
-                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.short_description|truncatewords:20 }}</p>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.short_description|truncatewords:20|safe }}</p>
                     {% elif item.content %}
-                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.content|truncatewords:20 }}</p>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.content|truncatewords:20|safe }}</p>
                     {% elif item.full_description %}
-                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.full_description|truncatewords:20 }}</p>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">{{ item.full_description|truncatewords:20|safe }}</p>
                     {% endif %}
                     {% if item.featured_image %}
                     <a href="{% url 'news_detail' item.id %}" class="inline-block bg-base text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition">{% trans "En savoir plus" %}</a>

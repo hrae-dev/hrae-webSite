@@ -108,7 +108,7 @@
             <div class="bg-white p-6 rounded-lg shadow">
                 <h3 class="text-2xl font-bold mb-4">🕐 Horaires de consultation</h3>
                 <div class="text-gray-600">
-                    {{ staff.consultation_hours|linebreaks }}
+                    {{ staff.consultation_hours|safe }}
                 </div>
                 {% if staff.consultation_duration %}
                 <p class="text-sm text-gray-500 mt-4">
