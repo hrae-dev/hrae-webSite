@@ -119,10 +119,10 @@
                             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500"></span>
                         </span>{% trans " propos de la campagne" %}
                     </h2>
-                    
+
                     <div class="prose prose-lg max-w-none">
                         <div class="text-gray-700 leading-relaxed">
-                            {{ campaign.full_description|linebreaks }}
+                            {{ campaign.full_description|safe }}
                         </div>
                     </div>
                 </div>
