@@ -5,7 +5,7 @@
 
 {% block content %}
 <!-- Hero Header -->
-<div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white py-20 md:py-28 lg:py-36 mt-10 md:mt-16">
+<div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white py-20 md:py-28 lg:py-36 mt-10 md:mt-16">
     <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4">
             <span class="inline-block relative pb-2">
@@ -14,11 +14,508 @@
             </span> {% trans "propos de l'HRAE" %}
         </h1>
         <p class="text-base md:text-lg text-orange-50 max-w-3xl">
-            {{ settings.site_tagline|default:"Depuis plusieurs années, l’HRAE est un pilier de santé dans la région, offrant des soins modernes et humains. Ici, votre bien-être est notre engagement." }}
+            {{ settings.site_tagline|default:"“Humanisation et qualité des soins”" }}
         </p>
     </div>
 </div>
 
+<section class="py-16 px-4 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            <div class="lg:w-3/5 bg-gray-100 rounded-2xl p-8 shadow-sm">
+                <div class="flex items-center gap-3 mb-6">
+                    <img src="{% static 'icons/mot-directeur.svg' %}" alt="" class="w-12 h-12">
+                    <h2 class="text-3xl lg:text-4xl font-bold">Le mot du Directeur</h2>
+                </div>
+                <p class="text-gray-700 leading-relaxed text-justify">
+                    Chaque jour, au sein de notre institution, des hommes et des femmes se mobilisent pour une mission qui dépasse le simple acte médical : prendre soin de la vie. À l’HRAE, nous sommes convaincus que la guérison commence par la confiance. C’est pourquoi nous avons placé deux valeurs fondamentales au cœur de notre projet d’établissement : l’humanisme et l’exigence de qualité.
+                </p>
+            </div>
+            <div class="lg:w-2/5 flex justify-center">
+                <div class="relative">
+                    <img src="{% static 'images/directeur.png' %}" alt="Dr. DIKOUME Armel Ulrich" class="w-64 h-64 lg:w-80 lg:h-80 rounded-full object-cover shadow-lg">
+                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-900 text-white px-6 py-3 rounded-lg shadow-lg whitespace-nowrap">
+                        <span class="font-bold text-lg">Dr. DIKOUME</span> <span class="font-normal">Armel Ulrich</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-16 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <!-- Humanisme -->
+            <div class="bg-blue-50 rounded-2xl p-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="{% static 'icons/humanisme-icon.svg' %}" alt="" class="w-16 h-16">
+                    <h3 class="text-2xl font-bold">L'Humanisme : Remettre l'Humain au centre</h3>
+                </div>
+                  <p class="text-gray-700 mb-4">
+                    Parce qu’un patient n’est pas qu’un dossier médical, nous faisons de l’accueil et de l’écoute une priorité absolue. L’humanisme, pour nous, c’est :
+                </p>
+                <ul class="list-disc list-inside space-y-3 text-gray-700 ml-2">
+                    <li>
+                        <span class="font-semibold">La dignité :</span>
+                        Traiter chaque usager avec respect, quelles que soient sa condition ou ses origines.
+                    </li>
+                    <li>
+                        <span class="font-semibold">La bienveillance :</span>
+                        Accompagner le patient et sa famille avec empathie pour apaiser l'anxiété liée à la maladie.
+                    </li>
+                    <li>
+                        <span class="font-semibold">La proximité :</span>
+                        Être un hôpital ouvert, transparent et à l'écoute des besoins de la population d'Édéa et de ses environs.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Qualité -->
+            <div class="bg-orange-50 rounded-2xl p-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="{% static 'icons/qualite-icon.svg' %}" alt="" class="w-16 h-16">
+                    <h3 class="text-2xl font-bold">La Qualité : Notre engagement technique et éthique</h3>
+                </div>
+              <p class="text-gray-700 mb-4">
+                    L’humanisme sans compétence serait insuffisant. La qualité des soins est le contrat de sécurité que nous signons avec vous. Elle se traduit par :
+                </p>
+                <ul class="list-disc list-inside space-y-3 text-gray-700 ml-2">
+                    <li>
+                        <span class="font-semibold">La sécurité des soins :</span>
+                       Une rigueur constante dans l’application des protocoles sanitaires et de sécurité
+                    </li>
+                    <li>
+                        <span class="font-semibold">La formation continue :</span>
+                        Des personnels soignants régulièrement formés aux dernières évolutions médicales.
+                    </li>
+                    <li>
+                        <span class="font-semibold">L'amélioration du plateau technique :</span>
+                        Un investissement soutenu pour offrir des diagnostics plus rapides et des traitements plus performants.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Vers un avenir serein -->
+        <div class="bg-green-50/20 rounded-2xl p-12 relative overflow-hidden">
+            <h3 class="text-3xl font-bold mb-8 text-center">Vers un avenir serein</h3>
+            <div class="flex flex-col lg:flex-row items-center gap-8">
+                <div class="lg:w-3/5 px-4 lg:px-8">
+                    <p class="text-gray-700 leading-relaxed text-justify mb-4">
+                       Ce site internet est une fenêtre ouverte sur nos services. Vous y trouverez les informations nécessaires pour faciliter votre séjour ou celui de vos proches. Notre ambition est claire : faire de l'Hôpital Régional Annexe d'Edéa une référence régionale où l'excellence technique rencontre la chaleur humaine.
+Nous sommes à votre service, avec dévouement et professionnalisme.
+                    </p>
+                    <p class="text-gray-800 font-semibold italic text-justify">
+                        « Soigner avec science, accompagner avec conscience. »
+                    </p>
+                </div>
+                <div class="lg:w-2/5 px-4 lg:px-8">
+                    <img src="{% static 'icons/avenir-icon.svg' %}" alt="" class="w-48 h-48 lg:w-56 lg:h-56 mx-auto ">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Distinctions Section -->
+<section class="py-16 px-4 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-center gap-3 mb-12 border-b border-orange-500">
+            <img src="{% static 'icons/distinction-icon.svg' %}" alt="" class="w-12 h-12 mb-3">
+            <h2 class="text-4xl font-bold mb-3">Distinctions</h2>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="bg-white rounded-xl overflow-hidden shadow-md mb-4 h-64">
+                    <img src="{% static 'images/award-1.png' %}" alt="Award 1" class="w-full h-full object-cover">
+                </div>
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <img src="{% static 'images/award-1-badge.png' %}" alt="" class="w-12 h-12">
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Prix National de l'Hôpital Régional 2025 : 1er</p>
+                        <p class="text-gray-600 text-sm"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <div class="bg-white rounded-xl overflow-hidden shadow-md mb-4 h-64">
+                    <img src="{% static 'images/award-2.png' %}" alt="Award 2" class="w-full h-full object-cover">
+                </div>
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <img src="{% static 'images/award-2-badge.png' %}" alt="" class="w-12 h-12">
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Prix africain du leadership en santé</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <div class="bg-white rounded-xl overflow-hidden shadow-md mb-4 h-64">
+                    <img src="{% static 'images/award-3.png' %}" alt="Award 3" class="w-full h-full object-cover">
+                </div>
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <img src="{% static 'images/award-3-badge.png' %}" alt="" class="w-12 h-12">
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Prix d'excellence managériale 2025 : 1er</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <div class="bg-white rounded-xl overflow-hidden shadow-md mb-4 h-64">
+                    <img src="{% static 'images/award-4.png' %}" alt="Award 4" class="w-full h-full object-cover">
+                </div>
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <img src="{% static 'images/award-4-badge.png' %}" alt="" class="w-12 h-12">
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Diplôme d'excellence Premier semestre 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Notre Histoire Section -->
+<section class="py-16 px-4 bg-white">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold mb-16">Notre Histoire</h2>
+        
+        <div class="space-y-12">
+            <!-- Timeline Item 1 -->
+            <div class="flex flex-col lg:flex-row gap-8 items-start relative">
+                <div class="lg:w-3/5 flex gap-6">
+                    <div class="flex flex-col items-center">
+                        <div class="shrink-0 w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg z-10">
+                            <img src="{% static 'icons/building-icon.svg' %}" alt="" class="w-8 h-8">
+                        </div>
+                        <div class="w-1 bg-orange-500 flex-grow"></div>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold mb-3">Avant 2010 – Origines et contexte :</h3>
+                        <p class="text-gray-700 leading-relaxed text-justify">
+                            Institution pivot du système de santé camerounais particulièrement, en raison de sa position stratégique sur l'axe routier de la Nationale Numéro 3 (Douala-Yaoundé), l'Hôpital Régional Annexe (HRA) d'Édéa est situé dans le département de la Sanaga-Maritime, Région du Littoral.
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-2/5">
+                    <img src="{% static 'images/history-1.jpg' %}" alt="History 1" class="rounded-2xl shadow-lg w-full h-64 object-cover">
+                </div>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="flex flex-col lg:flex-row gap-8 items-start relative">
+                <div class="lg:w-3/5 flex gap-6">
+                    <div class="flex flex-col items-center">
+                        <div class="shrink-0 w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg z-10">
+                            <img src="{% static 'icons/document-icon.svg' %}" alt="" class="w-8 h-8">
+                        </div>
+                        <div class="w-1 bg-orange-500 flex-grow"></div>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold mb-3">Le xx/xx 2010-2011 – Élévation au statut d'Hôpital Régional Annexe :</h3>
+                        <p class="text-gray-700 leading-relaxed text-justify">
+                            L'Hôpital de District d'Édéa est érigé en Formation hospitalière publique de 2ème Catégorie dans la pyramide sanitaire du Cameroun (ce qui signifie, qu'il se situe juste en dessous des hôpitaux généraux) sous la dénomination de : Hôpital Régional Annexe en abrégé « HRA ».
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-2/5">
+                    <img src="{% static 'images/history-2.jpg' %}" alt="History 2" class="rounded-2xl shadow-lg w-full h-64 object-cover">
+                </div>
+            </div>
+
+            <!-- Timeline Item 3 -->
+            <div class="flex flex-col lg:flex-row gap-8 items-start relative">
+                <div class="lg:w-3/5 flex gap-6">
+                    <div class="flex flex-col items-center">
+                        <div class="shrink-0 w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg z-10">
+                            <img src="{% static 'icons/medical-icon.svg' %}" alt="" class="w-8 h-8">
+                        </div>
+                        <div class="w-1 bg-orange-500 flex-grow"></div>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold mb-3">Depuis 2010 – Missions et perception locale :</h3>
+                        <p class="text-gray-700 leading-relaxed text-justify">
+                            Communément appelé « l'hôpital des urgences » par les populations locales : car conçu pour traiter prioritairement les cas critiques, notamment les accidentés de la route nationale n°3, le HRA aura pour objectif initial, de répondre à l'urgence sanitaire dans une zone carrefour et soulager les structures de district existantes.
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-2/5"></div>
+            </div>
+
+            <!-- Timeline Item 4 -->
+            <div class="flex flex-col lg:flex-row gap-8 items-start relative">
+                <div class="lg:w-3/5 flex gap-6">
+                    <div class="flex flex-col items-center">
+                        <div class="shrink-0 w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg z-10">
+                            <img src="{% static 'icons/scanner-icon.svg' %}" alt="" class="w-8 h-8">
+                        </div>
+                        <div class="w-1 bg-orange-500 flex-grow"></div>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold mb-3">Octobre 2021 – Acquisition du scanner :</h3>
+                        <p class="text-gray-700 leading-relaxed text-justify">
+                            Depuis son érection en Hôpital Régional Annexe, le HRA a connu une certaine montée en puissance de ses capacités techniques pour passer d'un simple centre de prise en charge à un pôle d'excellence notamment avec l'acquisition et l'inauguration en Octobre 2021, du tout premier scanner de l'institution.
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-2/5"></div>
+            </div>
+
+            <!-- Timeline Item 5 -->
+            <div class="flex flex-col lg:flex-row gap-8 items-start relative">
+                <div class="lg:w-3/5 flex gap-6">
+                    <div class="flex flex-col items-center">
+                        <div class="shrink-0 w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg"></div>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold mb-3">Mai 2024 à Décembre 2025 – Réhabilitation et renforcement sous le Dr Dikoume :</h3>
+                        <p class="text-gray-700 leading-relaxed text-justify">
+                            Entre Mai 2024 et la fin du magistère du Dr Dikoume Armel...
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-2/5"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Strategic Importance Section -->
+<section class="py-16 px-4 bg-gray-100">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-start gap-3 mb-8 border-b border-orange-500">
+            <img src="{% static 'icons/map-icon.svg' %}" alt="" class="w-12 h-12 mb-3">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-3">Les particularités et importance stratégique de l’HRAE</h2>
+        </div>
+        
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+            <div class="lg:w-1/2 text-lg">
+                <p class="text-gray-700 leading-relaxed mb-6">
+                    Le "Carrefour de la Vie". L'emplacement de l'HRA d'Édéa est critique pour la santé publique au Cameroun :
+                </p>
+                <ul class="space-y-4 text-gray-700">
+                    <li>
+                        <span class="font-semibold">Axe Douala-Yaoundé (RN3) :</span> Édéa est le point de passage obligatoire entre les deux capitales. L'hôpital est la première ligne de défense pour les victimes d'accidents sur ce tronçon, l'un des plus fréquentés et accidentogènes du pays.
+                    </li>
+                    <li>
+                        <span class="font-semibold">Zone industrielle :</span> Avec la présence d'entreprises comme Alucam, l'hôpital joue un rôle de relais pour la médecine du travail et les urgences industrielles.
+                    </li>
+                    <li>
+                        <span class="font-semibold">Bassin de population :</span> Il dessert non seulement les habitants d'Édéa 1er et 2ème, mais aussi les zones rurales environnantes (Dizangué, Mouanko, Pouma, Ndomba, Ngambe, Nsong-mbengue, Nguei etc.).
+                    </li>
+                </ul>
+            </div>
+            <div class="lg:w-1/2">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63779.89478297869!2d10.089899!3d3.797979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1061296f1bbf1fe1%3A0x7f3a583c17e66bb7!2sEdea%2C%20Cameroon!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    class="w-full rounded-lg">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Hospital Specialties Section -->
+<section class="py-16 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-start gap-3 mb-12 border-b border-orange-500">
+            <img src="{% static 'icons/heartbeat-icon.svg' %}" alt="" class="w-12 h-12 mb-3">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-3">L'Hôpital Régional Annexe d'Édéa se distingue par :</h2>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="h-48 overflow-hidden">
+                    <img src="{% static 'images/traumatologie.jpg' %}" alt="Traumatologie" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold mb-3 text-center">Traumatologie</h3>
+                    <p class="text-gray-700 text-justify">
+                        Une expertise reconnue dans la prise en charge des traumatismes liés aux accidents de la voie publique.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="h-48 overflow-hidden">
+                    <img src="{% static 'images/maternite-pediatrie.jpg' %}" alt="Maternité et Pédiatrie" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold mb-3 text-center">Maternité et Pédiatrie</h3>
+                    <p class="text-gray-700 text-justify">
+                        Un renforcement progressif des capacités d'accueil et des équipements, notamment les couveuses.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="h-48 overflow-hidden">
+                    <img src="{% static 'images/imagerie-medicale.jpg' %}" alt="Imagerie médicale" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold mb-3 text-center">Imagerie médicale</h3>
+                    <p class="text-gray-700 text-justify">
+                        Grâce au scanner et à la radiographie mobile, l'hôpital limite considérablement les évacuations sanitaires vers Douala ou Yaoundé.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Equipment Section -->
+<section class="py-16 px-4 bg-gray-100">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-start gap-3 mb-12 border-b border-orange-500">
+            <img src="{% static 'icons/equipement-icon.svg' %}" alt="" class="w-12 h-12 mb-3">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-3">Les équipements récents</h2>
+        </div>
+        <p class="text-gray-700 mb-12 leading-relaxed">
+            Sous l'impulsion du Ministère de la Santé Publique (MINSANTE), le plateau technique a été massivement renforcé avec :
+        </p>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="h-56 overflow-hidden">
+                    <img src="{% static 'images/centrale-oxygene.jpg' %}" alt="La Centrale à oxygène" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-center">La Centrale à oxygène</h3>
+                    <p class="text-gray-700 text-justify">
+                        L'hôpital dispose de sa propre unité de production d'oxygène médical, ce qui est crucial pour la réanimation et les blocs opératoires sans dépendre de fournisseurs extérieurs.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="h-56 overflow-hidden">
+                    <img src="{% static 'images/autonomie.jpg' %}" alt="L'Autonomie énergétique" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-center">L'Autonomie énergétique</h3>
+                    <p class="text-gray-700 text-justify">
+                       Des efforts ont été faits pour doter l'hôpital de groupes électrogènes et de forages d'eau autonomes afin d'assurer la continuité des soins malgré les coupures de réseau.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="h-56 overflow-hidden">
+                    <img src="{% static 'images/thanatopraxie.jpg' %}" alt="L'Unité de Thanatopraxie" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-center">L'Unité de Thanatopraxie</h3>
+                    <p class="text-gray-700 text-justify">
+                       Une morgue moderne avec des services de conservation et de préparation des corps.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Les équipements récents (Directors) Section -->
+<section class="py-16 px-4 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold mb-6">Les équipements récents</h2>
+        <p class="text-gray-700 mb-12 leading-relaxed">
+            L'histoire administrative de l'Hôpital Régional Annexe (HRA) est quant-à-elle marquée par une succession de médecins-gestionnaires qui ont accompagné la transition de l'établissement d'un statut de district vers un statut régional. Voici donc les différents directeurs et leurs périodes respectives :
+        </p>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Column 1 - Single Large Card -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl p-6 shadow-md h-full">
+                    <div class="flex flex-col items-center mb-4">
+                        <img src="{% static 'images/placeholder.png' %}" alt="Director" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-xl font-bold text-orange-600">Pr Louis Richard</h3>
+                        <p class="text-2xl font-bold text-purple-600">NJOCK</p>
+                        <p class="text-gray-600">(2011 – 2016)</p>
+                    </div>
+                    <div class="text-sm text-gray-700 space-y-2">
+                        <p>C'est le premier directeur marquant après l'érection de la structure en Hôpital Régional Annexe (2ème catégorie).</p>
+                        <p><span class="font-semibold">Période :</span> 2011 à avril 2016</p>
+                        <p><span class="font-semibold">Rôle :</span> Il a posé les bases de l'organisation régionale avant d'être nommé par décret du Premier Ministre à la tête de l'Hôpital Laquintinie de Douala, puis plus tard Secrétaire Général du Ministère de la Santé Publique.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2 - Two Cards -->
+            <div class="lg:col-span-1 space-y-8">
+                <div class="bg-white rounded-2xl p-6 shadow-md">
+                    <div class="flex flex-col items-center mb-4">
+                        <img src="{% static 'images/placeholder.png' %}" alt="Director" class="w-24 h-24 rounded-full object-cover mb-3">
+                        <h3 class="text-lg font-bold text-orange-600">Dr Patrick</h3>
+                        <p class="text-xl font-bold text-purple-600">Sylvestre BEKOULE</p>
+                        <p class="text-gray-600 text-sm">(2016 – 2017)</p>
+                    </div>
+                    <div class="text-sm text-gray-700 space-y-2">
+                        <p><span class="font-semibold">Période :</span> Avril 2016 à septembre 2017.</p>
+                        <p><span class="font-semibold">Note :</span> Médecin chirurgien, il a assuré la continuité des soins et le renforcement des services techniques avant d'être nommé Directeur de l'Hôpital de Référence de Sangmélima par décret présidentiel.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-md">
+                    <div class="flex flex-col items-center mb-4">
+                        <img src="{% static 'images/placeholder.png' %}" alt="Director" class="w-24 h-24 rounded-full object-cover mb-3">
+                        <h3 class="text-lg font-bold text-orange-600">Dr Daniel Thierry</h3>
+                        <p class="text-xl font-bold text-purple-600">BELINGA ETOGO</p>
+                        <p class="text-gray-600 text-sm">(2017 – 2022)</p>
+                    </div>
+                    <div class="text-sm text-gray-700 space-y-2">
+                        <p><span class="font-semibold">Période :</span> Septembre 2017 à avril 2022.</p>
+                        <p><span class="font-semibold">Fait majeur :</span> C'est sous sa direction qu'a commencé la modernisation majeure du plateau technique, incluant la préparation pour l'arrivée du scanner en 2021.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 3 - Two Cards -->
+            <div class="lg:col-span-1 space-y-8">
+                <div class="bg-white rounded-2xl p-6 shadow-md">
+                    <div class="flex flex-col items-center mb-4">
+                        <img src="{% static 'images/placeholder.png' %}" alt="Director" class="w-24 h-24 rounded-full object-cover mb-3">
+                        <h3 class="text-lg font-bold text-orange-600">Dr Jean Gustave</h3>
+                        <p class="text-xl font-bold text-purple-600">TSIACADIGUI</p>
+                        <p class="text-gray-600 text-sm">(2022 – 2024)</p>
+                    </div>
+                    <div class="text-sm text-gray-700 space-y-2">
+                        <p><span class="font-semibold">Période :</span> Avril 2022 à mai 2024.</p>
+                        <p><span class="font-semibold">Transition :</span> Il a consolidé les acquis techniques avant d'être remis à la disposition du Ministère de l'Enseignement Supérieur pour sa carrière académique.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-md">
+                    <div class="flex flex-col items-center mb-4">
+                        <img src="{% static 'images/directeur.png' %}" alt="Director" class="w-24 h-24 rounded-full object-cover mb-3">
+                        <h3 class="text-lg font-bold text-orange-600">Dr Ulrich Armel</h3>
+                        <p class="text-xl font-bold text-purple-600">DIKOUME</p>
+                        <p class="text-gray-600 text-sm">(Depuis mai 2024)</p>
+                    </div>
+                    <div class="text-sm text-gray-700 space-y-2">
+                        <p><span class="font-semibold">Période :</span> Depuis le 21 Mai 2024.</p>
+                        <p><span class="font-semibold">Réalisations récentes :</span> Sous son mandat actuel, l'hôpital a franchi une étape historique avec l'inauguration (en décembre 2025) des nouveaux blocs opératoires de pointe et du service d'urgence rénové, confirmant le statut de l'HRA comme pôle d'excellence du Littoral.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% comment %}---------------------------------------------
 <!-- Notre Histoire Section -->
 <section class="py-16 md:py-20 bg-white">
     <div class="container mx-auto px-6 sm:px-8 md:px-12 max-w-7xl">
@@ -302,4 +799,5 @@
     </div>
 </section>
 
+{% endcomment %}
 {% endblock %}
