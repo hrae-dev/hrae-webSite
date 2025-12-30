@@ -4,7 +4,8 @@ from .models import (
     SiteSettings, PatientJourneySection, PatientJourneyStep,
     Page, Service, ServiceImage, Staff, Category, Article, ArticleImage,
     Campaign, CampaignImage, CampaignRegistration, Partner, Appointment,
-    ContactMessage, Testimonial, DirectionMember
+    ContactMessage, Testimonial, DirectionMember,
+    AboutPage, Award, TimelineItem, HospitalSpecialty, RecentEquipment, FormerDirector
 )
 
 
@@ -519,6 +520,122 @@ class CampaignRegistrationAdmin(admin.ModelAdmin):
     search_fields = ('full_name', 'email', 'phone')
     readonly_fields = ('registered_at',)
     date_hierarchy = 'registered_at'
+
+
+# ========================================
+# PAGE "À PROPOS"
+# ========================================
+
+# Inlines pour la page À propos
+class AwardInline(admin.TabularInline):
+    model = Award
+    extra = 1
+    fields = ('title', 'image', 'badge', 'display_order', 'is_active')
+    readonly_fields = ()
+    verbose_name = "Distinction"
+    verbose_name_plural = "Distinctions"
+
+
+class TimelineItemInline(admin.StackedInline):
+    model = TimelineItem
+    extra = 1
+    fields = ('title', 'description', 'icon', 'image', 'display_order', 'is_active')
+    verbose_name = "Élément de l'histoire"
+    verbose_name_plural = "Timeline - Notre Histoire"
+
+
+class HospitalSpecialtyInline(admin.StackedInline):
+    model = HospitalSpecialty
+    extra = 1
+    fields = ('title', 'description', 'image', 'display_order', 'is_active')
+    verbose_name = "Spécialité"
+    verbose_name_plural = "Spécialités de l'hôpital"
+
+
+class RecentEquipmentInline(admin.StackedInline):
+    model = RecentEquipment
+    extra = 1
+    fields = ('title', 'description', 'image', 'display_order', 'is_active')
+    verbose_name = "Équipement récent"
+    verbose_name_plural = "Équipements récents"
+
+
+class FormerDirectorInline(admin.StackedInline):
+    model = FormerDirector
+    extra = 1
+    fields = ('title_prefix', 'first_name', 'last_name', 'photo', 'period', 'description', 'display_order', 'is_active')
+    verbose_name = "Ancien directeur"
+    verbose_name_plural = "Anciens directeurs"
+
+
+@admin.register(AboutPage)
+class AboutPageAdmin(admin.ModelAdmin):
+    readonly_fields = ('director_photo_preview',)
+    inlines = [AwardInline, TimelineItemInline, HospitalSpecialtyInline, RecentEquipmentInline, FormerDirectorInline]
+
+    fieldsets = (
+        ('Mot du Directeur', {
+            'fields': ('director_message_title', 'director_message', 'director_photo', 'director_photo_preview', 'director_name'),
+        }),
+        ('Section Humanisme', {
+            'fields': (
+                'humanism_title',
+                'humanism_intro',
+                ('humanism_point1_title', 'humanism_point1_text'),
+                ('humanism_point2_title', 'humanism_point2_text'),
+                ('humanism_point3_title', 'humanism_point3_text'),
+            ),
+        }),
+        ('Section Qualité', {
+            'fields': (
+                'quality_title',
+                'quality_intro',
+                ('quality_point1_title', 'quality_point1_text'),
+                ('quality_point2_title', 'quality_point2_text'),
+                ('quality_point3_title', 'quality_point3_text'),
+            ),
+        }),
+        ('Section Avenir', {
+            'fields': ('future_title', 'future_text', 'future_quote'),
+        }),
+        ('Section Importance stratégique', {
+            'fields': (
+                'strategic_title',
+                'strategic_intro',
+                ('strategic_point1_title', 'strategic_point1_text'),
+                ('strategic_point2_title', 'strategic_point2_text'),
+                ('strategic_point3_title', 'strategic_point3_text'),
+                'google_maps_embed_url',
+            ),
+        }),
+        ('Titres des sections', {
+            'fields': (
+                'specialties_section_title',
+                'equipment_section_title',
+                'equipment_intro',
+                'directors_section_title',
+                'directors_intro',
+            ),
+            'classes': ('collapse',)
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not AboutPage.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def director_photo_preview(self, obj):
+        if obj.director_photo:
+            return format_html('<img src="{}" width="150" style="border-radius: 8px;" />', obj.director_photo.url)
+        return "Aucune photo"
+    director_photo_preview.short_description = 'Aperçu photo directeur'
+
+
+# Note: Les modèles Award, TimelineItem, HospitalSpecialty, RecentEquipment et FormerDirector
+# sont gérés via des inlines dans AboutPageAdmin ci-dessus.
+# Ils n'apparaissent plus comme des menus séparés dans l'admin.
 
 
 # Personnalisation de l'admin

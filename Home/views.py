@@ -98,14 +98,30 @@ def practical_info(request):
 
 def about_us(request):
     """Page À propos"""
+    from .models import AboutPage
+
     settings = SiteSettings.get_settings()
+    about_page = AboutPage.get_instance()
     page = Page.objects.filter(slug='a-propos', is_active=True).first()
     direction_members = DirectionMember.objects.filter(is_active=True)
-    
+
+    # Récupération des éléments liés via les relations ForeignKey
+    awards = about_page.awards.filter(is_active=True)
+    timeline_items = about_page.timeline_items.filter(is_active=True)
+    hospital_specialties = about_page.specialties.filter(is_active=True)
+    recent_equipment = about_page.equipment.filter(is_active=True)
+    former_directors = about_page.former_directors.filter(is_active=True)
+
     context = {
         'settings': settings,
+        'about_page': about_page,
         'page': page,
         'direction_members': direction_members,
+        'awards': awards,
+        'timeline_items': timeline_items,
+        'hospital_specialties': hospital_specialties,
+        'recent_equipment': recent_equipment,
+        'former_directors': former_directors,
     }
     return render(request, 'Home/about_us.html', context)
 
