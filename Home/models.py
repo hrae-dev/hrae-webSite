@@ -316,7 +316,7 @@ class Staff(models.Model):
 
     # Identité
     title = models.CharField("Titre", max_length=10, choices=TITLE_CHOICES, default='Mr')
-    first_name = models.CharField("Prénom", max_length=100)
+    first_name = models.CharField("Prénom", max_length=100, blank=True)
     last_name = models.CharField("Nom", max_length=100)
     photo = models.ImageField("Photo professionnelle", upload_to='staff/')
     grade = models.CharField("Grade", max_length=50, choices=GRADE_CHOICES)
@@ -356,18 +356,23 @@ class Staff(models.Model):
         ordering = ['display_order', 'last_name', 'first_name']
     
     def __str__(self):
-        return f"{self.get_title_display()} {self.first_name} {self.last_name}"
+        if self.first_name:
+            return f"{self.get_title_display()} {self.first_name} {self.last_name}"
+        return f"{self.get_title_display()} {self.last_name}"
 
     @property
     def full_name(self):
-        return f"{self.get_title_display()} {self.first_name} {self.last_name}"
+        if self.first_name:
+            return f"{self.get_title_display()} {self.first_name} {self.last_name}"
+        return f"{self.get_title_display()} {self.last_name}"
 
     @property
     def full_name_with_quality(self):
         """Nom complet avec qualité si applicable"""
+        name = f"{self.get_title_display()} {self.first_name} {self.last_name}" if self.first_name else f"{self.get_title_display()} {self.last_name}"
         if self.quality:
-            return f"{self.get_title_display()} {self.first_name} {self.last_name} - {self.quality}"
-        return f"{self.get_title_display()} {self.first_name} {self.last_name}"
+            return f"{name} - {self.quality}"
+        return name
 
 
 # ========================================
