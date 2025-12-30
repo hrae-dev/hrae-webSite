@@ -213,11 +213,13 @@ class StaffAdmin(admin.ModelAdmin):
         ('🏥 Affectation et Fonction', {
             'fields': (
                 'quality',
+                'position',
                 'services',
             ),
             'description': mark_safe(
                 '<strong style="color: #0066cc;">💡 Conseil :</strong><br>'
                 '• <strong>Qualité :</strong> Choisissez "Chef de service" pour afficher cette personne dans le carousel en haut de la page "Notre Équipe". Choisissez "Major" ou laissez vide si aucune fonction spéciale.<br>'
+                '• <strong>Fonction :</strong> Pour la Direction uniquement. Exemples : "Directeur Général", "Surveillant Général", "Conseiller Médical".<br>'
                 '• <strong>Services :</strong> Optionnel. Pour les directeurs, vous pouvez le laisser vide ou sélectionner "Direction".'
             )
         }),

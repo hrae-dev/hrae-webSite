@@ -321,6 +321,8 @@ class Staff(models.Model):
     photo = models.ImageField("Photo professionnelle", upload_to='staff/')
     grade = models.CharField("Grade", max_length=50, choices=GRADE_CHOICES)
     quality = models.CharField("Qualité", max_length=50, choices=QUALITY_CHOICES, blank=True, default='')
+    position = models.CharField("Fonction", max_length=255, blank=True,
+                                help_text="Pour la direction : Directeur, Surveillant général, Conseiller médical, etc.")
     is_chief = models.BooleanField("Chef de service (ancien)", default=False, editable=False, help_text="Champ obsolète, utiliser Qualité")
 
     # Informations professionnelles
