@@ -303,7 +303,7 @@ class Staff(models.Model):
     # Informations professionnelles
     speciality = models.CharField("Spécialité", max_length=255)
     services = models.ManyToManyField(Service, verbose_name="Services affectés",
-                                     related_name='staff_members')
+                                     related_name='staff_members', blank=True)
     diplomas = CKEditor5Field("Diplômes", blank=True, help_text="Un par ligne")
     experience = CKEditor5Field("Parcours professionnel", blank=True)
     expertise = CKEditor5Field("Domaines d'expertise", blank=True)

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from .models import (
     SiteSettings, PatientJourneySection, PatientJourneyStep,
     Page, Service, ServiceImage, Staff, Category, Article, ArticleImage,
@@ -187,38 +188,77 @@ class ServiceAdmin(admin.ModelAdmin):
 # ========================================
 @admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'grade', 'speciality', 'is_chief', 'is_visible', 'accepts_appointments')
+    list_display = ('photo_thumbnail', 'full_name', 'grade', 'speciality', 'is_chief', 'is_visible')
     list_filter = ('grade', 'is_chief', 'is_visible', 'accepts_appointments', 'services')
     search_fields = ('first_name', 'last_name', 'speciality')
     filter_horizontal = ('services',)
-    list_editable = ('accepts_appointments', 'is_visible')
-    
+    list_editable = ('is_visible',)
+
+    class Media:
+        js = ('admin/js/staff_admin.js',)
+        css = {
+            'all': ('admin/css/staff_admin.css',)
+        }
+
     fieldsets = (
-        ('Identité', {
-            'fields': ('first_name', 'last_name', 'photo')
+        ('📋 Informations de base', {
+            'fields': (
+                ('first_name', 'last_name'),
+                'photo',
+                ('grade', 'speciality'),
+            ),
+            'description': mark_safe('Entrez les informations essentielles du membre du personnel.')
         }),
-        ('Informations professionnelles', {
-            'fields': ('grade', 'speciality', 'services', 'is_chief')
+        ('🏥 Affectation et Fonction', {
+            'fields': (
+                'is_chief',
+                'services',
+            ),
+            'description': mark_safe(
+                '<strong style="color: #0066cc;">💡 Conseil :</strong><br>'
+                '• Le champ <strong>Services</strong> est optionnel. Pour les directeurs, vous pouvez le laisser vide ou sélectionner "Direction".<br>'
+                '• Cochez <strong>Chef de service</strong> pour afficher cette personne dans le carousel en haut de la page "Notre Équipe".'
+            )
         }),
-        ('Rendez-vous', {
-            'fields': ('accepts_appointments', 'consultation_duration', 'consultation_hours'),
-            'classes': ('collapse',)
-        }),
-        ('Contact', {
+        ('📞 Contact', {
             'fields': ('email', 'phone'),
             'classes': ('collapse',)
         }),
-        ('Gestion', {
-            'fields': ('is_visible', 'display_order')
+        ('📅 Rendez-vous en ligne', {
+            'fields': ('accepts_appointments', 'consultation_duration', 'consultation_hours'),
+            'classes': ('collapse',),
+            'description': mark_safe('Activez cette option si le membre peut recevoir des demandes de rendez-vous en ligne.')
+        }),
+        ('📝 Informations détaillées (optionnel)', {
+            'fields': ('diplomas', 'experience', 'expertise', 'languages'),
+            'classes': ('collapse',),
+            'description': mark_safe('Ces informations enrichissent le profil mais ne sont pas obligatoires.')
+        }),
+        ('⚙️ Paramètres d\'affichage', {
+            'fields': ('is_visible', 'display_order'),
+            'description': mark_safe('✓ Cochez <strong>"Affiché sur le site"</strong> pour que cette personne apparaisse sur le site web.')
         }),
     )
-    
+
     def photo_thumbnail(self, obj):
         if obj.photo:
-            return format_html('<img src="{}" width="50" height="50" style="border-radius: 50%;" />', 
+            return format_html('<img src="{}" width="50" height="50" style="border-radius: 50%;" />',
                              obj.photo.url)
         return '-'
     photo_thumbnail.short_description = 'Photo'
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        """Personnaliser les labels des champs ManyToMany"""
+        if db_field.name == "services":
+            kwargs['help_text'] = 'Optionnel : sélectionnez un ou plusieurs services. Pour les directeurs, laissez vide ou choisissez "Direction".'
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if not change:
+            self.message_user(request, f"✓ {obj.get_grade_display()} {obj.full_name} ajouté avec succès!", level='success')
+        else:
+            self.message_user(request, f"✓ {obj.get_grade_display()} {obj.full_name} mis à jour avec succès!", level='success')
 
 
 # ========================================
