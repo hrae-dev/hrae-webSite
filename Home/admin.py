@@ -21,7 +21,15 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             'fields': ('address', 'phone', 'emergency_phone', 'email'),
         }),
         ('Horaires', {
-            'fields': ('opening_hours', 'emergency_hours'),
+            'fields': (
+                ('weekday_label', 'weekday_hours'),
+                ('saturday_label', 'saturday_hours'),
+                ('on_call_label', 'on_call_hours'),
+                ('emergency_label', 'emergency_hours_display'),
+                'opening_hours',
+                'emergency_hours',
+            ),
+            'description': 'Les horaires affichés dans le footer du site',
         }),
         ('Tarifs & Paiements', {
             'fields': ('payment_modes', 'accepted_insurances'),

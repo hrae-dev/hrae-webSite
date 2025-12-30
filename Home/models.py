@@ -23,15 +23,65 @@ class SiteSettings(models.Model):
     
     # Horaires
     opening_hours = models.CharField(
-        "Horaires d'ouverture", 
-        max_length=200, 
+        "Horaires d'ouverture",
+        max_length=200,
         default="Lun-Dim 8h-15h30",
         help_text="Horaires de consultation"
     )
     emergency_hours = models.CharField(
-        "Horaires urgences", 
-        max_length=200, 
+        "Horaires urgences",
+        max_length=200,
         default="24h/24, 7j/7"
+    )
+
+    # Horaires détaillés pour le footer
+    weekday_label = models.CharField(
+        "Libellé jours semaine",
+        max_length=50,
+        default="Lun - Ven",
+        help_text="Ex: Lun - Ven, Du lundi au vendredi"
+    )
+    weekday_hours = models.CharField(
+        "Horaires semaine",
+        max_length=100,
+        default="8h - 17h",
+        help_text="Horaires du lundi au vendredi"
+    )
+    saturday_label = models.CharField(
+        "Libellé samedi",
+        max_length=50,
+        default="Samedi",
+        help_text="Ex: Samedi, Sam."
+    )
+    saturday_hours = models.CharField(
+        "Horaires samedi",
+        max_length=100,
+        default="8h - 13h",
+        help_text="Horaires du samedi"
+    )
+    emergency_label = models.CharField(
+        "Libellé urgences",
+        max_length=50,
+        default="Urgences",
+        help_text="Ex: Urgences, Service d'urgence"
+    )
+    emergency_hours_display = models.CharField(
+        "Disponibilité urgences",
+        max_length=100,
+        default="24/7",
+        help_text="Ex: 24/7, 24h/24 7j/7"
+    )
+    on_call_label = models.CharField(
+        "Libellé garde",
+        max_length=50,
+        default="Garde",
+        help_text="Ex: Garde, Permanence"
+    )
+    on_call_hours = models.CharField(
+        "Horaires de garde",
+        max_length=100,
+        default="17h - 8h",
+        help_text="Horaires de la garde"
     )
 
     # Tarifs & Paiements
