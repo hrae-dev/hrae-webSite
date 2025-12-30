@@ -158,42 +158,61 @@ from django.core.paginator import Paginator
 def our_team(request):
     """Liste du personnel médical"""
     settings = SiteSettings.get_settings()
-    
+
     # Filtres
     service_id = request.GET.get('service')
     grade = request.GET.get('grade')
     search = request.GET.get('search')
-    
-    # Chefs de service (pour le carousel)
-    chiefs = Staff.objects.filter(is_visible=True, is_chief=True)[:3]
-    
-    # Personnel médical (excluant les chefs)
-    staff_list = Staff.objects.filter(is_visible=True, is_chief=False).order_by('last_name')
-    
+
+    # 1. Direction - Personnel affecté au service "Direction" ou sans service
+    try:
+        direction_service = Service.objects.get(slug='direction')
+        direction_staff = Staff.objects.filter(
+            is_visible=True,
+            services=direction_service
+        ).order_by('display_order', 'last_name')
+    except Service.DoesNotExist:
+        direction_staff = Staff.objects.none()
+
+    # 2. Chefs de service (pour le carousel) - excluant la direction
+    chiefs = Staff.objects.filter(
+        is_visible=True,
+        quality='Chef de service'
+    ).exclude(services__slug='direction').distinct()[:3]
+
+    # 3. Personnel médical (excluant direction et chefs de service)
+    staff_list = Staff.objects.filter(is_visible=True).exclude(
+        services__slug='direction'
+    ).exclude(quality='Chef de service').order_by('last_name').distinct()
+
+    # Appliquer les filtres
     if service_id:
         staff_list = staff_list.filter(services__id=service_id)
     if grade:
         staff_list = staff_list.filter(grade=grade)
     if search:
         staff_list = staff_list.filter(
-            Q(first_name__icontains=search) | 
-            Q(last_name__icontains=search) | 
+            Q(first_name__icontains=search) |
+            Q(last_name__icontains=search) |
             Q(speciality__icontains=search)
         )
-    
+
     # Pagination
-    paginator = Paginator(staff_list, 10)
+    paginator = Paginator(staff_list, 12)
     page_number = request.GET.get('page', 1)
     staff = paginator.get_page(page_number)
-    
-    services = Service.objects.filter(is_active=True)
-    
+
+    services = Service.objects.filter(is_active=True).exclude(slug='direction')
+
     context = {
         'settings': settings,
+        'direction_staff': direction_staff,
         'chiefs': chiefs,
         'staff': staff,
         'services': services,
         'grades': Staff.GRADE_CHOICES,
+        'titles': Staff.TITLE_CHOICES,
+        'qualities': Staff.QUALITY_CHOICES,
     }
     return render(request, 'Home/team.html', context)
 

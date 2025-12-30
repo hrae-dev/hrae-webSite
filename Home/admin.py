@@ -188,8 +188,8 @@ class ServiceAdmin(admin.ModelAdmin):
 # ========================================
 @admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
-    list_display = ('photo_thumbnail', 'full_name', 'grade', 'speciality', 'is_chief', 'is_visible')
-    list_filter = ('grade', 'is_chief', 'is_visible', 'accepts_appointments', 'services')
+    list_display = ('photo_thumbnail', 'title', 'full_name_display', 'grade', 'quality', 'speciality', 'is_visible')
+    list_filter = ('title', 'grade', 'quality', 'is_visible', 'accepts_appointments', 'services')
     search_fields = ('first_name', 'last_name', 'speciality')
     filter_horizontal = ('services',)
     list_editable = ('is_visible',)
@@ -203,6 +203,7 @@ class StaffAdmin(admin.ModelAdmin):
     fieldsets = (
         ('📋 Informations de base', {
             'fields': (
+                'title',
                 ('first_name', 'last_name'),
                 'photo',
                 ('grade', 'speciality'),
@@ -211,13 +212,13 @@ class StaffAdmin(admin.ModelAdmin):
         }),
         ('🏥 Affectation et Fonction', {
             'fields': (
-                'is_chief',
+                'quality',
                 'services',
             ),
             'description': mark_safe(
                 '<strong style="color: #0066cc;">💡 Conseil :</strong><br>'
-                '• Le champ <strong>Services</strong> est optionnel. Pour les directeurs, vous pouvez le laisser vide ou sélectionner "Direction".<br>'
-                '• Cochez <strong>Chef de service</strong> pour afficher cette personne dans le carousel en haut de la page "Notre Équipe".'
+                '• <strong>Qualité :</strong> Choisissez "Chef de service" pour afficher cette personne dans le carousel en haut de la page "Notre Équipe". Choisissez "Major" ou laissez vide si aucune fonction spéciale.<br>'
+                '• <strong>Services :</strong> Optionnel. Pour les directeurs, vous pouvez le laisser vide ou sélectionner "Direction".'
             )
         }),
         ('📞 Contact', {
@@ -247,6 +248,10 @@ class StaffAdmin(admin.ModelAdmin):
         return '-'
     photo_thumbnail.short_description = 'Photo'
 
+    def full_name_display(self, obj):
+        return f"{obj.first_name} {obj.last_name}"
+    full_name_display.short_description = 'Nom complet'
+
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         """Personnaliser les labels des champs ManyToMany"""
         if db_field.name == "services":
@@ -256,9 +261,9 @@ class StaffAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
         if not change:
-            self.message_user(request, f"✓ {obj.get_grade_display()} {obj.full_name} ajouté avec succès!", level='success')
+            self.message_user(request, f"✓ {obj.full_name} ajouté avec succès!", level='success')
         else:
-            self.message_user(request, f"✓ {obj.get_grade_display()} {obj.full_name} mis à jour avec succès!", level='success')
+            self.message_user(request, f"✓ {obj.full_name} mis à jour avec succès!", level='success')
 
 
 # ========================================
