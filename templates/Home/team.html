@@ -318,7 +318,7 @@
             </span>{% trans "otre équipe médicale" %}
         </h1>
         <p class="text-base md:text-lg text-purple-50 max-w-3xl">
-            {% trans "Une équipe d’experts passionnés, alliant savoir-faire et bienveillance, pour vous offrir des soins de confiance et de qualité" %}
+            {% trans "Une équipe d'experts passionnés, alliant savoir-faire et bienveillance, pour vous offrir des soins de confiance et de qualité" %}
         </p>
     </div>
 </div>
@@ -352,9 +352,45 @@
     </div>
 </div>
 
+<!-- Direction Section -->
+{% if direction_staff %}
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-black mb-12">
+            <span class="inline-block relative">
+                <span class="relative z-10">{% trans "D" %}</span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-purple-600"></span>
+            </span>{% trans "irection" %}
+        </h2>
+        
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {% for member in direction_staff %}
+            <div class="group cursor-pointer" onclick="openDoctorModal({{ forloop.counter0 }})">
+                <div class="bg-purple-50 rounded-3xl overflow-hidden mb-4 aspect-square">
+                    {% if member.photo %}
+                    <img src="{{ member.photo.url }}" alt="{{ member.get_full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
+                        <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-purple-600 mb-1">{{ member.get_full_name }}</h3>
+                    <p class="text-sm text-gray-700">{{ member.quality|default:member.grade }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
 <!-- Nos chefs services Section -->
 {% if chiefs %}
-<section class="py-16 bg-white">
+<section class="py-16 bg-gray-50">
     <div class="container mx-auto px-4 max-w-7xl">
         <h2 class="text-3xl md:text-4xl font-black mb-12">
             <span class="inline-block relative">
@@ -403,16 +439,18 @@
                 </div>
                 
                 <div id="chief-info" class="transition-opacity duration-300">
-                    <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">{{ chiefs.0.get_full_name }}</h3>
-                    <p class="text-lg lg:text-xl text-gray-700 mb-4">{{ chiefs.0.speciality }}</p>
-                    <p class="text-gray-600 mb-6">{{ chiefs.0.bio|default:"Membre expérimenté de notre équipe médicale."|truncatewords:15 }}</p>
+                    {% if chiefs.2 %}
+                    <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">{{ chiefs.2.get_full_name }}</h3>
+                    <p class="text-lg lg:text-xl text-gray-700 mb-4">{{ chiefs.2.quality }}</p>
+                    <p class="text-gray-600 mb-6">{{ chiefs.2.bio|default:"Chef de service expérimenté."|truncatewords:15 }}</p>
                     
-                    <button onclick="openDoctorModal(0)" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+                    <button onclick="openDoctorModal({{ direction_staff|length|add:2 }})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
                         <span>Voir le profil</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
                     </button>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -435,7 +473,7 @@
 {% endif %}
 
 <!-- Personnel médical Section -->
-<section class="py-16 bg-gray-50">
+<section class="py-16 bg-white">
     <div class="container mx-auto px-4 max-w-7xl">
         <h2 class="text-3xl md:text-4xl font-black mb-12">
             <span class="inline-block relative">
@@ -446,7 +484,8 @@
         
         <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {% for member in staff %}
-           <div class="group cursor-pointer" onclick="openDoctorModal({{ chiefs|length|add:forloop.counter0 }})">
+            {% with staff_offset=direction_staff|length|add:chiefs|length %}
+            <div class="group cursor-pointer" onclick="openDoctorModal({{ staff_offset|add:forloop.counter0 }})">
                 <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
                     {% if member.photo %}
                     <img src="{{ member.photo.url }}" alt="{{ member.get_full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
@@ -460,9 +499,10 @@
                 </div>
                 <div class="text-center">
                     <h3 class="text-lg font-bold text-orange-500 mb-1">{{ member.get_full_name }}</h3>
-                    <p class="text-sm text-gray-700">{{ member.speciality }}</p>
+                    <p class="text-sm text-gray-700">{{ member.quality|default:member.grade }}</p>
                 </div>
             </div>
+            {% endwith %}
             {% empty %}
             <div class="col-span-5 text-center py-12 text-gray-500">
                 {% trans "Aucun personnel disponible" %}
@@ -473,6 +513,17 @@
         <!-- Pagination -->
         {% if staff.has_other_pages %}
         <div class="flex justify-center items-center gap-6 mt-12">
+            {% if staff.has_previous %}
+            <a href="?page={{ staff.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.service %}&service={{ request.GET.service }}{% endif %}{% if request.GET.grade %}&grade={{ request.GET.grade }}{% endif %}" class="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+                </svg>
+                Page précédente
+            </a>
+            {% endif %}
+            
+            <span class="text-gray-600 font-semibold">Page {{ staff.number }} sur {{ staff.paginator.num_pages }}</span>
+            
             {% if staff.has_next %}
             <a href="?page={{ staff.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.service %}&service={{ request.GET.service }}{% endif %}{% if request.GET.grade %}&grade={{ request.GET.grade }}{% endif %}" class="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
                 Page suivante
@@ -481,7 +532,6 @@
                 </svg>
             </a>
             {% endif %}
-            <span class="text-gray-600 font-semibold">Page {{ staff.number }} sur {{ staff.paginator.num_pages }}</span>
         </div>
         {% endif %}
     </div>
@@ -542,7 +592,7 @@
         </div>
         
         <!-- Email -->
-        <div class="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <div id="email-container" class="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
             <svg class="w-6 sm:w-8 h-6 sm:h-8 text-purple-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
             </svg>
@@ -573,39 +623,59 @@
 </div>
 
 <script>
-// Chief carousel data
+// Calculate the offset for chiefs in allDoctors array
+const DIRECTION_OFFSET = {{ direction_staff|length }};
+const CHIEFS_OFFSET = DIRECTION_OFFSET;
+
+// Chief carousel data (for visual display only)
 const chiefs = [
     {% for chief in chiefs %}
     {
         name: "{{ chief.get_full_name }}",
-        title: "{{ chief.get_grade_display }} - {{ chief.speciality }}",
-        description: "{{ chief.bio|default:'Membre expérimenté de notre équipe médicale.'|escapejs|truncatewords:15 }}",
-        image: "{% if chief.photo %}{{ chief.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
-        email: "{{ chief.email|default:'' }}",
-        phone: "{{ chief.phone|default:'' }}",
-        schedule: "{{ chief.consultation_hours|default:'Lun - Ven: 8h-12h' }}"
-    }{% if not forloop.last %},{% endif %}
-    {% endfor %}
-];
-
-// All doctors data for modal (includes chiefs and staff)
-const allDoctors = [
-    {% for chief in chiefs %}
-    {
-        name: "{{ chief.get_full_name }}",
-        title: "{{ chief.get_grade_display }} - {{ chief.speciality }}",
+        title: "{{ chief.quality }} - {{ chief.speciality|default:'' }}",
+        description: "{{ chief.bio|default:'Chef de service expérimenté.'|escapejs|truncatewords:15 }}",
         image: "{% if chief.photo %}{{ chief.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
         email: "{{ chief.email|default:'' }}",
         phone: "{{ chief.phone|default:'' }}",
         schedule: "{{ chief.consultation_hours|default:'Lun - Ven: 8h-12h' }}",
-        bio: "{{ chief.bio|default:'Membre expérimenté de notre équipe médicale.'|escapejs }}"
+        allDoctorsIndex: CHIEFS_OFFSET + {{ forloop.counter0 }}  // Their position in allDoctors
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+
+// All doctors data for modal (direction first, then chiefs, then staff)
+const allDoctors = [
+    // Direction staff (indices 0, 1, 2...)
+    {% for member in direction_staff %}
+    {
+        name: "{{ member.get_full_name }}",
+        title: "{{ member.quality|default:member.grade }} - {{ member.speciality|default:'' }}",
+        image: "{% if member.photo %}{{ member.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
+        email: "{{ member.email|default:'' }}",
+        phone: "{{ member.phone|default:'' }}",
+        schedule: "{{ member.consultation_hours|default:'Lun - Ven: 8h-12h' }}",
+        bio: "{{ member.bio|default:'Membre de la direction.'|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    {% if direction_staff and chiefs %},{% endif %}
+    // Chiefs (indices {{ direction_staff|length }}, {{ direction_staff|length|add:1 }}...)
+    {% for chief in chiefs %}
+    {
+        name: "{{ chief.get_full_name }}",
+        title: "{{ chief.quality }} - {{ chief.speciality|default:'' }}",
+        image: "{% if chief.photo %}{{ chief.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
+        email: "{{ chief.email|default:'' }}",
+        phone: "{{ chief.phone|default:'' }}",
+        schedule: "{{ chief.consultation_hours|default:'Lun - Ven: 8h-12h' }}",
+        bio: "{{ chief.bio|default:'Chef de service expérimenté.'|escapejs }}"
     }{% if not forloop.last %},{% endif %}
     {% endfor %}
     {% if chiefs and staff %},{% endif %}
+    // Staff (indices {{ direction_staff|length|add:chiefs|length }}, ...)
     {% for member in staff %}
     {
         name: "{{ member.get_full_name }}",
-        title: "{{ member.get_grade_display }} - {{ member.speciality }}",
+        title: "{{ member.quality|default:member.grade }} - {{ member.speciality|default:'' }}",
         image: "{% if member.photo %}{{ member.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
         email: "{{ member.email|default:'' }}",
         phone: "{{ member.phone|default:'' }}",
@@ -615,7 +685,12 @@ const allDoctors = [
     {% endfor %}
 ];
 
-// Track which doctor is in which position
+// console.log('Direction staff count:', {{ direction_staff|length }});
+// console.log('Chiefs count:', {{ chiefs|length }});
+// console.log('Staff count:', {{ staff|length }});
+// console.log('Total doctors in allDoctors:', allDoctors.length);
+
+// Track which doctor is in which position for carousel
 let smallIndex = 0;   // Left position
 let mediumIndex = 1;  // Middle position  
 let largeIndex = 2;   // Right position (featured)
@@ -670,7 +745,7 @@ function nextChief() {
             <p class="text-lg lg:text-xl text-gray-700 mb-4">${chief.title}</p>
             <p class="text-gray-600 mb-6">${chief.description}</p>
             
-            <button onclick="openDoctorModal(${largeIndex % chiefs.length})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+            <button onclick="openDoctorModal(${chief.allDoctorsIndex})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
                 <span>Voir le profil</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -737,7 +812,7 @@ function previousChief() {
             <p class="text-lg lg:text-xl text-gray-700 mb-4">${chief.title}</p>
             <p class="text-gray-600 mb-6">${chief.description}</p>
             
-            <button onclick="openDoctorModal(${largeIndex % chiefs.length})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+            <button onclick="openDoctorModal(${chief.allDoctorsIndex})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
                 <span>Voir le profil</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -756,7 +831,13 @@ function previousChief() {
 }
 
 function openDoctorModal(index) {
-    if (index >= allDoctors.length) return;
+    // console.log('Opening modal for index:', index);
+    // console.log('Doctor data:', allDoctors[index]);
+    
+    if (index >= allDoctors.length) {
+        console.error('Invalid index:', index);
+        return;
+    }
     
     const doctor = allDoctors[index];
     const modal = document.getElementById('doctorModal');
@@ -768,11 +849,13 @@ function openDoctorModal(index) {
     document.getElementById('modal-doctor-schedule').textContent = doctor.schedule;
     
     const emailLink = document.getElementById('modal-doctor-email');
+    const emailContainer = document.getElementById('email-container');
     if (doctor.email) {
         emailLink.href = `mailto:${doctor.email}`;
         emailLink.textContent = doctor.email;
+        emailContainer.style.display = 'flex';
     } else {
-        emailLink.parentElement.style.display = 'none';
+        emailContainer.style.display = 'none';
     }
     
     const phoneText = document.getElementById('modal-doctor-phone');
