@@ -145,9 +145,10 @@
                 <div>
                     <h4 class="font-bold mb-4">{% trans "Horaires" %}</h4>
                     <ul class="space-y-2 text-sm">
-                        <li>{% trans "Lun - Ven" %}: 8h - 17h</li>
-                        <li>{% trans "Samedi" %}: 8h - 13h</li>
-                        <li>{% trans "Urgences" %}: 24/7</li>
+                        <li>{{ settings.weekday_label|default:"Lun - Ven" }}: {{ settings.weekday_hours|default:"8h - 17h" }}</li>
+                        <li>{{ settings.saturday_label|default:"Samedi" }}: {{ settings.saturday_hours|default:"8h - 13h" }}</li>
+                        <li>{{ settings.on_call_label|default:"Garde" }}: {{ settings.on_call_hours|default:"17h - 8h" }}</li>
+                        <li>{{ settings.emergency_label|default:"Urgences" }}: {{ settings.emergency_hours_display|default:"24/7" }}</li>
                     </ul>
                 </div>
             </div>

@@ -23,15 +23,65 @@ class SiteSettings(models.Model):
     
     # Horaires
     opening_hours = models.CharField(
-        "Horaires d'ouverture", 
-        max_length=200, 
+        "Horaires d'ouverture",
+        max_length=200,
         default="Lun-Dim 8h-15h30",
         help_text="Horaires de consultation"
     )
     emergency_hours = models.CharField(
-        "Horaires urgences", 
-        max_length=200, 
+        "Horaires urgences",
+        max_length=200,
         default="24h/24, 7j/7"
+    )
+
+    # Horaires détaillés pour le footer
+    weekday_label = models.CharField(
+        "Libellé jours semaine",
+        max_length=50,
+        default="Lun - Ven",
+        help_text="Ex: Lun - Ven, Du lundi au vendredi"
+    )
+    weekday_hours = models.CharField(
+        "Horaires semaine",
+        max_length=100,
+        default="8h - 17h",
+        help_text="Horaires du lundi au vendredi"
+    )
+    saturday_label = models.CharField(
+        "Libellé samedi",
+        max_length=50,
+        default="Samedi",
+        help_text="Ex: Samedi, Sam."
+    )
+    saturday_hours = models.CharField(
+        "Horaires samedi",
+        max_length=100,
+        default="8h - 13h",
+        help_text="Horaires du samedi"
+    )
+    emergency_label = models.CharField(
+        "Libellé urgences",
+        max_length=50,
+        default="Urgences",
+        help_text="Ex: Urgences, Service d'urgence"
+    )
+    emergency_hours_display = models.CharField(
+        "Disponibilité urgences",
+        max_length=100,
+        default="24/7",
+        help_text="Ex: 24/7, 24h/24 7j/7"
+    )
+    on_call_label = models.CharField(
+        "Libellé garde",
+        max_length=50,
+        default="Garde",
+        help_text="Ex: Garde, Permanence"
+    )
+    on_call_hours = models.CharField(
+        "Horaires de garde",
+        max_length=100,
+        default="17h - 8h",
+        help_text="Horaires de la garde"
     )
 
     # Tarifs & Paiements
@@ -235,25 +285,50 @@ class ServiceImage(models.Model):
 # ========================================
 class Staff(models.Model):
     """Personnel médical de l'hôpital"""
-    GRADE_CHOICES = [
+    TITLE_CHOICES = [
+        ('Mr', 'Monsieur'),
+        ('Mme', 'Madame'),
         ('Dr', 'Docteur'),
         ('Pr', 'Professeur'),
-        ('Inf', 'Infirmier(ère)'),
-        ('Tech', 'Technicien(ne)'),
-        ('Admin', 'Administratif'),
     ]
-    
+
+    GRADE_CHOICES = [
+        ('Médecin', 'Médecin'),
+        ('Pharmacien', 'Pharmacien'),
+        ('Infirmier', 'Infirmier'),
+        ('Infirmier Principal', 'Infirmier Principal'),
+        ('Infirmier supérieur', 'Infirmier supérieur'),
+        ('Ingénieur', 'Ingénieur'),
+        ('Ingénieur des travaux', 'Ingénieur des travaux'),
+        ('Administratif', 'Administratif'),
+        ('Technicien', 'Technicien'),
+        ('Technicien supérieur', 'Technicien supérieur'),
+        ('Technicien principal', 'Technicien principal'),
+        ('Agent technique', 'Agent technique'),
+        ('Aide soignant', 'Aide soignant'),
+    ]
+
+    QUALITY_CHOICES = [
+        ('', 'Aucun'),
+        ('Chef de service', 'Chef de service'),
+        ('Major', 'Major'),
+    ]
+
     # Identité
-    first_name = models.CharField("Prénom", max_length=100)
+    title = models.CharField("Titre", max_length=10, choices=TITLE_CHOICES, default='Mr')
+    first_name = models.CharField("Prénom", max_length=100, blank=True)
     last_name = models.CharField("Nom", max_length=100)
     photo = models.ImageField("Photo professionnelle", upload_to='staff/')
-    grade = models.CharField("Grade", max_length=10, choices=GRADE_CHOICES)
-    is_chief = models.BooleanField("Chef de service", default=False)
+    grade = models.CharField("Grade", max_length=50, choices=GRADE_CHOICES)
+    quality = models.CharField("Qualité", max_length=50, choices=QUALITY_CHOICES, blank=True, default='')
+    position = models.CharField("Fonction", max_length=255, blank=True,
+                                help_text="Pour la direction : Directeur, Surveillant général, Conseiller médical, etc.")
+    is_chief = models.BooleanField("Chef de service (ancien)", default=False, editable=False, help_text="Champ obsolète, utiliser Qualité")
 
     # Informations professionnelles
     speciality = models.CharField("Spécialité", max_length=255)
     services = models.ManyToManyField(Service, verbose_name="Services affectés",
-                                     related_name='staff_members')
+                                     related_name='staff_members', blank=True)
     diplomas = CKEditor5Field("Diplômes", blank=True, help_text="Un par ligne")
     experience = CKEditor5Field("Parcours professionnel", blank=True)
     expertise = CKEditor5Field("Domaines d'expertise", blank=True)
@@ -281,11 +356,23 @@ class Staff(models.Model):
         ordering = ['display_order', 'last_name', 'first_name']
     
     def __str__(self):
-        return f"{self.get_grade_display()} {self.first_name} {self.last_name}"
-    
+        if self.first_name:
+            return f"{self.get_title_display()} {self.first_name} {self.last_name}"
+        return f"{self.get_title_display()} {self.last_name}"
+
     @property
     def full_name(self):
-        return f"{self.first_name} {self.last_name}"
+        if self.first_name:
+            return f"{self.get_title_display()} {self.first_name} {self.last_name}"
+        return f"{self.get_title_display()} {self.last_name}"
+
+    @property
+    def full_name_with_quality(self):
+        """Nom complet avec qualité si applicable"""
+        name = f"{self.get_title_display()} {self.first_name} {self.last_name}" if self.first_name else f"{self.get_title_display()} {self.last_name}"
+        if self.quality:
+            return f"{name} - {self.quality}"
+        return name
 
 
 # ========================================
@@ -636,7 +723,279 @@ class DirectionMember(models.Model):
     
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.position}"
-    
+
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+
+# ========================================
+# PAGE "À PROPOS"
+# ========================================
+class AboutPage(models.Model):
+    """Contenu de la page À propos (unique instance)"""
+
+    # Mot du Directeur
+    director_message_title = models.CharField(
+        "Titre du mot du directeur",
+        max_length=255,
+        default="Le mot du Directeur"
+    )
+    director_message = models.TextField(
+        "Mot du directeur",
+        default="Chaque jour, au sein de notre institution, des hommes et des femmes se mobilisent pour une mission qui dépasse le simple acte médical : prendre soin de la vie. À l'HRAE, nous sommes convaincus que la guérison commence par la confiance. C'est pourquoi nous avons placé deux valeurs fondamentales au cœur de notre projet d'établissement : l'humanisme et l'exigence de qualité."
+    )
+    director_photo = models.ImageField(
+        "Photo du directeur",
+        upload_to='about/',
+        blank=True
+    )
+    director_name = models.CharField(
+        "Nom du directeur",
+        max_length=255,
+        default="Dr. DIKOUME Armel Ulrich"
+    )
+
+    # Humanisme
+    humanism_title = models.CharField(
+        "Titre section Humanisme",
+        max_length=255,
+        default="L'Humanisme : Remettre l'Humain au centre"
+    )
+    humanism_intro = models.TextField(
+        "Introduction Humanisme",
+        default="Parce qu'un patient n'est pas qu'un dossier médical, nous faisons de l'accueil et de l'écoute une priorité absolue. L'humanisme, pour nous, c'est :"
+    )
+    humanism_point1_title = models.CharField("Point 1 - Titre", max_length=100, default="La dignité")
+    humanism_point1_text = models.TextField(
+        "Point 1 - Texte",
+        default="Traiter chaque usager avec respect, quelles que soient sa condition ou ses origines."
+    )
+    humanism_point2_title = models.CharField("Point 2 - Titre", max_length=100, default="La bienveillance")
+    humanism_point2_text = models.TextField(
+        "Point 2 - Texte",
+        default="Accompagner le patient et sa famille avec empathie pour apaiser l'anxiété liée à la maladie."
+    )
+    humanism_point3_title = models.CharField("Point 3 - Titre", max_length=100, default="La proximité")
+    humanism_point3_text = models.TextField(
+        "Point 3 - Texte",
+        default="Être un hôpital ouvert, transparent et à l'écoute des besoins de la population d'Édéa et de ses environs."
+    )
+
+    # Qualité
+    quality_title = models.CharField(
+        "Titre section Qualité",
+        max_length=255,
+        default="La Qualité : Notre engagement technique et éthique"
+    )
+    quality_intro = models.TextField(
+        "Introduction Qualité",
+        default="L'humanisme sans compétence serait insuffisant. La qualité des soins est le contrat de sécurité que nous signons avec vous. Elle se traduit par :"
+    )
+    quality_point1_title = models.CharField("Point 1 - Titre", max_length=100, default="La sécurité des soins")
+    quality_point1_text = models.TextField(
+        "Point 1 - Texte",
+        default="Une rigueur constante dans l'application des protocoles sanitaires et de sécurité"
+    )
+    quality_point2_title = models.CharField("Point 2 - Titre", max_length=100, default="La formation continue")
+    quality_point2_text = models.TextField(
+        "Point 2 - Texte",
+        default="Des personnels soignants régulièrement formés aux dernières évolutions médicales."
+    )
+    quality_point3_title = models.CharField("Point 3 - Titre", max_length=100, default="L'amélioration du plateau technique")
+    quality_point3_text = models.TextField(
+        "Point 3 - Texte",
+        default="Un investissement soutenu pour offrir des diagnostics plus rapides et des traitements plus performants."
+    )
+
+    # Vers un avenir serein
+    future_title = models.CharField(
+        "Titre section Avenir",
+        max_length=255,
+        default="Vers un avenir serein"
+    )
+    future_text = models.TextField(
+        "Texte Avenir",
+        default="Ce site internet est une fenêtre ouverte sur nos services. Vous y trouverez les informations nécessaires pour faciliter votre séjour ou celui de vos proches. Notre ambition est claire : faire de l'Hôpital Régional Annexe d'Edéa une référence régionale où l'excellence technique rencontre la chaleur humaine.\nNous sommes à votre service, avec dévouement et professionnalisme."
+    )
+    future_quote = models.CharField(
+        "Citation",
+        max_length=255,
+        default="« Soigner avec science, accompagner avec conscience. »"
+    )
+
+    # Importance stratégique
+    strategic_title = models.CharField(
+        "Titre Importance stratégique",
+        max_length=255,
+        default="Les particularités et importance stratégique de l'HRAE"
+    )
+    strategic_intro = models.TextField(
+        "Introduction stratégique",
+        default='Le "Carrefour de la Vie". L\'emplacement de l\'HRA d\'Édéa est critique pour la santé publique au Cameroun :'
+    )
+    strategic_point1_title = models.CharField("Point 1 - Titre", max_length=100, default="Axe Douala-Yaoundé (RN3)")
+    strategic_point1_text = models.TextField(
+        "Point 1 - Texte",
+        default="Édéa est le point de passage obligatoire entre les deux capitales. L'hôpital est la première ligne de défense pour les victimes d'accidents sur ce tronçon, l'un des plus fréquentés et accidentogènes du pays."
+    )
+    strategic_point2_title = models.CharField("Point 2 - Titre", max_length=100, default="Zone industrielle")
+    strategic_point2_text = models.TextField(
+        "Point 2 - Texte",
+        default="Avec la présence d'entreprises comme Alucam, l'hôpital joue un rôle de relais pour la médecine du travail et les urgences industrielles."
+    )
+    strategic_point3_title = models.CharField("Point 3 - Titre", max_length=100, default="Bassin de population")
+    strategic_point3_text = models.TextField(
+        "Point 3 - Texte",
+        default="Il dessert non seulement les habitants d'Édéa 1er et 2ème, mais aussi les zones rurales environnantes (Dizangué, Mouanko, Pouma, Ndomba, Ngambe, Nsong-mbengue, Nguei etc.)."
+    )
+    google_maps_embed_url = models.URLField(
+        "URL Google Maps Embed",
+        max_length=1000,
+        default="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63779.89478297869!2d10.089899!3d3.797979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1061296f1bbf1fe1%3A0x7f3a583c17e66bb7!2sEdea%2C%20Cameroon!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+    )
+
+    # Spécialités titre
+    specialties_section_title = models.CharField(
+        "Titre section Spécialités",
+        max_length=255,
+        default="L'Hôpital Régional Annexe d'Édéa se distingue par :"
+    )
+
+    # Équipements récents titre
+    equipment_section_title = models.CharField(
+        "Titre section Équipements",
+        max_length=255,
+        default="Les équipements récents"
+    )
+    equipment_intro = models.TextField(
+        "Introduction Équipements",
+        default="Sous l'impulsion du Ministère de la Santé Publique (MINSANTE), le plateau technique a été massivement renforcé avec :"
+    )
+
+    # Directeurs titre
+    directors_section_title = models.CharField(
+        "Titre section Directeurs",
+        max_length=255,
+        default="Les Directeurs"
+    )
+    directors_intro = models.TextField(
+        "Introduction Directeurs",
+        default="L'histoire administrative de l'Hôpital Régional Annexe (HRA) est quant-à-elle marquée par une succession de médecins-gestionnaires qui ont accompagné la transition de l'établissement d'un statut de district vers un statut régional. Voici donc les différents directeurs et leurs périodes respectives :"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Page À propos"
+        verbose_name_plural = "Page À propos"
+
+    def __str__(self):
+        return "Page À propos"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get_instance(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+
+class Award(models.Model):
+    """Distinctions et prix de l'hôpital"""
+    about_page = models.ForeignKey('AboutPage', on_delete=models.CASCADE, related_name='awards', verbose_name="Page À propos", null=True, blank=True, default=1)
+    title = models.CharField("Titre du prix", max_length=255)
+    image = models.ImageField("Image", upload_to='awards/')
+    badge = models.ImageField("Badge/Icône", upload_to='awards/', blank=True)
+    display_order = models.IntegerField("Ordre d'affichage", default=0)
+    is_active = models.BooleanField("Actif", default=True)
+
+    class Meta:
+        verbose_name = "Distinction"
+        verbose_name_plural = "Distinctions"
+        ordering = ['display_order']
+
+    def __str__(self):
+        return self.title
+
+
+class TimelineItem(models.Model):
+    """Éléments de la timeline Notre Histoire"""
+    about_page = models.ForeignKey('AboutPage', on_delete=models.CASCADE, related_name='timeline_items', verbose_name="Page À propos", null=True, blank=True, default=1)
+    title = models.CharField("Titre", max_length=500)
+    description = models.TextField("Description")
+    icon = models.ImageField("Icône", upload_to='timeline/', blank=True,
+                             help_text="Icône SVG ou image")
+    image = models.ImageField("Image", upload_to='timeline/', blank=True)
+    display_order = models.IntegerField("Ordre d'affichage", default=0)
+    is_active = models.BooleanField("Actif", default=True)
+
+    class Meta:
+        verbose_name = "Élément de l'histoire"
+        verbose_name_plural = "Timeline - Notre Histoire"
+        ordering = ['display_order']
+
+    def __str__(self):
+        return self.title
+
+
+class HospitalSpecialty(models.Model):
+    """Spécialités de l'hôpital affichées sur la page À propos"""
+    about_page = models.ForeignKey('AboutPage', on_delete=models.CASCADE, related_name='specialties', verbose_name="Page À propos", null=True, blank=True, default=1)
+    title = models.CharField("Titre", max_length=255)
+    description = models.TextField("Description")
+    image = models.ImageField("Image", upload_to='specialties/')
+    display_order = models.IntegerField("Ordre d'affichage", default=0)
+    is_active = models.BooleanField("Actif", default=True)
+
+    class Meta:
+        verbose_name = "Spécialité (À propos)"
+        verbose_name_plural = "Spécialités (À propos)"
+        ordering = ['display_order']
+
+    def __str__(self):
+        return self.title
+
+
+class RecentEquipment(models.Model):
+    """Équipements récents de l'hôpital"""
+    about_page = models.ForeignKey('AboutPage', on_delete=models.CASCADE, related_name='equipment', verbose_name="Page À propos", null=True, blank=True, default=1)
+    title = models.CharField("Titre", max_length=255)
+    description = models.TextField("Description")
+    image = models.ImageField("Image", upload_to='equipment/')
+    display_order = models.IntegerField("Ordre d'affichage", default=0)
+    is_active = models.BooleanField("Actif", default=True)
+
+    class Meta:
+        verbose_name = "Équipement récent"
+        verbose_name_plural = "Équipements récents"
+        ordering = ['display_order']
+
+    def __str__(self):
+        return self.title
+
+
+class FormerDirector(models.Model):
+    """Anciens directeurs de l'hôpital"""
+    about_page = models.ForeignKey('AboutPage', on_delete=models.CASCADE, related_name='former_directors', verbose_name="Page À propos", null=True, blank=True, default=1)
+    first_name = models.CharField("Prénom", max_length=100)
+    last_name = models.CharField("Nom", max_length=100)
+    title_prefix = models.CharField("Titre", max_length=50, default="Dr",
+                                   help_text="Ex: Dr, Pr")
+    photo = models.ImageField("Photo", upload_to='directors/', blank=True)
+    period = models.CharField("Période", max_length=100,
+                             help_text="Ex: 2011 - 2016")
+    description = models.TextField("Description et réalisations")
+    display_order = models.IntegerField("Ordre d'affichage", default=0)
+    is_active = models.BooleanField("Actif", default=True)
+
+    class Meta:
+        verbose_name = "Ancien directeur"
+        verbose_name_plural = "Anciens directeurs"
+        ordering = ['display_order']
+
+    def __str__(self):
+        return f"{self.title_prefix} {self.first_name} {self.last_name} ({self.period})"
