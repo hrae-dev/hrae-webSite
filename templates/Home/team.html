@@ -318,7 +318,7 @@
             </span>{% trans "otre équipe médicale" %}
         </h1>
         <p class="text-base md:text-lg text-purple-50 max-w-3xl">
-            {% trans "Une équipe d'experts passionnés, alliant savoir-faire et bienveillance, pour vous offrir des soins de confiance et de qualité" %}
+            {% trans "Une équipe d’experts passionnés, alliant savoir-faire et bienveillance, pour vous offrir des soins de confiance et de qualité" %}
         </p>
     </div>
 </div>
@@ -403,18 +403,16 @@
                 </div>
                 
                 <div id="chief-info" class="transition-opacity duration-300">
-                    {% if chiefs.2 %}
-                    <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">{{ chiefs.2.get_full_name }}</h3>
-                    <p class="text-lg lg:text-xl text-gray-700 mb-4">{{ chiefs.2.speciality }}</p>
-                    <p class="text-gray-600 mb-6">{{ chiefs.2.bio|default:"Membre expérimenté de notre équipe médicale."|truncatewords:15 }}</p>
+                    <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">{{ chiefs.0.get_full_name }}</h3>
+                    <p class="text-lg lg:text-xl text-gray-700 mb-4">{{ chiefs.0.speciality }}</p>
+                    <p class="text-gray-600 mb-6">{{ chiefs.0.bio|default:"Membre expérimenté de notre équipe médicale."|truncatewords:15 }}</p>
                     
-                    <button onclick="openDoctorModal(2)" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
+                    <button onclick="openDoctorModal(0)" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
                         <span>Voir le profil</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
                     </button>
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -448,7 +446,7 @@
         
         <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {% for member in staff %}
-            <div class="group cursor-pointer" onclick="openDoctorModal({{ chiefs|length|add:forloop.counter0 }})">
+           <div class="group cursor-pointer" onclick="openDoctorModal({{ chiefs|length|add:forloop.counter0 }})">
                 <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
                     {% if member.photo %}
                     <img src="{{ member.photo.url }}" alt="{{ member.get_full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
@@ -590,9 +588,8 @@ const chiefs = [
     {% endfor %}
 ];
 
-// All doctors data for modal (chiefs first, then staff)
+// All doctors data for modal (includes chiefs and staff)
 const allDoctors = [
-    // Chiefs (indices 0, 1, 2...)
     {% for chief in chiefs %}
     {
         name: "{{ chief.get_full_name }}",
@@ -605,7 +602,6 @@ const allDoctors = [
     }{% if not forloop.last %},{% endif %}
     {% endfor %}
     {% if chiefs and staff %},{% endif %}
-    // Staff (indices {{ chiefs|length }}, {{ chiefs|length|add:1 }}, {{ chiefs|length|add:2 }}...)
     {% for member in staff %}
     {
         name: "{{ member.get_full_name }}",
@@ -618,8 +614,6 @@ const allDoctors = [
     }{% if not forloop.last %},{% endif %}
     {% endfor %}
 ];
-
-
 
 // Track which doctor is in which position
 let smallIndex = 0;   // Left position
@@ -762,11 +756,7 @@ function previousChief() {
 }
 
 function openDoctorModal(index) {
-
-    if (index >= allDoctors.length) {
-        // console.error('Invalid index:', index);
-        return;
-    }
+    if (index >= allDoctors.length) return;
     
     const doctor = allDoctors[index];
     const modal = document.getElementById('doctorModal');
@@ -778,13 +768,11 @@ function openDoctorModal(index) {
     document.getElementById('modal-doctor-schedule').textContent = doctor.schedule;
     
     const emailLink = document.getElementById('modal-doctor-email');
-    const emailContainer = emailLink.parentElement;
     if (doctor.email) {
         emailLink.href = `mailto:${doctor.email}`;
         emailLink.textContent = doctor.email;
-        emailContainer.style.display = 'flex';
     } else {
-        emailContainer.style.display = 'none';
+        emailLink.parentElement.style.display = 'none';
     }
     
     const phoneText = document.getElementById('modal-doctor-phone');
