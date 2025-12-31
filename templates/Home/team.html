@@ -479,6 +479,7 @@
 </section>
 {% endif %}
 
+
 <!-- Personnel médical Section -->
 <section class="py-16 bg-gray-50">
     <div class="container mx-auto px-4 max-w-7xl">
@@ -491,7 +492,8 @@
         
         <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for member in staff %}
-            <div class="group cursor-pointer bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden" onclick="openDoctorModal({{ chiefs|length|add:forloop.counter0 }})">
+            {% with staff_offset=direction_staff|length|add:chiefs|length %}
+            <div class="group cursor-pointer bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden" onclick="openDoctorModal({{ staff_offset|add:forloop.counter0 }})">
                 <div class="bg-orange-50 rounded-t-3xl overflow-hidden aspect-square">
                     {% if member.photo %}
                     <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
@@ -512,6 +514,7 @@
                     <p class="text-sm text-gray-700">{{ member.speciality }}</p>
                 </div>
             </div>
+            {% endwith %}
             {% empty %}
             <div class="col-span-4 text-center py-12 text-gray-500">
                 {% trans "Aucun personnel disponible" %}
