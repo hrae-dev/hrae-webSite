@@ -446,7 +446,7 @@
         
         <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {% for member in staff %}
-            <div class="group cursor-pointer" onclick="openDoctorModal({{ forloop.counter0|add:chiefs|length }})">
+           <div class="group cursor-pointer" onclick="openDoctorModal({{ chiefs|length|add:forloop.counter0 }})">
                 <div class="bg-orange-50 rounded-3xl overflow-hidden mb-4 aspect-square">
                     {% if member.photo %}
                     <img src="{{ member.photo.url }}" alt="{{ member.get_full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
