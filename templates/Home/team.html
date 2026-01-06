@@ -437,16 +437,23 @@ function openDoctorModal(index) {
     // Update photo
     document.getElementById('modal-doctor-photo').src = doctor.image;
 
+    // Helper function to decode HTML entities
+    function decodeHTML(html) {
+        const txt = document.createElement('textarea');
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
     // Update name
-    document.getElementById('modal-doctor-name').textContent = doctor.name;
+    document.getElementById('modal-doctor-name').textContent = decodeHTML(doctor.name);
 
     // Update grade and speciality
-    document.getElementById('modal-doctor-grade').textContent = doctor.grade + ' - ' + doctor.speciality;
+    document.getElementById('modal-doctor-grade').textContent = decodeHTML(doctor.grade + ' - ' + doctor.speciality);
 
     // Update quality (show/hide based on availability)
     const qualityElement = document.getElementById('modal-doctor-quality');
     if (doctor.quality) {
-        qualityElement.textContent = doctor.quality;
+        qualityElement.textContent = decodeHTML(doctor.quality);
         qualityElement.style.display = 'block';
     } else {
         qualityElement.style.display = 'none';
@@ -455,7 +462,7 @@ function openDoctorModal(index) {
     // Update position (show/hide based on availability)
     const positionElement = document.getElementById('modal-doctor-position');
     if (doctor.position) {
-        positionElement.textContent = doctor.position;
+        positionElement.textContent = decodeHTML(doctor.position);
         positionElement.style.display = 'block';
     } else {
         positionElement.style.display = 'none';
@@ -466,7 +473,7 @@ function openDoctorModal(index) {
     const servicesContainer = document.getElementById('modal-services');
     if (doctor.services && doctor.services.length > 0) {
         servicesContainer.innerHTML = doctor.services.map(service =>
-            `<span class="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold">${service}</span>`
+            `<span class="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold">${decodeHTML(service)}</span>`
         ).join('');
         servicesSection.style.display = 'block';
     } else {
