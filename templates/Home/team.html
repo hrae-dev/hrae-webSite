@@ -111,12 +111,16 @@
         <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             <!-- Direction Staff -->
             {% for member in direction_staff %}
-            <div class="group cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden" onclick="openDirectionModal({{ forloop.counter0 }})">
-                <div class="bg-orange-50 rounded-t-2xl overflow-hidden aspect-square">
+            <div class="group cursor-pointer bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-blue-300" onclick="openDirectionModal({{ forloop.counter0 }})">
+                <!-- Badge Direction -->
+                <div class="bg-blue-600 text-white text-xs font-bold py-1 px-3 text-center">
+                    DIRECTION
+                </div>
+                <div class="bg-blue-50 overflow-hidden aspect-square">
                     {% if member.photo %}
                     <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     {% else %}
-                    <div class="w-full h-full bg-orange-200 flex items-center justify-center text-orange-500">
+                    <div class="w-full h-full bg-blue-200 flex items-center justify-center text-blue-600">
                         <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                         </svg>
@@ -124,9 +128,9 @@
                     {% endif %}
                 </div>
                 <div class="p-3 text-center">
-                    <h3 class="text-sm font-bold text-orange-500 mb-1">{{ member.get_title_display }} {{ member.first_name }} {{ member.last_name }}</h3>
+                    <h3 class="text-sm font-bold text-blue-700 mb-1">{{ member.get_title_display }} {{ member.first_name }} {{ member.last_name }}</h3>
                     {% if member.position %}
-                    <p class="text-xs font-semibold text-orange-600 mb-1">{{ member.position }}</p>
+                    <p class="text-xs font-semibold text-blue-600 mb-1">{{ member.position }}</p>
                     {% endif %}
                     <p class="text-xs text-gray-600 mb-1">{{ member.get_grade_display }} - {{ member.speciality }}</p>
                     {% if member.quality %}
@@ -138,13 +142,17 @@
             
             <!-- Chiefs -->
             {% for member in chiefs %}
-            <div class="group cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
+            <div class="group cursor-pointer bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-purple-300"
                  onclick="openChiefModal({{ forloop.counter0 }})">
-                <div class="bg-orange-50 rounded-t-2xl overflow-hidden aspect-square">
+                <!-- Badge Chef de Service -->
+                <div class="bg-purple-600 text-white text-xs font-bold py-1 px-3 text-center">
+                    CHEF DE SERVICE
+                </div>
+                <div class="bg-purple-50 overflow-hidden aspect-square">
                     {% if member.photo %}
                     <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     {% else %}
-                    <div class="w-full h-full bg-orange-200 flex items-center justify-center text-orange-500">
+                    <div class="w-full h-full bg-purple-200 flex items-center justify-center text-purple-600">
                         <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                         </svg>
@@ -152,11 +160,11 @@
                     {% endif %}
                 </div>
                 <div class="p-3 text-center">
-                    <h3 class="text-sm font-bold text-orange-500 mb-1">{{ member.get_title_display }} {{ member.first_name }} {{ member.last_name }}</h3>
+                    <h3 class="text-sm font-bold text-purple-700 mb-1">{{ member.get_title_display }} {{ member.first_name }} {{ member.last_name }}</h3>
                     <p class="text-xs text-gray-600 mb-1">{{ member.get_grade_display }} - {{ member.speciality }}</p>
-                    {% if member.quality %}
-                    <p class="text-xs font-semibold text-purple-500">
-                        {{ member.quality }}{% if member.services.all %} - {% for service in member.services.all %}{{ service.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}
+                    {% if member.services.all %}
+                    <p class="text-xs font-semibold text-purple-600">
+                        {% for service in member.services.all %}{{ service.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
                     </p>
                     {% endif %}
                 </div>
