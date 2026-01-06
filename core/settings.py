@@ -88,36 +88,18 @@ LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 # === Logging pour le rate limiting ===
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-
-    "handlers": {
-        "file_ratelimit": {
-            "level": "INFO",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": LOGS_DIR / "ratelimit.log",
-            "maxBytes": 5 * 1024 * 1024,  # 5 MB
-            "backupCount": 3,
-            "formatter": "simple",
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
         },
     },
-
-    "formatters": {
-        "simple": {
-            "format": "[{asctime}] {levelname} {message}",
-            "style": "{",
-        },
-    },
-
-    "loggers": {
-        "django_ratelimit": {
-            "handlers": ["file_ratelimit"],
-            "level": "INFO",
-            "propagate": False,
-        },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
     },
 }
-
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [

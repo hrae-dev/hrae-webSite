@@ -117,7 +117,7 @@
                     <span class="absolute bottom-0 left-0 right-0 h-1 bg-purple-600"></span>
                 </span>{% trans "irection" %}
             </h3>
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="grid sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-6">
                 {% for member in direction_staff %}
                 <div class="group cursor-pointer bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden" onclick="openDirectionModal({{ forloop.counter0 }})">
                     <div class="bg-purple-100 rounded-t-3xl overflow-hidden aspect-square">
@@ -154,7 +154,7 @@
                     <span class="absolute bottom-0 left-0 right-0 h-1 bg-teal-600"></span>
                 </span>{% trans "hefs de Service" %}
             </h3>
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+           <div class="grid sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-6">
                 {% for member in chiefs %}
                 <div class="group cursor-pointer bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
                      onclick="openChiefModal({{ forloop.counter0 }})">
@@ -188,7 +188,7 @@
                     <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
                 </span>{% trans "ersonnel Médical" %}
             </h3>
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="grid sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-6">
                 {% for member in staff %}
                 <div class="group cursor-pointer bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
                      data-index="{{ forloop.counter0 }}"
