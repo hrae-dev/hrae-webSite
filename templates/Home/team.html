@@ -5,266 +5,6 @@
 
 {% block content %}
 <style>
-    .chief-image-stack {
-        position: relative;
-        height: 400px;
-        display: flex;
-        align-items: flex-end;
-        gap: 1rem;
-        overflow: hidden;
-    }
-    
-    @media (max-width: 768px) {
-        .chief-image-stack {
-            height: 300px;
-            gap: 0.5rem;
-        }
-    }
-    
-    .chief-img-small {
-        width: 180px;
-        height: 180px;
-        opacity: 0.6;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .chief-img-medium {
-        width: 240px;
-        height: 240px;
-        opacity: 0.8;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .chief-img-large {
-        width: 320px;
-        height: 320px;
-        opacity: 1;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
-    
-    @media (max-width: 1024px) {
-        .chief-img-small { width: 140px; height: 140px; }
-        .chief-img-medium { width: 190px; height: 190px; }
-        .chief-img-large { width: 260px; height: 260px; }
-    }
-    
-    @media (max-width: 768px) {
-        .chief-img-small { width: 100px; height: 100px; }
-        .chief-img-medium { width: 140px; height: 140px; }
-        .chief-img-large { width: 180px; height: 180px; }
-    }
-    
-    /* Cascading card animations */
-    .cascade-medium-to-small {
-        animation: cascadeMediumToSmall 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    
-    .cascade-large-to-medium {
-        animation: cascadeLargeToMedium 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    
-    .cascade-small-to-medium {
-        animation: cascadeSmallToMedium 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    
-    .cascade-medium-to-large {
-        animation: cascadeMediumToLarge 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    
-    .slide-in-right {
-        animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    
-    .slide-in-left {
-        animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    
-    .slide-out-left {
-        animation: slideOutLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    
-    .slide-out-right {
-        animation: slideOutRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    
-    /* Medium (240px) scales down to Small (180px) = 0.75x and moves left */
-    @keyframes cascadeMediumToSmall {
-        from {
-            width: 240px;
-            height: 240px;
-            opacity: 0.8;
-        }
-        to {
-            width: 180px;
-            height: 180px;
-            opacity: 0.6;
-        }
-    }
-    
-    /* Large (320px) scales down to Medium (240px) = 0.75x and moves left */
-    @keyframes cascadeLargeToMedium {
-        from {
-            width: 320px;
-            height: 320px;
-            opacity: 1;
-        }
-        to {
-            width: 240px;
-            height: 240px;
-            opacity: 0.8;
-        }
-    }
-    
-    /* Small (180px) scales up to Medium (240px) = 1.33x and moves right */
-    @keyframes cascadeSmallToMedium {
-        from {
-            width: 180px;
-            height: 180px;
-            opacity: 0.6;
-        }
-        to {
-            width: 240px;
-            height: 240px;
-            opacity: 0.8;
-        }
-    }
-    
-    /* Medium (240px) scales up to Large (320px) = 1.33x and moves right */
-    @keyframes cascadeMediumToLarge {
-        from {
-            width: 240px;
-            height: 240px;
-            opacity: 0.8;
-        }
-        to {
-            width: 320px;
-            height: 320px;
-            opacity: 1;
-        }
-    }
-    
-    /* New card slides in from right as large */
-    @keyframes slideInRight {
-        from {
-            transform: translateX(150%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    /* New card slides in from left as small */
-    @keyframes slideInLeft {
-        from {
-            transform: translateX(-150%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 0.6;
-        }
-    }
-    
-    /* Small card slides out to left */
-    @keyframes slideOutLeft {
-        from {
-            transform: translateX(0);
-            opacity: 0.6;
-        }
-        to {
-            transform: translateX(-150%);
-            opacity: 0;
-        }
-    }
-    
-    /* Large card slides out to right */
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(150%);
-            opacity: 0;
-        }
-    }
-    
-    /* Responsive adjustments for tablet */
-    @media (max-width: 1024px) {
-        @keyframes cascadeMediumToSmall {
-            from { width: 190px; height: 190px; opacity: 0.8; }
-            to { width: 140px; height: 140px; opacity: 0.6; }
-        }
-        @keyframes cascadeLargeToMedium {
-            from { width: 260px; height: 260px; opacity: 1; }
-            to { width: 190px; height: 190px; opacity: 0.8; }
-        }
-        @keyframes cascadeSmallToMedium {
-            from { width: 140px; height: 140px; opacity: 0.6; }
-            to { width: 190px; height: 190px; opacity: 0.8; }
-        }
-        @keyframes cascadeMediumToLarge {
-            from { width: 190px; height: 190px; opacity: 0.8; }
-            to { width: 260px; height: 260px; opacity: 1; }
-        }
-    }
-    
-    /* Responsive adjustments for mobile */
-    @media (max-width: 768px) {
-        @keyframes cascadeMediumToSmall {
-            from { width: 140px; height: 140px; opacity: 0.8; }
-            to { width: 100px; height: 100px; opacity: 0.6; }
-        }
-        @keyframes cascadeLargeToMedium {
-            from { width: 180px; height: 180px; opacity: 1; }
-            to { width: 140px; height: 140px; opacity: 0.8; }
-        }
-        @keyframes cascadeSmallToMedium {
-            from { width: 100px; height: 100px; opacity: 0.6; }
-            to { width: 140px; height: 140px; opacity: 0.8; }
-        }
-        @keyframes cascadeMediumToLarge {
-            from { width: 140px; height: 140px; opacity: 0.8; }
-            to { width: 180px; height: 180px; opacity: 1; }
-        }
-    }
-    
-    /* Text fade animation */
-    .fade-in {
-        animation: fadeIn 0.3s ease-in forwards;
-        animation-delay: 0.2s;
-        opacity: 0;
-    }
-    
-    .fade-out {
-        animation: fadeOut 0.2s ease-out forwards;
-    }
-    
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        to {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-    }
-    
     .modal {
         display: none;
         position: fixed;
@@ -306,6 +46,11 @@
         from { transform: translateY(50px); opacity: 0; }
         to { transform: translateY(0); opacity: 1; }
     }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
 </style>
 
 <!-- Hero Header -->
@@ -318,7 +63,7 @@
             </span>{% trans "otre équipe médicale" %}
         </h1>
         <p class="text-base md:text-lg text-purple-50 max-w-3xl">
-            {% trans "Une équipe d’experts passionnés, alliant savoir-faire et bienveillance, pour vous offrir des soins de confiance et de qualité" %}
+            {% trans "Une équipe d'experts passionnés, alliant savoir-faire et bienveillance, pour vous offrir des soins de confiance et de qualité" %}
         </p>
     </div>
 </div>
@@ -398,109 +143,70 @@
 
 <!-- Nos chefs services Section -->
 {% if chiefs %}
-<section class="py-16 bg-white">
+<section class="py-16 bg-gradient-to-br from-teal-50 to-white">
     <div class="container mx-auto px-4 max-w-7xl">
-        <h2 class="text-3xl md:text-4xl font-black mb-12">
+        <h2 class="text-3xl md:text-4xl font-black mb-4">
             <span class="inline-block relative">
                 <span class="relative z-10">{% trans "N" %}</span>
-                <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
+                <span class="absolute bottom-0 left-0 right-0 h-1 bg-teal-600"></span>
             </span>{% trans "os chefs services" %}
         </h2>
-        
-        <div class="flex flex-col lg:flex-row gap-8 items-start">
-            <!-- Left: Image Stack (75% width) -->
-            <div class="w-full lg:w-3/4 relative">
-                <div class="chief-image-stack relative">
-                    <div class="absolute -left-8 top-8">
-                        <svg class="w-12 h-12 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </div>
-                    
-                    <img id="chief-img-1" src="{% static 'images/doctor1.jpg' %}" alt="Chief 1" 
-                         class="chief-img-small rounded-t-full object-cover">
-                    <img id="chief-img-2" src="{% static 'images/doctor2.jpg' %}" alt="Chief 2" 
-                         class="chief-img-medium rounded-t-full object-cover">
-                    <img id="chief-img-3" src="{% static 'images/doctor3.jpg' %}" alt="Chief 3" 
-                         class="chief-img-large rounded-t-full object-cover">
-                    
-                    <div class="absolute top-16 right-8">
-                        <svg class="w-8 h-8 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="4"/>
-                        </svg>
-                    </div>
-                    
-                    <div class="absolute bottom-12 left-1/2">
-                        <svg class="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L2 19h20L12 2z"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right: Chief Info (25% width) -->
-            <div class="w-full lg:w-1/4 relative">
-                <div class="absolute -right-12 top-0 hidden xl:block">
-                    <svg class="w-16 h-16 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M7 10l5 5 5-5z"/>
-                    </svg>
-                </div>
-                
-                <div id="chief-info" class="transition-opacity duration-300">
-                    <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">{{ chiefs.0.full_name }}</h3>
-                    <p class="text-lg lg:text-xl text-gray-700 mb-2">{{ chiefs.0.grade }}</p>
-                    <p class="text-md text-gray-600 mb-4">{{ chiefs.0.speciality }}</p>
-                    <p class="text-gray-600 mb-6">{{ chiefs.0.experience|default:"Membre expérimenté de notre équipe médicale."|striptags|truncatewords:15 }}</p>
+        <p class="text-gray-600 mb-12">{% trans "Les chefs de service de l'hôpital" %}</p>
 
-                    <button onclick="openDoctorModal(0)" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
-                        <span>Voir le profil</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for member in chiefs %}
+            <div class="group cursor-pointer bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden" onclick="openChiefModal({{ forloop.counter0 }})">
+                <div class="bg-teal-100 rounded-t-3xl overflow-hidden aspect-square">
+                    {% if member.photo %}
+                    <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-teal-200 flex items-center justify-center text-teal-500">
+                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                         </svg>
-                    </button>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="p-4 text-center">
+                    <h3 class="text-lg font-bold text-teal-600 mb-1">{{ member.full_name }}</h3>
+                    {% if member.position %}
+                    <p class="text-sm font-semibold text-teal-700 mb-2">{{ member.position }}</p>
+                    {% endif %}
+                    <p class="text-sm text-gray-600 mb-1">{{ member.grade }}</p>
+                    {% if member.quality %}
+                    <p class="text-xs font-semibold text-orange-500 mb-1">{{ member.quality }}</p>
+                    {% endif %}
+                    <p class="text-sm text-gray-700">{{ member.speciality }}</p>
                 </div>
             </div>
-        </div>
-        
-        <!-- Navigation Arrows - Below everything -->
-        <div class="flex justify-center gap-4 mt-12">
-            <button onclick="previousChief()" class="w-14 h-14 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition">
-                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
-                </svg>
-            </button>
-            <button onclick="nextChief()" class="w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center hover:bg-gray-800 transition">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
-                </svg>
-            </button>
+            {% endfor %}
         </div>
     </div>
 </section>
 {% endif %}
 
-
-<!-- Personnel médical Section --><!-- Personnel médical Section -->
+<!-- Personnel médical Section -->
 <section class="py-16 bg-gray-50">
     <div class="container mx-auto px-4 max-w-7xl">
-        <h2 class="text-3xl md:text-4xl font-black mb-12">
+        <h2 class="text-3xl md:text-4xl font-black mb-4">
             <span class="inline-block relative">
                 <span class="relative z-10">{% trans "P" %}</span>
                 <span class="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></span>
             </span>{% trans "ersonnels médical" %}
         </h2>
+        <p class="text-gray-600 mb-12">{% trans "Notre équipe médicale dévouée" %}</p>
         
         <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for member in staff %}
-            <div class="group cursor-pointer bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden" 
+            <div class="group cursor-pointer bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden" 
                  data-index="{{ forloop.counter0 }}" 
                  onclick="openStaffModal({{ forloop.counter0 }})">
                 <div class="bg-orange-50 rounded-t-3xl overflow-hidden aspect-square">
                     {% if member.photo %}
                     <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     {% else %}
-                    <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
-                        <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24">
+                    <div class="w-full h-full bg-orange-200 flex items-center justify-center text-orange-500">
+                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                         </svg>
                     </div>
@@ -508,6 +214,9 @@
                 </div>
                 <div class="p-4 text-center">
                     <h3 class="text-lg font-bold text-orange-500 mb-1">{{ member.full_name }}</h3>
+                    {% if member.position %}
+                    <p class="text-sm font-semibold text-orange-600 mb-2">{{ member.position }}</p>
+                    {% endif %}
                     <p class="text-sm text-gray-600 mb-1">{{ member.grade }}</p>
                     {% if member.quality %}
                     <p class="text-xs font-semibold text-purple-500 mb-1">{{ member.quality }}</p>
@@ -642,7 +351,7 @@ const directionStaff = [
     {% endfor %}
 ];
 
-// Chief carousel data
+// Chief data
 const chiefs = [
     {% for chief in chiefs %}
     {
@@ -700,163 +409,24 @@ const allDoctors = [
     {% endfor %}
 ];
 
-// Track which doctor is in which position
-let smallIndex = 0;   // Left position
-let mediumIndex = 1;  // Middle position  
-let largeIndex = 2;   // Right position (featured)
-let isAnimating = false;
-
-function nextChief() {
-    if (isAnimating || chiefs.length === 0) return;
-    isAnimating = true;
-    
-    const img1 = document.getElementById('chief-img-1');
-    const img2 = document.getElementById('chief-img-2');
-    const img3 = document.getElementById('chief-img-3');
-    
-    // Calculate new indices BEFORE animation
-    const newLargeIndex = largeIndex + 1;
-    const newSmallIndex = mediumIndex;
-    const newMediumIndex = largeIndex;
-    
-    // Apply ALL animations at the SAME time
-    img1.classList.add('slide-out-left');
-    img2.classList.add('cascade-medium-to-small');
-    img3.classList.add('cascade-large-to-medium');
-    
-    // Fade out text simultaneously
-    const chiefInfo = document.getElementById('chief-info');
-    chiefInfo.classList.add('fade-out');
-    
-    // Wait for all animations to complete, then update everything
-    setTimeout(() => {
-        // Update indices
-        smallIndex = newSmallIndex;
-        mediumIndex = newMediumIndex;
-        largeIndex = newLargeIndex;
-        
-        // Remove ALL animation classes
-        img1.classList.remove('slide-out-left');
-        img2.classList.remove('cascade-medium-to-small');
-        img3.classList.remove('cascade-large-to-medium');
-        
-        // Update ALL image sources at once
-        img1.src = chiefs[smallIndex % chiefs.length].image;
-        img2.src = chiefs[mediumIndex % chiefs.length].image;
-        img3.src = chiefs[largeIndex % chiefs.length].image;
-        
-        // Apply new large image slide-in animation
-        img3.classList.add('slide-in-right');
-        
-        // Update text
-        const chief = chiefs[largeIndex % chiefs.length];
-        const chiefIndex = directionStaff.length + (largeIndex % chiefs.length);
-        chiefInfo.innerHTML = `
-            <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">${chief.name}</h3>
-            <p class="text-lg lg:text-xl text-gray-700 mb-2">${chief.title}</p>
-            <p class="text-md text-gray-600 mb-4">${chief.speciality || ''}</p>
-            <p class="text-gray-600 mb-6">${chief.description}</p>
-
-            <button onclick="openDoctorModal(${chiefIndex})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
-                <span>Voir le profil</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                </svg>
-            </button>
-        `;
-        chiefInfo.classList.remove('fade-out');
-        chiefInfo.classList.add('fade-in');
-        
-        setTimeout(() => {
-            img3.classList.remove('slide-in-right');
-            chiefInfo.classList.remove('fade-in');
-            isAnimating = false;
-        }, 600);
-    }, 600);
-}
-
-function previousChief() {
-    if (isAnimating || chiefs.length === 0) return;
-    isAnimating = true;
-    
-    const img1 = document.getElementById('chief-img-1');
-    const img2 = document.getElementById('chief-img-2');
-    const img3 = document.getElementById('chief-img-3');
-    
-    // Calculate new indices BEFORE animation
-    const newSmallIndex = smallIndex - 1;
-    const newLargeIndex = mediumIndex;
-    const newMediumIndex = smallIndex;
-    
-    // Apply ALL animations at the SAME time
-    img3.classList.add('slide-out-right');
-    img2.classList.add('cascade-medium-to-large');
-    img1.classList.add('cascade-small-to-medium');
-    
-    // Fade out text simultaneously
-    const chiefInfo = document.getElementById('chief-info');
-    chiefInfo.classList.add('fade-out');
-    
-    // Wait for all animations to complete, then update everything
-    setTimeout(() => {
-        // Update indices
-        smallIndex = newSmallIndex;
-        mediumIndex = newMediumIndex;
-        largeIndex = newLargeIndex;
-        
-        // Remove ALL animation classes
-        img3.classList.remove('slide-out-right');
-        img2.classList.remove('cascade-medium-to-large');
-        img1.classList.remove('cascade-small-to-medium');
-        
-        // Update ALL image sources at once
-        img1.src = chiefs[(smallIndex + chiefs.length) % chiefs.length].image;
-        img2.src = chiefs[mediumIndex % chiefs.length].image;
-        img3.src = chiefs[largeIndex % chiefs.length].image;
-        
-        // Apply new small image slide-in animation
-        img1.classList.add('slide-in-left');
-        
-        // Update text
-        const chief = chiefs[largeIndex % chiefs.length];
-        const chiefIndex = directionStaff.length + (largeIndex % chiefs.length);
-        chiefInfo.innerHTML = `
-            <h3 class="text-2xl lg:text-3xl font-black text-orange-500 mb-3">${chief.name}</h3>
-            <p class="text-lg lg:text-xl text-gray-700 mb-2">${chief.title}</p>
-            <p class="text-md text-gray-600 mb-4">${chief.speciality || ''}</p>
-            <p class="text-gray-600 mb-6">${chief.description}</p>
-
-            <button onclick="openDoctorModal(${chiefIndex})" class="inline-flex items-center gap-3 bg-gray-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-gray-800 transition">
-                <span>Voir le profil</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                </svg>
-            </button>
-        `;
-        chiefInfo.classList.remove('fade-out');
-        chiefInfo.classList.add('fade-in');
-        
-        setTimeout(() => {
-            img1.classList.remove('slide-in-left');
-            chiefInfo.classList.remove('fade-in');
-            isAnimating = false;
-        }, 600);
-    }, 600);
-}
-
 function openDirectionModal(index) {
     // Direction members are at the beginning of allDoctors array
     openDoctorModal(index);
+}
+
+function openChiefModal(chiefIndex) {
+    // Calculate the correct index in allDoctors array
+    // Chiefs come after direction
+    const actualIndex = directionStaff.length + chiefIndex;
+    openDoctorModal(actualIndex);
 }
 
 function openStaffModal(staffIndex) {
     // Calculate the correct index in allDoctors array
     // Staff members come after direction and chiefs
     const actualIndex = directionStaff.length + chiefs.length + staffIndex;
-    console.log('Staff click - staffIndex:', staffIndex, 'actualIndex:', actualIndex);
     openDoctorModal(actualIndex);
 }
-
 
 function openDoctorModal(index) {
     if (index >= allDoctors.length) return;
@@ -914,15 +484,6 @@ function closeDoctorModal() {
 document.getElementById('doctorModal').addEventListener('click', function(e) {
     if (e.target === this) {
         closeDoctorModal();
-    }
-});
-
-// Initialize display
-window.addEventListener('DOMContentLoaded', function() {
-    if (chiefs.length > 0) {
-        document.getElementById('chief-img-1').src = chiefs[smallIndex % chiefs.length].image;
-        document.getElementById('chief-img-2').src = chiefs[mediumIndex % chiefs.length].image;
-        document.getElementById('chief-img-3').src = chiefs[largeIndex % chiefs.length].image;
     }
 });
 </script>
