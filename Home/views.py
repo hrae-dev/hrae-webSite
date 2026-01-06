@@ -174,16 +174,10 @@ def our_team(request):
     except Service.DoesNotExist:
         direction_staff = Staff.objects.none()
 
-    # 2. Chefs de service (pour le carousel) - excluant la direction
-    chiefs = Staff.objects.filter(
-        is_visible=True,
-        quality='Chef de service'
-    ).exclude(services__slug='direction').order_by('display_order').distinct()
-
-    # 3. Personnel médical (excluant direction et chefs de service)
+    # 2. Personnel médical et paramédical (excluant la direction uniquement)
     staff_list = Staff.objects.filter(is_visible=True).exclude(
         services__slug='direction'
-    ).exclude(quality='Chef de service').order_by('display_order', 'last_name').distinct()
+    ).order_by('display_order', 'last_name').distinct()
 
     # Appliquer les filtres
     if service_id:
@@ -207,7 +201,6 @@ def our_team(request):
     context = {
         'settings': settings,
         'direction_staff': direction_staff,
-        'chiefs': chiefs,
         'staff': staff,
         'services': services,
         'grades': Staff.GRADE_CHOICES,
