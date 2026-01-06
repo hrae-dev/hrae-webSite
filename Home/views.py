@@ -178,12 +178,12 @@ def our_team(request):
     chiefs = Staff.objects.filter(
         is_visible=True,
         quality='Chef de service'
-    ).exclude(services__slug='direction').distinct()[:3]
+    ).exclude(services__slug='direction').order_by('display_order').distinct()
 
     # 3. Personnel médical (excluant direction et chefs de service)
     staff_list = Staff.objects.filter(is_visible=True).exclude(
         services__slug='direction'
-    ).exclude(quality='Chef de service').order_by('last_name').distinct()
+    ).exclude(quality='Chef de service').order_by('display_order', 'last_name').distinct()
 
     # Appliquer les filtres
     if service_id:
