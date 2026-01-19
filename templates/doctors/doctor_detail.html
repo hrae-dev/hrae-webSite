@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}{{ staff.get_grade_display }} {{ staff.full_name }} - HRAE{% endblock %}
+{% block title %}{{ staff.full_name }} - {{ staff.get_grade_display }}  - HRAE{% endblock %}
 
 {% block content %}
 <div class="bg-purple-600 text-white py-16 sm:py-20 md:py-24 mt-16 lg:mt-20">
     <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold">{{ staff.get_grade_display }} {{ staff.full_name }}</h1>
+        <h1 class="text-4xl font-bold"> {{ staff.full_name }} - {{ staff.get_grade_display }}</h1>
         <p class="mt-2 text-purple-100">{{ staff.speciality }}</p>
     </div>
 </div>
@@ -24,7 +24,7 @@
                 </div>
                 {% endif %}
                 
-                <h2 class="text-xl font-bold text-center mb-2">{{ staff.get_grade_display }} {{ staff.full_name }}</h2>
+                <h2 class="text-xl font-bold text-center mb-2">{{ staff.full_name }} - {{ staff.get_grade_display }}</h2>
                 <p class="text-purple-600 text-center mb-4">{{ staff.speciality }}</p>
                 
                 <!-- Services -->
