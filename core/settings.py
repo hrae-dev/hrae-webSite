@@ -220,6 +220,8 @@ if not DEBUG:
 else:
     # En développement, certains paramètres peuvent gêner
     SECURE_SSL_REDIRECT = False
+    # Permettre les popups de l'admin Django
+    X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 JAZZMIN_SETTINGS = {
     # Titre et branding
