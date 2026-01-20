@@ -128,7 +128,7 @@
                         {% if member.position %}
                         <p class="text-sm font-semibold text-purple-700 mb-2">{{ member.position }}</p>
                         {% endif %}
-                        <p class="text-sm text-gray-600 mb-1">{{ member.get_grade_display }}</p>
+                        <p class="text-sm text-gray-600 mb-1">{{ member.grade|default:"" }}</p>
                         <p class="text-sm text-gray-700">{{ member.speciality }}</p>
                     </div>
                 </div>
@@ -166,7 +166,7 @@
                         {% if member.position %}
                         <p class="text-sm font-semibold text-orange-600 mb-1">{{ member.position }}</p>
                         {% endif %}
-                        <p class="text-sm text-gray-600 mb-1">{{ member.get_grade_display }}</p>
+                        <p class="text-sm text-gray-600 mb-1">{{ member.grade|default:"" }}</p>
                         <p class="text-sm text-gray-700 mb-1">{{ member.speciality }}</p>
                         {% if member.quality %}
                         <p class="text-sm font-semibold text-purple-600 mb-1">{{ member.quality }}</p>
@@ -299,7 +299,7 @@ const directionStaff = [
     {
         name: "{{ member.get_title_display }} {{ member.first_name }} {{ member.last_name }}",
         position: "{{ member.position|default:'' }}",
-        grade: "{{ member.get_grade_display }}",
+        grade: "{{ member.grade|default:"" }}",
         speciality: "{{ member.speciality }}",
         quality: "{{ member.quality|default:'' }}",
         image: "{% if member.photo %}{{ member.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
@@ -318,7 +318,7 @@ const allDoctors = [
     {
         name: "{{ member.get_title_display }} {{ member.first_name }} {{ member.last_name }}",
         position: "{{ member.position|default:'' }}",
-        grade: "{{ member.get_grade_display }}",
+        grade: "{{ member.grade|default:"" }}",
         speciality: "{{ member.speciality }}",
         quality: "{{ member.quality|default:'' }}",
         image: "{% if member.photo %}{{ member.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",
@@ -333,7 +333,7 @@ const allDoctors = [
     {
         name: "{{ member.get_title_display }} {{ member.first_name }} {{ member.last_name }}",
         position: "{{ member.position|default:'' }}",
-        grade: "{{ member.get_grade_display }}",
+        grade: "{{ member.grade|default:"" }}",
         speciality: "{{ member.speciality }}",
         quality: "{{ member.quality|default:'' }}",
         image: "{% if member.photo %}{{ member.photo.url }}{% else %}{% static 'images/default-doctor.jpg' %}{% endif %}",

@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 import django_ratelimit
 from .models import (
-    SiteSettings, PatientJourneySection, Page, Service, Staff, Article, Category,
+    SiteSettings, PatientJourneySection, Page, Service, Grade, Staff, Article, Category,
     Campaign, Partner, Appointment, ContactMessage, Testimonial, DirectionMember
 )
 from .forms import AppointmentForm, CampaignRegistrationForm, ContactMessageForm
@@ -183,7 +183,7 @@ def our_team(request):
     if service_id:
         staff_list = staff_list.filter(services__id=service_id)
     if grade:
-        staff_list = staff_list.filter(grade=grade)
+        staff_list = staff_list.filter(grade_id=grade)
     if search:
         staff_list = staff_list.filter(
             Q(first_name__icontains=search) |
@@ -203,7 +203,7 @@ def our_team(request):
         'direction_staff': direction_staff,
         'staff': staff,
         'services': services,
-        'grades': Staff.GRADE_CHOICES,
+        'grades': Grade.objects.filter(is_active=True),
         'titles': Staff.TITLE_CHOICES,
         'qualities': Staff.QUALITY_CHOICES,
     }
@@ -468,15 +468,15 @@ def get_staff_by_service(request):
         services__id=service_id,
         accepts_appointments=True,
         is_visible=True
-    ).values('id', 'first_name', 'last_name', 'grade', 'speciality')
-    
+    ).select_related('grade').values('id', 'first_name', 'last_name', 'grade__name', 'speciality')
+
     staff_list = []
     for staff in staff_members:
-        grade_display = dict(Staff.GRADE_CHOICES).get(staff['grade'], staff['grade'])
+        grade_display = staff['grade__name'] or ''
         staff_list.append({
             'id': staff['id'],
-            'name': f"{grade_display} {staff['first_name']} {staff['last_name']}",
+            'name': f"{grade_display} {staff['first_name']} {staff['last_name']}".strip(),
             'speciality': staff['speciality']
         })
-    
+
     return JsonResponse({'staff': staff_list})

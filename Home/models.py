@@ -281,6 +281,24 @@ class ServiceImage(models.Model):
 
 
 # ========================================
+# GRADES DU PERSONNEL
+# ========================================
+class Grade(models.Model):
+    """Grades du personnel médical (modifiable via l'admin)"""
+    name = models.CharField("Nom du grade", max_length=100, unique=True)
+    display_order = models.IntegerField("Ordre d'affichage", default=0)
+    is_active = models.BooleanField("Actif", default=True)
+
+    class Meta:
+        verbose_name = "Grade"
+        verbose_name_plural = "Grades"
+        ordering = ['display_order', 'name']
+
+    def __str__(self):
+        return self.name
+
+
+# ========================================
 # PERSONNEL MÉDICAL
 # ========================================
 class Staff(models.Model):
@@ -290,22 +308,6 @@ class Staff(models.Model):
         ('Mme', 'Madame'),
         ('Dr', 'Docteur'),
         ('Pr', 'Professeur'),
-    ]
-
-    GRADE_CHOICES = [
-        ('Médecin', 'Médecin'),
-        ('Pharmacien', 'Pharmacien'),
-        ('Infirmier', 'Infirmier'),
-        ('Infirmier Principal', 'Infirmier Principal'),
-        ('Infirmier supérieur', 'Infirmier supérieur'),
-        ('Ingénieur', 'Ingénieur'),
-        ('Ingénieur des travaux', 'Ingénieur des travaux'),
-        ('Administratif', 'Administratif'),
-        ('Technicien', 'Technicien'),
-        ('Technicien supérieur', 'Technicien supérieur'),
-        ('Technicien principal', 'Technicien principal'),
-        ('Agent technique', 'Agent technique'),
-        ('Aide soignant', 'Aide soignant'),
     ]
 
     QUALITY_CHOICES = [
@@ -319,7 +321,7 @@ class Staff(models.Model):
     first_name = models.CharField("Prénom", max_length=100, blank=True)
     last_name = models.CharField("Nom", max_length=100)
     photo = models.ImageField("Photo professionnelle", upload_to='staff/')
-    grade = models.CharField("Grade", max_length=50, choices=GRADE_CHOICES)
+    grade = models.ForeignKey(Grade, on_delete=models.PROTECT, verbose_name="Grade", null=True, blank=True)
     quality = models.CharField("Qualité", max_length=50, choices=QUALITY_CHOICES, blank=True, default='')
     position = models.CharField("Fonction", max_length=255, blank=True,
                                 help_text="Pour la direction : Directeur, Surveillant général, Conseiller médical, etc.")

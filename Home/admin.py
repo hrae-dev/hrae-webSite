@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from .models import (
     SiteSettings, PatientJourneySection, PatientJourneyStep,
-    Page, Service, ServiceImage, Staff, Category, Article, ArticleImage,
+    Page, Service, ServiceImage, Grade, Staff, Category, Article, ArticleImage,
     Campaign, CampaignImage, CampaignRegistration, Partner, Appointment,
     ContactMessage, Testimonial, DirectionMember,
     AboutPage, Award, TimelineItem, HospitalSpecialty, RecentEquipment, FormerDirector
@@ -181,6 +181,24 @@ class ServiceAdmin(admin.ModelAdmin):
     def staff_count(self, obj):
         return obj.staff_members.count()
     staff_count.short_description = 'Personnel'
+
+
+# ========================================
+# GRADES DU PERSONNEL
+# ========================================
+@admin.register(Grade)
+class GradeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'display_order', 'is_active')
+    list_filter = ('is_active',)
+    search_fields = ('name',)
+    list_editable = ('display_order', 'is_active')
+    ordering = ('display_order', 'name')
+
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'display_order', 'is_active'),
+        }),
+    )
 
 
 # ========================================
